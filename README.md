@@ -42,7 +42,7 @@ store data in S3, etc.
 The CVRA Cloudformation 
 template returns these outputs:
 
-| ##### Key | ##### Value | ##### Description |
+| Key | Value | Description |
 |:---|:---|:---
 UserPool|arn:aws:cognito-idp:us-east-1:000000000:userpool/us-east-1_loAchZlyI|Connected Vehicle User Pool|
 CognitoIdentityPoolId|us-east-1:de4766b0-519a-4030-b036-97a3a2291c98|	Identity Pool ID
@@ -70,7 +70,36 @@ aws cloudformation describe-stacks --stack-name cvra-demo --output table --query
 In this section, we'll deploy an Alexa skill called CarGuru that will read back information about the three recent trips that you have taken. You must have the ASK-CLI installed to complete this part of the lab.
 
 #### Run a Python Program to Test Your Access
-Run the getRecentTrips.py program from your laptop to ensure that your user has access to the correct DynamoDB table and that it is populated with some trip information.
+Run the getRecentTrips.py program from your laptop to ensure 
+that your user has access to the correct DynamoDB table and that 
+it is populated with some trip information.
+
+Have a look at the code listing for getRecentTrips.py:
+```python {.line-numbers}
+dynamoDbClient=boto3.client('dynamodb')
+
+    response=dynamoDbClient.scan(
+        TableName='cvra-demo-VehicleTripTable-U0C6DSG0JW11',
+        Select='ALL_ATTRIBUTES'
+    )
+
+    dictItems=response['Items']
+
+    intRecordCount=json.dumps(response['Count'])
+    print("Found " + str(intRecordCount) + " items in the trip table.")
+
+    intTripNumber=1
+    for item in dictItems:
+        strVin=str(item['vin']['S'])
+        print("**** Trip " + str(intTripNumber) + " (VIN: " + strVin + ")")
+        print(item)
+        print()
+        intTripNumber=intTripNumber+1
+
+    print("dictItems is a " + str(type(dictItems)))
+
+```
+
 ```bash
 python3 getRecentTrips.py [TripTable]
 ```
