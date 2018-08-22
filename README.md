@@ -25,6 +25,7 @@ hood" of the CVRA so that it can be modified and extended as desired.
 2. Generate Trip Data (10 mins.)
 3. Deploy the CarGuru Alexa Skill (20 mins.)
 4. Cleanup (10 mins.)
+5. Ideas for Customization and Enhancement
 
 > If you have established an AWS account within the last 12 months, then this lab will be in the free tier. Otherwise, costs are anticipated to be less than $5
 
@@ -74,7 +75,9 @@ Run the getRecentTrips.py program from your laptop to ensure
 that your user has access to the correct DynamoDB table and that 
 it is populated with some trip information.
 
-Have a look at the code listing for getRecentTrips.py:
+Have a look at the code listing for getRecentTrips.py. The guts 
+are similar to the CarGuru skill that we'll deploy in the next
+step, particularly the call to <i>scan</i> the DynamoDB trip table:
 ```python 
 dynamoDbClient=boto3.client('dynamodb')
 
@@ -98,9 +101,20 @@ dynamoDbClient=boto3.client('dynamodb')
 
     print("dictItems is a " + str(type(dictItems)))
 
-```{.line-numbers}
+```
+> An improvement here for production applications would be to 
+> query the DynamoDB table instead of scanning it, per the 
+> [best practices for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html). 
+> You may even elect to create an API layer in front fo the 
+> DynamoDB table so that other applications can use the 
+> data.
+
+
+This repository includes the Python program, so just clone
+the repo and run the program:
 
 ```bash
+git clone https://github.com/dixonaws/reinventCvraBootcamp
 python3 getRecentTrips.py [TripTable]
 ```
 
@@ -123,4 +137,7 @@ ask new --skill-name "CarGuru" --url https://github.com/dixonaws/CarGuru.git
 Modify CarGuru's Lambda function to use your DynamoDB table. Then simply deploy it with:
 ```bash
 ask deploy
-``` 
+```
+
+#### Ideas for Customization and Enhancement
+//todo
