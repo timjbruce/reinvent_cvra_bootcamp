@@ -27,7 +27,9 @@ HealthReportTable|	cvra-demo-HealthReportTable-C4VRARO31UZ1|	Vehicle Health Repo
 VehicleDtcTable|	cvra-demo-VehicleDtcTable-76E1UB71GEH3|	Vehicle DTC table
 
 We're interested in the VehicleTripTable -- a table in DynamoDB. You can view the outputs from your CVRA deployment through the AWS Console or by using the CLI with something like:
-```aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]'```
+```
+aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]'
+```
 ...where cvra-demo is the name of my Cloudformation stack. 
 ## Generate Trip Data
 //todo
