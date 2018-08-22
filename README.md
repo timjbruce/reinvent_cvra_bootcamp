@@ -42,7 +42,7 @@ store data in S3, etc.
 The CVRA Cloudformation 
 template returns these outputs:
 
-Key|Value|Description
+| ##### Key | ##### Value | ##### Description |
 |:---|:---|:---
 UserPool|arn:aws:cognito-idp:us-east-1:000000000:userpool/us-east-1_loAchZlyI|Connected Vehicle User Pool|
 CognitoIdentityPoolId|us-east-1:de4766b0-519a-4030-b036-97a3a2291c98|	Identity Pool ID
@@ -76,11 +76,11 @@ python3 getRecentTrips.py [TripTable]
 ```
 
 Or, if you wanted to be very clever using your <i>ninja bash skills</i>, you could do something like this on the bash prompt 
-> Note the tricky combination of backticks and single quotes
+
 ```bash
 python3 getRecentTrips.py `aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]' |grep 'Vehicle Trip table' |awk -F "|" '{print $4}'`
 ```
-
+> Note the tricky combination of backticks and single quotes
 
 
 #### Deploy the CarGuru Alexa Skill
