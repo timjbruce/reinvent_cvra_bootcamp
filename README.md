@@ -8,7 +8,8 @@ We'll assume that you have some basic knowledge of AWS services like IAM, Cloudf
 * The AWS CLI, configured with an Administrator Access
 
 ## Deploy the CVRA
-The CVRA returns the following outputs:
+Let's deploy the Connected Vehicle Reference Architecture (CVRA). Following the directions here: (https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html)
+ 
 The CVRA Cloudformation template returns these outputs:
 
 Key|Value|Description
@@ -30,7 +31,8 @@ We're interested in the VehicleTripTable -- a table in DynamoDB. You can view th
 ```
 aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]'
 ```
-...where cvra-demo is the name of my Cloudformation stack. 
+...where <i>cvra-demo</i> is the name of my Cloudformation stack.
+ 
 ## Generate Trip Data
 //todo
 
