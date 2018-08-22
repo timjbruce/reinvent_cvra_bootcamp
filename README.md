@@ -13,7 +13,7 @@ of Python. You'll also need to prepare the following <b>prior</b>
 to the workshop: 
 >* Laptop running Windows or MacOS
 >* An AWS account with Administrator Access
->* The AWS CLI, configured with an Administrator Access [Instructions here](https://docs.aws.amazon.com/cli/latest/userguide/installing.html)
+>* The AWS CLI, configured with an Administrator Access ([directions here](https://docs.aws.amazon.com/cli/latest/userguide/installing.html))
 >* The ASK CLI ([Alexa Skills Kit CLI](https://developer.amazon.com/docs/smapi/quick-start-alexa-skills-kit-command-line-interface.html#step-1-prerequisites-for-using-ask-cli))
 >* Python, Node, and NPM
 
