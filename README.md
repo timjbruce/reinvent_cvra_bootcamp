@@ -18,6 +18,9 @@ to the workshop:
 >* Python, Node, and NPM
 
 ## Introduction
+This Bootcamp has four main parts as shown below. The intent 
+of this Bootcamp is to help attendees understand what's "under the 
+hood" of the CVRA so that it can be modified and extended as desired. 
 1. Deploy the CVRA (15 mins.)
 2. Generate Trip Data (10 mins.)
 3. Deploy the CarGuru Alexa Skill (20 mins.)
@@ -26,9 +29,18 @@ to the workshop:
 > If you have established an AWS account within the last 12 months, then this lab will be in the free tier. Otherwise, costs are anticipated to be less than $5
 
 ## Deploy the CVRA
-Let's deploy the Connected Vehicle Reference Architecture (CVRA). Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html).
- 
-The CVRA Cloudformation template returns these outputs:
+Let's deploy the Connected Vehicle Reference Architecture (CVRA).
+ Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html).
+The CVRA is a Cloudformation template that deploys and configures
+all of the AWS services necessary to ingest, store, process, and
+analyze data at scale from IoT devices. Automotive use cases aside,
+the CVRA provides a useful example of how to secure connect an 
+IoT device, perform JITR (Just in Time Registration), use 
+Kinesis Analytics to query streams of data, use an IoT rule to 
+store data in S3, etc.
+
+The CVRA Cloudformation 
+template returns these outputs:
 
 Key|Value|Description
 |:---|:---|:---
