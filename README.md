@@ -6,6 +6,10 @@ We'll assume that you have some basic knowledge of AWS services like IAM, Cloudf
 * Laptop running Windows or MacOS
 * An AWS account with Administrator Access
 * The AWS CLI, configured with an Administrator Access
+* The ASK CLI (Alexa Skills Kit CLI)
+
+## Introduction
+//todo
 
 ## Deploy the CVRA
 Let's deploy the Connected Vehicle Reference Architecture (CVRA). Following the directions here: (https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html)
@@ -40,7 +44,16 @@ aws cloudformation describe-stacks --stack-name cvra-demo --output table --query
 In this section, we'll deploy an Alexa skill called CarGuru that will read back information about the three recent trips that you have taken.
 
 #### Run a Python Program to Test Your Access
-//todo
+Run the getRecentTrips.py program from your laptop to ensure that your user has access to the correct DynamoDB table and that it is populated with some trip information.
+```
+python3 getRecentTrips.py [TripTable]
+```
+
+Or, if you wanted to be very clever using your ninja bash skills, you could do something like this on the bash prompt:
+```
+python3 getRecentTrips.py `aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]' |grep 'Vehicle Trip table' |awk -F "|" '{print $4}'`
+
+```
 
 #### Deploy the CarGuru Alexa Skill
 //todo
