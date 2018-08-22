@@ -2,7 +2,7 @@
 During this Bootcamp, we'll take a deep dive into the AWS Connected Vehicle Reference Architecture. You'll install it, generate trip data from a simulated vehicle, and learn how the data can be accessed with various other AWS services. In this bootcamp, we'll access trip data using an Alexa skill.
 
 #### Prerequisites
-We'll assume that you have some basic knowledge of AWS services like IAM, DynamoDB, S3, IoT, etc., are comfortable using the AWS CLI, and have some knowledge of Python. You'll also need to prepare the following prior to the workshop: 
+We'll assume that you have some basic knowledge of AWS services like IAM, Cloudformation, DynamoDB, S3, IoT, etc., are comfortable using the AWS CLI, and have some knowledge of Python. You'll also need to prepare the following prior to the workshop: 
 * Laptop running Windows or MacOS
 * An AWS account with Administrator Access
 * The AWS CLI, configured with an Administrator Access
@@ -26,8 +26,9 @@ Telemetrics API ID|
 HealthReportTable|	cvra-demo-HealthReportTable-C4VRARO31UZ1|	Vehicle Health Report table
 VehicleDtcTable|	cvra-demo-VehicleDtcTable-76E1UB71GEH3|	Vehicle DTC table
 
-We're interested in the VehicleTripTable -- a table in DynamoDB
-
+We're interested in the VehicleTripTable -- a table in DynamoDB. You can view the outputs from your CVRA deployment through the AWS Console or by using the CLI with something like:
+```aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]'```
+...where cvra-demo is the name of my Cloudformation stack. 
 ## Generate Trip Data
 //todo
 
