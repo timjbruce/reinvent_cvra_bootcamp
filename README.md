@@ -75,7 +75,7 @@ that your user has access to the correct DynamoDB table and that
 it is populated with some trip information.
 
 Have a look at the code listing for getRecentTrips.py:
-```python {.line-numbers}
+```python 
 dynamoDbClient=boto3.client('dynamodb')
 
     response=dynamoDbClient.scan(
@@ -98,7 +98,7 @@ dynamoDbClient=boto3.client('dynamodb')
 
     print("dictItems is a " + str(type(dictItems)))
 
-```
+```{.line-numbers}
 
 ```bash
 python3 getRecentTrips.py [TripTable]
