@@ -1,18 +1,32 @@
 # AWS Connected Vehicle Reference Architecture Bootcamp
-During this Bootcamp, we'll take a deep dive into the AWS Connected Vehicle Reference Architecture. You'll install it, generate trip data from a simulated vehicle, and learn how the data can be accessed with various other AWS services. In this bootcamp, we'll access trip data using an Alexa skill.
+During this Bootcamp, we'll take a deep dive into the AWS 
+Connected Vehicle Reference Architecture. You'll install it, 
+generate trip data from a simulated vehicle, and learn how 
+the data can be accessed with various other AWS services. In 
+this bootcamp, we'll access trip data using an Alexa skill.
 
-#### Prerequisites
-We'll assume that you have some basic knowledge of AWS services like IAM, Cloudformation, DynamoDB, S3, IoT, etc., are comfortable using the AWS CLI, and have some knowledge of Python. You'll also need to prepare the following prior to the workshop: 
-* Laptop running Windows or MacOS
-* An AWS account with Administrator Access
-* The AWS CLI, configured with an Administrator Access
-* The ASK CLI (Alexa Skills Kit CLI)
+> #### Prerequisites
+>We'll assume that you have some basic knowledge of AWS 
+services like IAM, Cloudformation, DynamoDB, S3, IoT, etc., 
+are comfortable using the AWS CLI, and have some knowledge 
+of Python. You'll also need to prepare the following <b>prior</b> 
+to the workshop: 
+>* Laptop running Windows or MacOS
+>* An AWS account with Administrator Access
+>* The AWS CLI, configured with an Administrator Access [Instructions here](https://docs.aws.amazon.com/cli/latest/userguide/installing.html)
+>* The ASK CLI ([Alexa Skills Kit CLI](https://developer.amazon.com/docs/smapi/quick-start-alexa-skills-kit-command-line-interface.html#step-1-prerequisites-for-using-ask-cli))
+>* Python, Node, and NPM
 
 ## Introduction
-//todo
+1. Deploy the CVRA (15 mins.)
+2. Generate Trip Data (10 mins.)
+3. Deploy the CarGuru Alexa Skill (20 mins.)
+4. Cleanup (10 mins.)
+
+> If you have established an AWS account within the last 12 months, then this lab will be in the free tier. Otherwise, costs are anticipated to be less than $5
 
 ## Deploy the CVRA
-Let's deploy the Connected Vehicle Reference Architecture (CVRA). Following the directions here: (https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html)
+Let's deploy the Connected Vehicle Reference Architecture (CVRA). Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html).
  
 The CVRA Cloudformation template returns these outputs:
 
@@ -32,7 +46,7 @@ HealthReportTable|	cvra-demo-HealthReportTable-C4VRARO31UZ1|	Vehicle Health Repo
 VehicleDtcTable|	cvra-demo-VehicleDtcTable-76E1UB71GEH3|	Vehicle DTC table
 
 We're interested in the VehicleTripTable -- a table in DynamoDB. You can view the outputs from your CVRA deployment through the AWS Console or by using the CLI with something like:
-```
+```bash
 aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]'
 ```
 ...where <i>cvra-demo</i> is the name of my Cloudformation stack.
@@ -41,19 +55,31 @@ aws cloudformation describe-stacks --stack-name cvra-demo --output table --query
 //todo
 
 ## Deploy an Alexa Skill to Read Recent Trip Data
-In this section, we'll deploy an Alexa skill called CarGuru that will read back information about the three recent trips that you have taken.
+In this section, we'll deploy an Alexa skill called CarGuru that will read back information about the three recent trips that you have taken. You must have the ASK-CLI installed to complete this part of the lab.
 
 #### Run a Python Program to Test Your Access
 Run the getRecentTrips.py program from your laptop to ensure that your user has access to the correct DynamoDB table and that it is populated with some trip information.
-```
+```bash
 python3 getRecentTrips.py [TripTable]
 ```
 
-Or, if you wanted to be very clever using your ninja bash skills, you could do something like this on the bash prompt:
-```
+Or, if you wanted to be very clever using your <i>ninja bash skills</i>, you could do something like this on the bash prompt 
+> Note the tricky combination of backticks and single quotes
+```bash
 python3 getRecentTrips.py `aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]' |grep 'Vehicle Trip table' |awk -F "|" '{print $4}'`
-
 ```
+
+
 
 #### Deploy the CarGuru Alexa Skill
-//todo
+In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called CarGuru.
+Once you have confirmed that your DynamoDB Trip table contains trip data, issue the following command to clone the CarGuru skill:
+
+```bash
+ask new --skill-name "CarGuru" --url https://github.com/dixonaws/CarGuru.git  
+```
+
+Modify CarGuru's Lambda function to use your DynamoDB table. Then simply deploy it with:
+```bash
+ask deploy
+``` 
