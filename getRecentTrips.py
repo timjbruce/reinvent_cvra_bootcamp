@@ -74,27 +74,29 @@ def main():
 
     print('done (' + str(intTotalTime) + 'ms).')
 
-    listItems = response['Items']
+    listTrips = response['Items']
 
     # if you want to convert the response to JSON, just  use json.dumps(response) as in the following
     # strJsonResponse=json.dumps(response)
     # print(strJsonResponse)
 
     # sort the list by timestamp
-    listItems.sort(key=sortFunc)
+    listTrips.sort(key=sortFunc)
 
     intRecordCount = json.dumps(response['Count'])
     print("Found " + str(intRecordCount) + " items in the trip table.")
-    print("listItems is a " + str(type(listItems)))
+    print("listItems is a " + str(type(listTrips)))
 
     intTripNumber = 1
-    for item in listItems:
-        strVin = str(item['vin']['S'])
-        strTripId = str(item['trip_id']['S'])
-        strTimestamp = str(item['timestamp']['S'])
-        strLongitude = str(item['longitude']['N'])
-        strLatitude = str(item['latitude']['N'])
+    for trip in listTrips:
+        strVin = str(trip['vin']['S'])
+        strTripId = str(trip['trip_id']['S'])
+        strTimestamp = str(trip['timestamp']['S'])
+        strLongitude = str(trip['longitude']['N'])
+        strLatitude = str(trip['latitude']['N'])
         strProx = strLatitude + "," + strLongitude
+        floatDistance=trip['odometer']['N']
+        floatFuelConsumed=trip['fuel_consumed_since_restart']['N']
 
         # call a method to do reverse geocoding on given lat/long
         jsonLocationInfo = getLocationInfo(strProx, strApp_id, strApp_code)
@@ -112,9 +114,13 @@ def main():
         except KeyError:
             pass
 
-        print("**** Trip " + str(
-            intTripNumber) + " (trip_id: " + strTripId + ", VIN: " + strVin + ") Time: " + strTimestamp + ", near " + strAddressLabel + " " + strDistrict + ")")
-        print(item)
+        print("**** Trip " + str(intTripNumber) + " (trip_id: " + strTripId + ", VIN: " + strVin + ")")
+        print("Time: " + strTimestamp + ")")
+        print("Location: near " + strAddressLabel)
+        print("Neighborhood: " + strDistrict)
+        print("Distance: " + str(floatDistance) + " miles")
+        print("Fuel consumed: " + str(floatFuelConsumed) + " gallons")
+        print("All trip data: " + str(trip))
         print()
         intTripNumber = intTripNumber + 1
 
