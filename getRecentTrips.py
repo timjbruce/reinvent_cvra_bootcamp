@@ -3,15 +3,59 @@ import json
 import argparse
 import time
 import sys
+import requests
+
+
+def sortFunc(e):
+    return e['timestamp']['S']
+
+
+# // sortFunc()
+
+def getLocationInfo(strProx, strApp_id, strApp_code):
+    # this method takes the following parameters:
+    # strProx = '41.8842,-87.6388,250'
+    # strApp_id = 'cF1SE2QqJkuUgBEQHEma'
+    # strApp_code = 'rKLZInnnnJDvNE5ioQIMEg'
+
+    strUrl = 'https://reverse.geocoder.api.here.com/6.2/reversegeocode.json'
+    dictHeaders = {'Content-Type': '*'}
+    dictPayload = {
+        'prox': strProx,
+        'mode': 'retrieveAddresses',
+        'maxresults': '1',
+        'gen': '9',
+        'app_id': strApp_id,
+        'app_code': strApp_code
+    }
+
+    response = requests.get(strUrl, headers=dictHeaders, params=dictPayload)
+
+    jsonResponse = response.json()
+
+    return (jsonResponse['Response']['View'][0]['Result'][0]['Location']['Address'])
+
+
+# // getLocationInfo()
 
 def main():
     parser = argparse.ArgumentParser(
-        description='getRecentTrips scans the DynamoDB table that was setup as a part of the Connected Vehicle Reference Architecture, returning the total number of trips and informtion about the last three.')
-    parser.add_argument('VehicleTripTable',
+        description='getRecentTrips scans the DynamoDB table that was setup as a part of the Connected Vehicle Reference Architecture, returning the total number of trips and informtion about the last three. This program requires the use of the HERE Maps reverse geocoding API -- register for an app_code and app_id at developer.here.com.')
+    parser.add_argument('--VehicleTripTable',
                         help='The DynamoDB trip table that was deployed as a part of the Connected Vehicle Reference Architeture')
+    parser.add_argument('--HereAppId',
+                        help='HERE Maps app_id for determining location (register at developer.here.com)')
+    parser.add_argument('--HereAppCode',
+                        help='HERE Maps app_code for determining location (register at developer.here.com)')
     args = parser.parse_args()
 
     strVehicleTripTable = args.VehicleTripTable
+
+    # reverse geocoding with HERE maps
+    # https://developer.here.com/documentation/geocoder/topics/example-reverse-geocoding.html
+
+    strApp_code = args.HereAppCode
+    strApp_id = args.HereAppId
 
     strRegion = 'us-east-1'
 
@@ -24,22 +68,52 @@ def main():
         TableName=strVehicleTripTable,
         Select='ALL_ATTRIBUTES'
     )
+
     intEndTime = int(time.time())
+    intTotalTime = intEndTime - intStartTime
 
-    intTotalTime = intStartTime - intEndTime
+    print('done (' + str(intTotalTime) + 'ms).')
 
-    print('done (' + str(intTotalTime) + ').')
+    listItems = response['Items']
 
-    dictItems = response['Items']
+    # if you want to convert the response to JSON, just  use json.dumps(response) as in the following
+    # strJsonResponse=json.dumps(response)
+    # print(strJsonResponse)
+
+    # sort the list by timestamp
+    listItems.sort(key=sortFunc)
 
     intRecordCount = json.dumps(response['Count'])
     print("Found " + str(intRecordCount) + " items in the trip table.")
-    print("dictItems is a " + str(type(dictItems)))
+    print("listItems is a " + str(type(listItems)))
 
     intTripNumber = 1
-    for item in dictItems:
+    for item in listItems:
         strVin = str(item['vin']['S'])
-        print("**** Trip " + str(intTripNumber) + " (VIN: " + strVin + ")")
+        strTripId = str(item['trip_id']['S'])
+        strTimestamp = str(item['timestamp']['S'])
+        strLongitude = str(item['longitude']['N'])
+        strLatitude = str(item['latitude']['N'])
+        strProx = strLatitude + "," + strLongitude
+
+        # call a method to do reverse geocoding on given lat/long
+        jsonLocationInfo = getLocationInfo(strProx, strApp_id, strApp_code)
+
+        strAddressLabel = ""
+        strCity = ""
+        strState = ""
+        strDistrict = ""
+
+        try:
+            strAddressLabel = jsonLocationInfo['Label']
+            strCity = jsonLocationInfo['City']
+            strState = jsonLocationInfo['State']
+            strDistrict = jsonLocationInfo['District']
+        except KeyError:
+            pass
+
+        print("**** Trip " + str(
+            intTripNumber) + " (trip_id: " + strTripId + ", VIN: " + strVin + ") Time: " + strTimestamp + ", near " + strAddressLabel + " " + strDistrict + ")")
         print(item)
         print()
         intTripNumber = intTripNumber + 1

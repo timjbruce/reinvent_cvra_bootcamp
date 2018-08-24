@@ -16,6 +16,7 @@ to the workshop:
 >* The AWS CLI, configured with an Administrator Access ([directions here](https://docs.aws.amazon.com/cli/latest/userguide/installing.html))
 >* The ASK CLI ([Alexa Skills Kit CLI](https://developer.amazon.com/docs/smapi/quick-start-alexa-skills-kit-command-line-interface.html#step-1-prerequisites-for-using-ask-cli))
 >* Python, Node, and NPM
+>* a HERE Maps app_code and app_id (register for a free account at [developer.here.com](developer.here.com))
 
 ## Introduction
 This Bootcamp has four main parts as shown below. The intent 
@@ -149,8 +150,16 @@ Modify CarGuru's Lambda function to use your DynamoDB table. Then simply deploy 
 ask deploy
 ```
 
+### Cleanup
+//todo
+Delete the CVRA stack that you deployed.
+
 #### Ideas for Customization and Enhancement
+Hopefully, this Bootcamp was able to show you how to make use
+of the data collected by a connected vehicle. Here are some ideas
+to make enhancements and improvements from here:
 * Adjust the IAM role for more granular permissions
 * Develop account linking for the CarGuru skill to read 
 back information for linked VINs
 * Create an authenticated API to access the VehicleTripTable (API Gateway, Lambda, Cognito)
+* Enhance CarGuru to grab the latest fuel prices in a certain location
