@@ -71,6 +71,10 @@ In this section, you'll install and configure the AWS IoT Device Simulator to ge
 trip data. [Follow these directions](https://aws.amazon.com/answers/iot/iot-device-simulator/) 
 to install the simulator in your own AWS account.
 
+You can provision up to 25 vehicles to simulate trip data. Each simulated
+vehicle will travel one of several paths that have been pre-defined by the IoT
+device simulator. 
+
 The CVRA expects data to be published to a topic called: `connectedcar/telemetry/<VIN>` The 
 device simulator allows you to simulate a number of vehicles and generate trip data.
 The payload is of the form:

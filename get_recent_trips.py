@@ -4,6 +4,8 @@ import argparse
 import time
 import sys
 import requests
+# import botocore.errorfactory.ResourceNotFoundException
+from botocore.errorfactory import ClientError
 
 
 def sortFunc(e):
@@ -61,7 +63,6 @@ def main():
 
 	# reverse geocoding with HERE maps
 	# https://developer.here.com/documentation/geocoder/topics/example-reverse-geocoding.html
-
 	strApp_code = args.HereAppCode
 	strApp_id = args.HereAppId
 
@@ -72,10 +73,17 @@ def main():
 	sys.stdout.write('Scanning trip table ' + strVehicleTripTable + '... ')
 
 	intStartTime = int(time.time())
-	response = dynamoDbClient.scan(
-		TableName=strVehicleTripTable,
-		Select='ALL_ATTRIBUTES'
-	)
+
+	response = []
+	try:
+		response = dynamoDbClient.scan(
+			TableName=strVehicleTripTable,
+			Select='ALL_ATTRIBUTES'
+		)
+	except ClientError as e:
+		print()
+		print("Error scanning VehicleTripTable: '" + strVehicleTripTable + "'")
+		exit(1)
 
 	intEndTime = int(time.time())
 	intTotalTime = intEndTime - intStartTime
