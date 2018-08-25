@@ -7,122 +7,130 @@ import requests
 
 
 def sortFunc(e):
-    return e['timestamp']['S']
+	return e['timestamp']['S']
 
 
 # // sortFunc()
 
 def getLocationInfo(strProx, strApp_id, strApp_code):
-    # this method takes the following parameters:
-    # strProx = '41.8842,-87.6388,250'
-    # strApp_id = 'cF1SE2QqJkuUgBEQHEma'
-    # strApp_code = 'rKLZInnnnJDvNE5ioQIMEg'
+	# this method takes the following parameters:
+	# strProx = '41.8842,-87.6388,250'
+	# strApp_id = 'cF1SE2QqJkuUgBEQHEma'
+	# strApp_code = 'rKLZInnnnJDvNE5ioQIMEg'
 
-    strUrl = 'https://reverse.geocoder.api.here.com/6.2/reversegeocode.json'
-    dictHeaders = {'Content-Type': '*'}
-    dictPayload = {
-        'prox': strProx,
-        'mode': 'retrieveAddresses',
-        'maxresults': '1',
-        'gen': '9',
-        'app_id': strApp_id,
-        'app_code': strApp_code
-    }
+	strUrl = 'https://reverse.geocoder.api.here.com/6.2/reversegeocode.json'
+	dictHeaders = {'Content-Type': '*'}
+	dictPayload = {
+		'prox': strProx,
+		'mode': 'retrieveAddresses',
+		'maxresults': '1',
+		'gen': '9',
+		'app_id': strApp_id,
+		'app_code': strApp_code
+	}
 
-    response = requests.get(strUrl, headers=dictHeaders, params=dictPayload)
+	response = requests.get(strUrl, headers=dictHeaders, params=dictPayload)
 
-    jsonResponse = response.json()
+	jsonResponse = response.json()
 
-    return (jsonResponse['Response']['View'][0]['Result'][0]['Location']['Address'])
+	return (jsonResponse['Response']['View'][0]['Result'][0]['Location']['Address'])
 
 
 # // getLocationInfo()
 
 def main():
-    parser = argparse.ArgumentParser(
-        description='getRecentTrips scans the DynamoDB table that was setup as a part of the Connected Vehicle Reference Architecture, returning the total number of trips and informtion about the last three. This program requires the use of the HERE Maps reverse geocoding API -- register for an app_code and app_id at developer.here.com.')
-    parser.add_argument('--VehicleTripTable',
-                        help='The DynamoDB trip table that was deployed as a part of the Connected Vehicle Reference Architeture')
-    parser.add_argument('--HereAppId',
-                        help='HERE Maps app_id for determining location (register at developer.here.com)')
-    parser.add_argument('--HereAppCode',
-                        help='HERE Maps app_code for determining location (register at developer.here.com)')
-    args = parser.parse_args()
+	parser = argparse.ArgumentParser(
+		description='Example: python3 get_recent_trips.py -t "cvra-demo-VehicleTripTable-abcdef" -i "cF1SE2QqJkxyzabc" -c "xyzabcJDvNE5ioQIMEg"')
 
-    strVehicleTripTable = args.VehicleTripTable
+	requiredNamed = parser.add_argument_group('required named arguments')
+	requiredNamed.add_argument('-t', '--VehicleTripTable',
+							   help='VehicleTripTable, the DynamoDB table provisioned by the Connected Vehicle Reference Archietcture',
+							   required=True)
+	requiredNamed.add_argument('-i', '--HereAppId',
+							   help='HERE Maps app_id for determining location (register at developer.here.com)',
+							   required=True)
+	requiredNamed.add_argument('-c', '--HereAppCode',
+							   help='HERE Maps app_code for determining location (register at developer.here.com)',
+							   required=True)
 
-    # reverse geocoding with HERE maps
-    # https://developer.here.com/documentation/geocoder/topics/example-reverse-geocoding.html
+	args = parser.parse_args()
 
-    strApp_code = args.HereAppCode
-    strApp_id = args.HereAppId
+	print("Using args: " + str(args))
 
-    strRegion = 'us-east-1'
+	strVehicleTripTable = args.VehicleTripTable
 
-    dynamoDbClient = boto3.client('dynamodb', region_name=strRegion)
+	# reverse geocoding with HERE maps
+	# https://developer.here.com/documentation/geocoder/topics/example-reverse-geocoding.html
 
-    sys.stdout.write('Scanning trip table ' + strVehicleTripTable + '... ')
+	strApp_code = args.HereAppCode
+	strApp_id = args.HereAppId
 
-    intStartTime = int(time.time())
-    response = dynamoDbClient.scan(
-        TableName=strVehicleTripTable,
-        Select='ALL_ATTRIBUTES'
-    )
+	strRegion = 'us-east-1'
 
-    intEndTime = int(time.time())
-    intTotalTime = intEndTime - intStartTime
+	dynamoDbClient = boto3.client('dynamodb', region_name=strRegion)
 
-    print('done (' + str(intTotalTime) + 'ms).')
+	sys.stdout.write('Scanning trip table ' + strVehicleTripTable + '... ')
 
-    listTrips = response['Items']
+	intStartTime = int(time.time())
+	response = dynamoDbClient.scan(
+		TableName=strVehicleTripTable,
+		Select='ALL_ATTRIBUTES'
+	)
 
-    # if you want to convert the response to JSON, just  use json.dumps(response) as in the following
-    # strJsonResponse=json.dumps(response)
-    # print(strJsonResponse)
+	intEndTime = int(time.time())
+	intTotalTime = intEndTime - intStartTime
 
-    # sort the list by timestamp
-    listTrips.sort(key=sortFunc)
+	print('done (' + str(intTotalTime) + 'ms).')
 
-    intRecordCount = json.dumps(response['Count'])
-    print("Found " + str(intRecordCount) + " items in the trip table.")
-    print("listItems is a " + str(type(listTrips)))
+	listTrips = response['Items']
 
-    intTripNumber = 1
-    for trip in listTrips:
-        strVin = str(trip['vin']['S'])
-        strTripId = str(trip['trip_id']['S'])
-        strTimestamp = str(trip['timestamp']['S'])
-        strLongitude = str(trip['longitude']['N'])
-        strLatitude = str(trip['latitude']['N'])
-        strProx = strLatitude + "," + strLongitude
-        floatDistance=trip['odometer']['N']
-        floatFuelConsumed=trip['fuel_consumed_since_restart']['N']
+	# if you want to convert the response to JSON, just  use json.dumps(response) as in the following
+	# strJsonResponse=json.dumps(response)
+	# print(strJsonResponse)
 
-        # call a method to do reverse geocoding on given lat/long
-        jsonLocationInfo = getLocationInfo(strProx, strApp_id, strApp_code)
+	# sort the list by timestamp
+	listTrips.sort(key=sortFunc)
 
-        strAddressLabel = ""
-        strCity = ""
-        strState = ""
-        strDistrict = ""
+	intRecordCount = json.dumps(response['Count'])
+	print("Found " + str(intRecordCount) + " items in the trip table.")
+	print("listItems is a " + str(type(listTrips)))
 
-        try:
-            strAddressLabel = jsonLocationInfo['Label']
-            strCity = jsonLocationInfo['City']
-            strState = jsonLocationInfo['State']
-            strDistrict = jsonLocationInfo['District']
-        except KeyError:
-            pass
+	intTripNumber = 1
+	for trip in listTrips:
+		strVin = str(trip['vin']['S'])
+		strTripId = str(trip['trip_id']['S'])
+		strTimestamp = str(trip['timestamp']['S'])
+		strLongitude = str(trip['longitude']['N'])
+		strLatitude = str(trip['latitude']['N'])
+		strProx = strLatitude + "," + strLongitude
+		floatDistance = trip['odometer']['N']
+		floatFuelConsumed = trip['fuel_consumed_since_restart']['N']
 
-        print("**** Trip " + str(intTripNumber) + " (trip_id: " + strTripId + ", VIN: " + strVin + ")")
-        print("Time: " + strTimestamp + ")")
-        print("Location: near " + strAddressLabel)
-        print("Neighborhood: " + strDistrict)
-        print("Distance: " + str(floatDistance) + " miles")
-        print("Fuel consumed: " + str(floatFuelConsumed) + " gallons")
-        print("All trip data: " + str(trip))
-        print()
-        intTripNumber = intTripNumber + 1
+		# call a method to do reverse geocoding on given lat/long
+		jsonLocationInfo = getLocationInfo(strProx, strApp_id, strApp_code)
+
+		strAddressLabel = ""
+		strCity = ""
+		strState = ""
+		strDistrict = ""
+
+		try:
+			strAddressLabel = jsonLocationInfo['Label']
+			strCity = jsonLocationInfo['City']
+			strState = jsonLocationInfo['State']
+			strDistrict = jsonLocationInfo['District']
+		except KeyError:
+			pass
+
+		print("**** Trip " + str(intTripNumber) + " (trip_id: " + strTripId + ", VIN: " + strVin + ")")
+		print("Time: " + strTimestamp + ")")
+		print("Location: near " + strAddressLabel)
+		print("Neighborhood: " + strDistrict)
+		print("Distance: " + str(floatDistance) + " miles")
+		print("Fuel consumed: " + str(floatFuelConsumed) + " gallons")
+		print("All trip data: " + str(trip))
+		print()
+		intTripNumber = intTripNumber + 1
 
 
 main()
