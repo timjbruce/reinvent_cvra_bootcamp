@@ -21,9 +21,10 @@ to the workshop:
 ## Introduction
 This Bootcamp has four main parts as shown below. The intent 
 of this Bootcamp is to help attendees understand what's "under the 
-hood" of the CVRA so that it can be modified and extended as desired. 
+hood" of the CVRA and the IoT Device Simulator so that you can 
+modify and extended as desired. 
 1. Deploy the CVRA (15 mins.)
-2. Generate Trip Data (10 mins.)
+2. Install the IoT Device Simulator and Generate Trip Data (30 mins.)
 3. Deploy the CarGuru Alexa Skill (20 mins.)
 4. Cleanup (10 mins.)
 5. Ideas for Customization and Enhancement
@@ -54,7 +55,7 @@ CognitoClientId|	6rjtru6aur0vni0htpvb49qeuf|	Connected Vehicle Client
 DtcTable|	cvra-demo-DtcTable-UPJUO460FVYT|	DTC reference table
 VehicleAnomalyTable|	cvra-demo-VehicleAnomalyTable-E3ZR7I8BN41D|	Vehicle Anomaly table
 VehicleTripTable|	cvra-demo-VehicleTripTable-U0C6DSG0JW11|	Vehicle Trip table
-TelemetricsApiEndpoint|	https://2kkv2uwa45.execute-api.us-east-1.amazonaws.com/prod
+TelemetricsApiEndpoint|	https://abcdef.execute-api.us-east-1.amazonaws.com/prod
 Telemetrics API ID|
 HealthReportTable|	cvra-demo-HealthReportTable-C4VRARO31UZ1|	Vehicle Health Report table
 VehicleDtcTable|	cvra-demo-VehicleDtcTable-76E1UB71GEH3|	Vehicle DTC table
@@ -66,7 +67,24 @@ aws cloudformation describe-stacks --stack-name cvra-demo --output table --query
 ...where <i>cvra-demo</i> is the name of my Cloudformation stack.
  
 ## Generate Trip Data
-//todo
+In this section, you'll install and configure the AWS IoT Device Simulator to generate 
+trip data. [Follow these directions](https://aws.amazon.com/answers/iot/iot-device-simulator/) 
+to install the simulator in your own AWS account.
+
+The CVRA expects data to be published to a topic called: `connectedcar/telemetry/<VIN>` The 
+device simulator allows you to simulate a number of vehicles and generate trip data.
+The payload is of the form:
+
+```json
+{
+  "timestamp": "2018-08-25 22:38:40.791000000",
+  "trip_id": "871be6ea-4ee6-49b8-8a9b-b6ebe5050c8a",
+  "vin": "9JVVV63E5NVZWH5UH",
+  "name": "odometer",
+  "value": 2.267
+}
+```
+
 
 ## Deploy an Alexa Skill to Read Recent Trip Data
 In this section, we'll deploy an Alexa skill called CarGuru that will read back information about the three recent trips that you have taken. You must have the ASK-CLI installed to complete this part of the lab.
@@ -153,13 +171,16 @@ ask deploy
 ### Cleanup
 //todo
 Delete the CVRA stack that you deployed.
+Delete the IoT Device Simulator Stack.
+Ensure that S3 buckets, DynamoDB tables, IoT service is clean.
 
 #### Ideas for Customization and Enhancement
 Hopefully, this Bootcamp was able to show you how to make use
-of the data collected by a connected vehicle. Here are some ideas
+of the data collected by a connected vehicle (and ultimately any connected 
+device). Here are some ideas for enhancement:
 to make enhancements and improvements from here:
 * Adjust the IAM role for more granular permissions
 * Develop account linking for the CarGuru skill to read 
-back information for linked VINs
+back information only for linked VINs
 * Create an authenticated API to access the VehicleTripTable (API Gateway, Lambda, Cognito)
-* Enhance CarGuru to grab the latest fuel prices in a certain location
+* Enhance CarGuru to get the latest fuel prices in a certain location
