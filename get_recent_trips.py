@@ -31,9 +31,13 @@ def getLocationInfo(strProx, strApp_id, strApp_code):
 		'app_code': strApp_code
 	}
 
-	response = requests.get(strUrl, headers=dictHeaders, params=dictPayload)
+	location_response = requests.get(strUrl, headers=dictHeaders, params=dictPayload)
 
-	jsonResponse = response.json()
+	if (location_response.status_code == 401):
+		print("Problem getting location for trip (probably an issue with your HERE credentials")
+		exit(1)
+
+	jsonResponse = location_response.json()
 
 	return (jsonResponse['Response']['View'][0]['Result'][0]['Location']['Address'])
 
