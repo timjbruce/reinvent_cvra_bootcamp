@@ -29,6 +29,27 @@ modify and extended it to fir their scenarios.
 4. Cleanup (10 mins.)
 5. Ideas for Customization and Enhancement
 
+
+Before we get started, copy this worksheet into a text editor and use it to track the different variables 
+that are important for this workshop. In case you run in to any issues during the bootcamp, having this 
+worksheet will help the workshop organizers troubleshoot your deployment:
+ 
+ Worksheet:
+ * OS version (e.g., macOS 10.13.6): 
+ * AWS CLI version: (output of aws --version):
+ * ASK CLI version: (output of ask --version):
+ * Python version (output of python --version):
+ * Virtualenv version (output of virtualenv --version):
+ * Node version (output of node --version, e.g., 6.10.3):
+ * NPM version (output of npm --version):
+ * AWS Region you are working in (should be us-east-1 or us-west-2):
+ * AWS Account ID and signin URL:
+ * Name of your cvra-demo Cloudformation stack: 
+ * VehicleTripTable: 
+ * Name of your vehicle simulator Cloudformation stack:
+ * HERE Maps app_code:
+ * HERE Maps app_id:
+
 > If you have established an AWS account within the last 12 months, then this lab will be in the free tier. Otherwise, costs are anticipated to be less than $5
 
 ## Deploy the CVRA
@@ -61,11 +82,26 @@ Telemetrics API ID|(not used)|(not used)|API Gateway
 HealthReportTable|	cvra-demo-HealthReportTable-C4VRARO31UZ1|	Vehicle Health Report table|DynamoDB
 VehicleDtcTable|	cvra-demo-VehicleDtcTable-76E1UB71GEH3|	Vehicle DTC table|DynamoDB
 
-We're interested in the *VehicleTripTable* -- a table in DynamoDB. You can view the outputs from your CVRA deployment through the AWS Console or by using the CLI with something like:
+**Validation**: run the following command from a terminal window:
+```bash
+aws cloudformation describe-stacks --stack-name cvra-demo --query 'Stacks[*].StackStatus'
+```
+
+> We'll refer to the CVRA Cloudformation stack as **cvra-demo** throughout this bootcamp.
+
+The output should resemble something like this:
+```json
+[
+    "CREATE_COMPLETE"
+]
+```
+
+We're interested in the *VehicleTripTable* -- a table in DynamoDB. You can view the outputs from your 
+CVRA deployment through the AWS Console or by using the CLI with something like:
 ```bash
 aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]'
 ```
-...where <i>cvra-demo</i> is the name of my Cloudformation stack.
+
  
 ## Generate Trip Data
 In this section, you'll install and configure the AWS IoT Device Simulator to generate 
