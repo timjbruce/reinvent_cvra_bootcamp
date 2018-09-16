@@ -129,7 +129,7 @@ The payload is of the form:
 
 ---
 
-## 3. Deploy the CarGuru Alexa Skill 
+## 3. Deploy the CarGuru Alexa Skill (20 mins.)
 In this section, we'll deploy an Alexa skill called CarGuru that will read back information about 
 the three recent trips that you have taken. You must have the ASK-CLI installed to complete this part of the lab.
 
