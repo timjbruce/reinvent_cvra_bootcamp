@@ -29,37 +29,26 @@ modify and extended it to fir their scenarios.
 4. Cleanup (10 mins.)
 5. Ideas for Customization and Enhancement
 
-
-Before we get started, copy this worksheet into a text editor and use it to track the different variables 
-that are important for this workshop. In case you run in to any issues during the bootcamp, having this 
-worksheet will help the workshop organizers troubleshoot your deployment:
- 
- Worksheet:
- * Work directory (e.g., ~/reinvent_bootcamps):
- * OS version (e.g., macOS 10.13.6): 
- * git version (output of git --version): 
- * AWS CLI version: (output of aws --version):
- * ASK CLI version: (output of ask --version):
- * Python version (output of python --version):
- * Virtualenv version (output of virtualenv --version):
- * Node version (output of node --version, e.g., 6.10.3):
- * NPM version (output of npm --version):
- * AWS Region you are working in (should be us-east-1 or us-west-2):
- * AWS Account ID and signin URL:
- * HERE Maps app_code:
- * HERE Maps app_id:
-
- * Name of your cvra-demo Cloudformation stack (deployed during bootcamp): 
- * VehicleTripTable (deployed during bootcamp): 
- * Name of your vehicle simulator Cloudformation stack (deployed during bootcamp):
- 
-
 > If you have established an AWS account within the last 12 months, then this lab will be in the free tier. Otherwise, costs are anticipated to be less than $5
 
-## Deploy the CVRA
+## Local Prepation Steps
 First, create a *work directory* where you can download the git repository for this bootcamp,
-save the worksheet, make notes, etc.
+save the worksheet, make notes, etc. On my macOS system, I use ~/Developer/bootcamps (that is, /Users/dixonaws/Developer/bootcamps.) 
+Second, clone the git repository for this bootcamp:
+```bash
+git clone https://github.com/dixonaws/reinvent_cvra_bootcamp
+```
 
+You should now have a new directory, *reinvent_cvra_bootcamp* in your work direcrtory. Make
+
+Third, complete the worksheet below *or*, if you are on macOS, you can use a utility in the reinvent_cvra_bootcamp to
+check versions and create worksheet (called worksheet.txt) for you:
+```bash
+chmod +x create_worksheet.sh
+./create_worksheet.sh
+```
+
+## Deploy the CVRA
 Let's deploy the Connected Vehicle Reference Architecture (CVRA).
  Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html), deploy 
  the CVRA in an AWS account where you have administrator access.
