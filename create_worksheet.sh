@@ -15,6 +15,6 @@ echo "AWS region: " >> worksheet.txt
 echo "AWS Account ID and signin url: " >> worksheet.txt
 echo "HERE Maps app_code: " >> worksheet.txt
 echo "HERE Maps app_id: " >> worksheet.txt
-echo "Name of your CVRA Cloudformation stack: " >> worksheet.txt
 echo "VehicleTripTable: " >> worksheet.txt
+echo "Name of your CVRA Cloudformation stack: " >> worksheet.txt
 echo "Name of your vehicle simulator Cloudformation stack: " >> worksheet.txt

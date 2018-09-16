@@ -219,10 +219,18 @@ ask deploy
 ```
 
 ### Cleanup
-//todo
-Delete the CVRA stack that you deployed.
-Delete the IoT Device Simulator Stack.
-Ensure that S3 buckets, DynamoDB tables, IoT service is clean.
+The last thing to do in this bootcamp is to clean up any resources that were deployed in your account. 
+From your worksheet, delete the following Cloudformation stacks:
+* Your CVRA Cloudformation stack
+* Your vehicle simulator Cloudformation stack
+
+```bash
+aws cloudformation delete-stack --stack-name <your CVRA stack>
+aws cloudformation delete-stack --stack-name <your vehicle simulator stack>
+```
+
+From the AWS console, ensure that any associated S3 buckets, DynamoDB tables, and IoT service is clean.
+
 
 #### Ideas for Customization and Enhancement
 Hopefully, you were able to learn how to make use
