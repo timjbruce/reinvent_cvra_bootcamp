@@ -135,7 +135,7 @@ impatient, install a virtual environment, install the dependencies from requirem
 <details>
 <summary><strong>Step-by-step instructions (expand for details)</strong></summary>
 <p>
-Install and activate Python virtual environment in `pwd`/venv (macOS):
+Install and activate Python virtual environment in ./venv (macOS):
 
 ```bash
 virtualenv venv
@@ -173,7 +173,8 @@ dictItems is a <class 'list'>
 
 ```
 
-
+The getRecentTrips.py program simply queries your DynamoDB trip table, which is simialr to the CarGuru skill that 
+we'll deploy in the next section.
 <details>
 <summary><strong>Code details for getRecentTrips.py (expand for details)</strong></summary>
 Have a look at the code listing for getRecentTrips.py. The guts 
