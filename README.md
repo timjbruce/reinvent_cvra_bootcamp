@@ -128,6 +128,34 @@ In this section, we'll deploy an Alexa skill called CarGuru that will read back 
 the three recent trips that you have taken. You must have the ASK-CLI installed to complete this part of the lab.
 
 #### Run a Python Program to Test Your Access
+First, you can use a Python program included with the reinvent_cvra_bootcamp repo, getRecentTrips.py, to 
+test your configuration sofar. The best way to run this program is within a Python Virtual Environment. For the 
+impatient, install a virtual environment, install the dependencies from requirements.txt, and run getRecentTrips.py.
+
+Install and activate Python virtual environment in `pwd`/venv (macOS):
+```bash
+virtualenv -p `which python3` venv
+source venv/bin/activate
+```
+
+Install dependencies (macOS):
+```bash
+pip install -r requirements.txt
+```
+
+Run the program:
+```bash
+python getRecentTrips.py <TripTable>
+```
+
+Or, if you wanted to be very clever using your <i>ninja bash skills</i>, you could do something like this on the bash prompt: 
+
+```bash
+python getRecentTrips.py `aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]' |grep 'Vehicle Trip table' |awk -F "|" '{print $4}'`
+```
+> Quote trifecta: Note the tricky combination of backticks, single quotes, AND double quotes!
+
+
 Run the getRecentTrips.py program from your laptop to ensure 
 that your user has access to the correct DynamoDB table and that 
 it is populated with some trip information.
@@ -165,22 +193,6 @@ dynamoDbClient=boto3.client('dynamodb')
 > You may even elect to create an API layer in front fo the 
 > DynamoDB table so that other applications can use the 
 > data.
-
-
-This repository includes the Python program, so just clone
-the repo and run the program:
-
-```bash
-git clone https://github.com/dixonaws/reinvent_cvra_bootcamp
-python3 getRecentTrips.py [TripTable]
-```
-
-Or, if you wanted to be very clever using your <i>ninja bash skills</i>, you could do something like this on the bash prompt 
-
-```bash
-python3 getRecentTrips.py `aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]' |grep 'Vehicle Trip table' |awk -F "|" '{print $4}'`
-```
-> Note the tricky combination of backticks and single quotes
 
 You should see output similar to the following after running the program:
 ```json(venv) f45c898a35bf:reinventCvraBootcamp dixonaws$ python3 getRecentTrips.py cvra-demo-VehicleTripTable-U0C6DSG0JW11
