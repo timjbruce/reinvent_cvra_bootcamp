@@ -160,7 +160,7 @@ python getRecentTrips.py `aws cloudformation describe-stacks --stack-name cvra-d
 > Quote trifecta: Note the tricky combination of backticks, single quotes, AND double quotes!
 </p>
 </details>
-
+<br>
 Run the getRecentTrips.py program from your laptop to ensure 
 that your user has access to the correct DynamoDB table and that 
 it is populated with some trip information.
