@@ -309,9 +309,20 @@ Modify CarGuru's Lambda function to use your DynamoDB table. Then simply deploy 
 ask deploy
 ```
 
-//todo test the Alexa skill, have a look at the DynamoDB trip table
+### Interact with CarGuru
+Open developer.amazon.com, login, and browse to you CarGuru Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You 
+should be able to see the CarGuru skill that you deployed in the previous section. Open CarGuru and click on "Test" near the top
+of the page. You can use this console to interact with an Alexa skill without using a physical Echo devce -- via text or
+via voice. Try these interactions:
 
-### Cleanup
+"Alexa, open CarGuru"
+
+"Alexa, ask CarGuru about my car"
+
+"Alexa, ask CarGuru about my trip"
+
+
+## Cleanup
 The last thing to do in this bootcamp is to clean up any resources that were deployed in your account. 
 From your worksheet, delete the following Cloudformation stacks:
 * Your CVRA Cloudformation stack
