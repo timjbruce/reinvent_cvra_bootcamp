@@ -31,6 +31,8 @@ modify and extended it to fir their scenarios.
 
 > If you have established an AWS account within the last 12 months, then this lab will be in the free tier. Otherwise, costs are anticipated to be less than $5
 
+---
+
 ## Local Prepation Steps
 First, create a *work directory* where you can download the git repository for this bootcamp,
 save the worksheet, make notes, etc. On my macOS system, I use ~/Developer/bootcamps (that is, /Users/dixonaws/Developer/bootcamps.) 
@@ -47,6 +49,8 @@ check versions and create worksheet (called worksheet.txt) for you:
 chmod +x create_worksheet.sh
 ./create_worksheet.sh
 ```
+
+---
 
 ## Deploy the CVRA
 Let's deploy the Connected Vehicle Reference Architecture (CVRA).
@@ -98,6 +102,7 @@ CVRA deployment through the AWS Console or by using the CLI with something like:
 aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]'
 ```
 
+---
  
 ## Generate Trip Data
 In this section, you'll install and configure the AWS IoT Device Simulator to generate 
@@ -122,6 +127,7 @@ The payload is of the form:
 }
 ```
 
+---
 
 ## Deploy an Alexa Skill to Read Recent Trip Data
 In this section, we'll deploy an Alexa skill called CarGuru that will read back information about 
@@ -340,6 +346,7 @@ Also be sure to delete the following:
 * The Lambda function for CarGuru
 * The CarGuru skill from developer.amazon.com
 
+---
 
 ## Ideas for Customization and Enhancement
 Hopefully, you were able to learn how to make use
