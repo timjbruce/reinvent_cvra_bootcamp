@@ -52,7 +52,7 @@ chmod +x create_worksheet.sh
 
 ---
 
-## Deploy the CVRA
+## 1. Deploy the CVRA (15 mins.)
 Let's deploy the Connected Vehicle Reference Architecture (CVRA).
  Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html), deploy 
  the CVRA in an AWS account where you have administrator access.
@@ -104,7 +104,7 @@ aws cloudformation describe-stacks --stack-name cvra-demo --output table --query
 
 ---
  
-## Generate Trip Data
+## 2. Deploy the IoT Device Simulator and Generate Trip Data (30 mins.)
 In this section, you'll install and configure the AWS IoT Device Simulator to generate 
 trip data. [Follow these directions](https://aws.amazon.com/answers/iot/iot-device-simulator/) 
 to install the simulator in your own AWS account.
@@ -129,11 +129,11 @@ The payload is of the form:
 
 ---
 
-## Deploy an Alexa Skill to Read Recent Trip Data
+## 3. Deploy the CarGuru Alexa Skill 
 In this section, we'll deploy an Alexa skill called CarGuru that will read back information about 
 the three recent trips that you have taken. You must have the ASK-CLI installed to complete this part of the lab.
 
-#### Run a Python Program to Test Your Access
+### 3.1 Run a Python Program to Test Your Access
 First, you can use a Python program included with the reinvent_cvra_bootcamp repo, getRecentTrips.py, to 
 test your configuration sofar. The best way to run this program is within a Python Virtual Environment. For the 
 impatient, install a virtual environment, install the dependencies from requirements.txt, and run getRecentTrips.py.
@@ -220,7 +220,7 @@ dynamoDbClient=boto3.client('dynamodb')
 </details>
 
 
-#### Deploy the CarGuru Alexa Skill
+### 3.2 Deploy the Alexa Skill with the ASK-CL 
 In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called CarGuru. First, you'll
 need to create an account on developer.amazon.com and initilize the ASK CLI if you haven't already done so.
 
@@ -315,7 +315,7 @@ Modify CarGuru's Lambda function to use your DynamoDB table. Then simply deploy 
 ask deploy
 ```
 
-### Interact with CarGuru
+### 3.3 Interact with CarGuru
 Open developer.amazon.com, login, and browse to you CarGuru Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You 
 should be able to see the CarGuru skill that you deployed in the previous section. Open CarGuru and click on "Test" near the top
 of the page. You can use this console to interact with an Alexa skill without using a physical Echo devce -- via text or
@@ -329,7 +329,7 @@ via voice. Try these interactions:
 
 ---
 
-## Cleanup
+## 4. Cleanup (10 mins.)
 The last thing to do in this bootcamp is to clean up any resources that were deployed in your account. 
 From your worksheet, delete the following Cloudformation stacks:
 * Your CVRA Cloudformation stack
@@ -348,7 +348,7 @@ Also be sure to delete the following:
 
 ---
 
-## Ideas for Customization and Enhancement
+## 5. Ideas for Customization and Enhancement
 Hopefully, you were able to learn how to make use
 of the data collected by a simulated connected vehicle (and ultimately any connected 
 device). Here are some ideas to make enhancements and improvements from here:
