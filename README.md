@@ -321,6 +321,7 @@ via voice. Try these interactions:
 
 "Alexa, ask CarGuru about my trip"
 
+---
 
 ## Cleanup
 The last thing to do in this bootcamp is to clean up any resources that were deployed in your account. 
