@@ -225,12 +225,11 @@ Delete the IoT Device Simulator Stack.
 Ensure that S3 buckets, DynamoDB tables, IoT service is clean.
 
 #### Ideas for Customization and Enhancement
-Hopefully, this Bootcamp was able to show you how to make use
-of the data collected by a connected vehicle (and ultimately any connected 
-device). Here are some ideas for enhancement:
-to make enhancements and improvements from here:
-* Adjust the IAM role for more granular permissions
-* Develop account linking for the CarGuru skill to read 
-back information only for linked VINs
+Hopefully, you were able to learn how to make use
+of the data collected by a simulated connected vehicle (and ultimately any connected 
+device). Here are some ideas to make enhancements and improvements from here:
+* Adjust the IAM roles for more granular permissions
+* Develop account linking for the CarGuru skill to read back information only for linked VINs
 * Create an authenticated API to access the VehicleTripTable (API Gateway, Lambda, Cognito)
 * Enhance CarGuru to get the latest fuel prices in a certain location
+* Deploy the solution with a real vehicle, using Greengrass and an OBD II dongle!
