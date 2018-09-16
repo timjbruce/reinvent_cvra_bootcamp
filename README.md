@@ -132,7 +132,8 @@ First, you can use a Python program included with the reinvent_cvra_bootcamp rep
 test your configuration sofar. The best way to run this program is within a Python Virtual Environment. For the 
 impatient, install a virtual environment, install the dependencies from requirements.txt, and run getRecentTrips.py.
 
-Install and activate Python virtual environment in `pwd`/venv (macOS):
+
+<details>Install and activate Python virtual environment in `pwd`/venv (macOS):
 ```bash
 virtualenv -p `which python3` venv
 source venv/bin/activate
@@ -154,7 +155,7 @@ Or, if you wanted to be very clever using your <i>ninja bash skills</i>, you cou
 python getRecentTrips.py `aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]' |grep 'Vehicle Trip table' |awk -F "|" '{print $4}'`
 ```
 > Quote trifecta: Note the tricky combination of backticks, single quotes, AND double quotes!
-
+</details>
 
 Run the getRecentTrips.py program from your laptop to ensure 
 that your user has access to the correct DynamoDB table and that 
