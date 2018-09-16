@@ -297,7 +297,7 @@ Profile [default] initialized successfully.
 
 Once you have confirmed that your DynamoDB Trip table contains trip data withg getRecentTrips.py, and 
 initialized the Alexa Skills Kit CLI, issue the following command from your *work* directory 
-to clone the CarGuru skill. This command will create a new directory called CarGuru:
+to clone the CarGuru skill. This command will create a new directory called CarGuru in the current directory:
 
 ```bash
 ask new --skill-name "CarGuru" --url https://github.com/dixonaws/CarGuru.git  
@@ -334,6 +334,10 @@ aws cloudformation delete-stack --stack-name <your vehicle simulator stack>
 ```
 
 From the AWS console, ensure that any associated S3 buckets, DynamoDB tables, and IoT service is clean.
+
+Also be sure to delete the following:
+* The Lambda function for CarGuru
+* The CarGuru skill from developer.amazon.com
 
 
 #### Ideas for Customization and Enhancement
