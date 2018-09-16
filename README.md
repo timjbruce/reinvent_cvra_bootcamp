@@ -1,6 +1,6 @@
 # AWS Connected Vehicle Reference Architecture Bootcamp
 During this Bootcamp, we'll take a deep dive into the AWS 
-Connected Vehicle Reference Architecture. You'll install it, 
+Connected Vehicle Reference Architecture. Attendees will install it, 
 generate trip data from a simulated vehicle, and learn how 
 the data can be accessed with various other AWS services. In 
 this bootcamp, we'll access trip data using an Alexa skill.
@@ -21,8 +21,8 @@ to the workshop:
 ## Introduction
 This Bootcamp has four main parts as shown below. The intent 
 of this Bootcamp is to help attendees understand what's "under the 
-hood" of the CVRA and the IoT Device Simulator so that you can 
-modify and extended as desired. 
+hood" of the CVRA and the IoT Device Simulator so that they can 
+modify and extended it to fir their scenarios. 
 1. Deploy the CVRA (15 mins.)
 2. Install the IoT Device Simulator and Generate Trip Data (30 mins.)
 3. Deploy the CarGuru Alexa Skill (20 mins.)
@@ -33,8 +33,9 @@ modify and extended as desired.
 
 ## Deploy the CVRA
 Let's deploy the Connected Vehicle Reference Architecture (CVRA).
- Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html).
-The CVRA is a Cloudformation template that deploys and configures
+ Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html), deploy 
+ the CVRA in an AWS account where you have administrator access.
+The CVRA comes with a Cloudformation template that deploys and configures
 all of the AWS services necessary to ingest, store, process, and
 analyze data at scale from IoT devices. Automotive use cases aside,
 the CVRA provides a useful example of how to secure connect an 
@@ -45,22 +46,22 @@ store data in S3, etc.
 The CVRA Cloudformation 
 template returns these outputs:
 
-| Key | Value | Description |
-|:---|:---|:---
-UserPool|arn:aws:cognito-idp:us-east-1:000000000:userpool/us-east-1_loAchZlyI|Connected Vehicle User Pool|
-CognitoIdentityPoolId|us-east-1:de4766b0-519a-4030-b036-97a3a2291c98|	Identity Pool ID
-VehicleOwnerTable|	cvra-demo-VehicleOwnerTable-1TMCCT7LY76B0|	Vehicle Owner table
-CognitoUserPoolId|	us-east-1_loAchZlyI|	Connected Vehicle User Pool ID
-CognitoClientId|	6rjtru6aur0vni0htpvb49qeuf|	Connected Vehicle Client
-DtcTable|	cvra-demo-DtcTable-UPJUO460FVYT|	DTC reference table
-VehicleAnomalyTable|	cvra-demo-VehicleAnomalyTable-E3ZR7I8BN41D|	Vehicle Anomaly table
-VehicleTripTable|	cvra-demo-VehicleTripTable-U0C6DSG0JW11|	Vehicle Trip table
-TelemetricsApiEndpoint|	https://abcdef.execute-api.us-east-1.amazonaws.com/prod
+| Key | Value | Description | Associated AWS Service
+|:---|:---|:---|:---
+UserPool|arn:aws:cognito-idp:us-east-1:000000000:userpool/us-east-1_loAchZlyI|Connected Vehicle User Pool| Cognito
+CognitoIdentityPoolId|us-east-1:de4766b0-519a-4030-b036-97a3a2291c98|	Identity Pool ID| Cognito
+VehicleOwnerTable|	cvra-demo-VehicleOwnerTable-1TMCCT7LY76B0|	Vehicle Owner table|DynamoDB
+CognitoUserPoolId|	us-east-1_loAchZlyI|	Connected Vehicle User Pool ID|Cognito
+CognitoClientId|	6rjtru6aur0vni0htpvb49qeuf|	Connected Vehicle Client|Cognito
+DtcTable|	cvra-demo-DtcTable-UPJUO460FVYT|	DTC reference table|DynamoDB
+VehicleAnomalyTable|	cvra-demo-VehicleAnomalyTable-E3ZR7I8BN41D|	Vehicle Anomaly table|DynamoDB
+VehicleTripTable|	cvra-demo-VehicleTripTable-U0C6DSG0JW11|	Vehicle Trip table|DynamoDB
+TelemetricsApiEndpoint|	https://abcdef.execute-api.us-east-1.amazonaws.com/prod|API Gateway
 Telemetrics API ID|
-HealthReportTable|	cvra-demo-HealthReportTable-C4VRARO31UZ1|	Vehicle Health Report table
-VehicleDtcTable|	cvra-demo-VehicleDtcTable-76E1UB71GEH3|	Vehicle DTC table
+HealthReportTable|	cvra-demo-HealthReportTable-C4VRARO31UZ1|	Vehicle Health Report table|DynamoDB
+VehicleDtcTable|	cvra-demo-VehicleDtcTable-76E1UB71GEH3|	Vehicle DTC table|DynamoDB
 
-We're interested in the VehicleTripTable -- a table in DynamoDB. You can view the outputs from your CVRA deployment through the AWS Console or by using the CLI with something like:
+We're interested in the *VehicleTripTable* -- a table in DynamoDB. You can view the outputs from your CVRA deployment through the AWS Console or by using the CLI with something like:
 ```bash
 aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]'
 ```
