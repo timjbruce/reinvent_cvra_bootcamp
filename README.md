@@ -132,7 +132,6 @@ First, you can use a Python program included with the reinvent_cvra_bootcamp rep
 test your configuration sofar. The best way to run this program is within a Python Virtual Environment. For the 
 impatient, install a virtual environment, install the dependencies from requirements.txt, and run getRecentTrips.py.
 
-
 <details>
 <summary><strong>Step-by-step instructions (expand for details)</strong></summary>
 <p>
@@ -161,13 +160,25 @@ python getRecentTrips.py `aws cloudformation describe-stacks --stack-name cvra-d
 </p>
 </details>
 <br>
-Run the getRecentTrips.py program from your laptop to ensure 
-that your user has access to the correct DynamoDB table and that 
-it is populated with some trip information.
 
+You should see output similar to the following after running the program:
+```json(venv) f45c898a35bf:reinventCvraBootcamp dixonaws$ python3 getRecentTrips.py cvra-demo-VehicleTripTable-U0C6DSG0JW11
+Scanning trip table cvra-demo-VehicleTripTable-U0C6DSG0JW11... done (0).
+Found 18 items in the trip table.
+dictItems is a <class 'list'>
+**** Trip 1 (VIN: 2Z61V6JISOE60EWI8)
+{'ignition_status': {'S': 'off'}, 'transmission_gear_position': {'S': 'fourth'}, 'engine_speed_mean': {'N': '3525.2780709525855'}, 'name': {'S': 'aggregated_telemetrics'}, 'driver_safety_score': {'N': '74.82328344340092'}, 'brake_mean': {'N': '0'}, 'high_braking_event': {'N': '0'}, 'fuel_level': {'N': '99.95453355436261'}, 'latitude': {'N': '38.958911'}, 'idle_duration': {'N': '213'}, 'fuel_consumed_since_restart': {'N': '0.019374198537822133'}, 'torque_at_transmission_mean': {'N': '314.3124901722019'}, 'timestamp': {'S': '2018-08-21 23:13:01.589000000'}, 'vehicle_speed_mean': {'N': '79.9034721171209'}, 'start_time': {'S': '2018-08-21T23:12:31.456Z'}, 'end_time': {'S': '2018-08-21T23:13:01.589Z'}, 'trip_id': {'S': '84983a6b-0881-4600-ad20-9db40eb7f868'}, 'oil_temp_mean': {'N': '29.021054075000006'}, 'geojson': {'M': {'bucket': {'S': 'connected-vehicle-trip-us-east-1-477157386854'}, 'key': {'S': 'trip/2Z61V6JISOE60EWI8/84983a6b-0881-4600-ad20-9db40eb7f868.json'}}}, 'accelerator_pedal_position_mean': {'N': '38.609446258882855'}, 'longitude': {'N': '-77.401168'}, 'vin': {'S': '2Z61V6JISOE60EWI8'}, 'brake_pedal_status': {'BOOL': False}, 'high_speed_duration': {'N': '0'}, 'odometer': {'N': '0.6705392939350361'}, 'high_acceleration_event': {'N': '2'}}
+...
+
+```
+
+
+<details>
+<summary><strong>Code details for getRecentTrips.py (expand for details)</strong></summary>
 Have a look at the code listing for getRecentTrips.py. The guts 
 are similar to the CarGuru skill that we'll deploy in the next
 step, particularly the call to <i>scan</i> the DynamoDB trip table:
+
 ```python 
 dynamoDbClient=boto3.client('dynamodb')
 
@@ -198,17 +209,8 @@ dynamoDbClient=boto3.client('dynamodb')
 > You may even elect to create an API layer in front fo the 
 > DynamoDB table so that other applications can use the 
 > data.
+</details>
 
-You should see output similar to the following after running the program:
-```json(venv) f45c898a35bf:reinventCvraBootcamp dixonaws$ python3 getRecentTrips.py cvra-demo-VehicleTripTable-U0C6DSG0JW11
-Scanning trip table cvra-demo-VehicleTripTable-U0C6DSG0JW11... done (0).
-Found 18 items in the trip table.
-dictItems is a <class 'list'>
-**** Trip 1 (VIN: 2Z61V6JISOE60EWI8)
-{'ignition_status': {'S': 'off'}, 'transmission_gear_position': {'S': 'fourth'}, 'engine_speed_mean': {'N': '3525.2780709525855'}, 'name': {'S': 'aggregated_telemetrics'}, 'driver_safety_score': {'N': '74.82328344340092'}, 'brake_mean': {'N': '0'}, 'high_braking_event': {'N': '0'}, 'fuel_level': {'N': '99.95453355436261'}, 'latitude': {'N': '38.958911'}, 'idle_duration': {'N': '213'}, 'fuel_consumed_since_restart': {'N': '0.019374198537822133'}, 'torque_at_transmission_mean': {'N': '314.3124901722019'}, 'timestamp': {'S': '2018-08-21 23:13:01.589000000'}, 'vehicle_speed_mean': {'N': '79.9034721171209'}, 'start_time': {'S': '2018-08-21T23:12:31.456Z'}, 'end_time': {'S': '2018-08-21T23:13:01.589Z'}, 'trip_id': {'S': '84983a6b-0881-4600-ad20-9db40eb7f868'}, 'oil_temp_mean': {'N': '29.021054075000006'}, 'geojson': {'M': {'bucket': {'S': 'connected-vehicle-trip-us-east-1-477157386854'}, 'key': {'S': 'trip/2Z61V6JISOE60EWI8/84983a6b-0881-4600-ad20-9db40eb7f868.json'}}}, 'accelerator_pedal_position_mean': {'N': '38.609446258882855'}, 'longitude': {'N': '-77.401168'}, 'vin': {'S': '2Z61V6JISOE60EWI8'}, 'brake_pedal_status': {'BOOL': False}, 'high_speed_duration': {'N': '0'}, 'odometer': {'N': '0.6705392939350361'}, 'high_acceleration_event': {'N': '2'}}
-...
-
-```
 
 #### Deploy the CarGuru Alexa Skill
 In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called CarGuru.
