@@ -215,18 +215,101 @@ dynamoDbClient=boto3.client('dynamodb')
 
 
 #### Deploy the CarGuru Alexa Skill
-In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called CarGuru.
-Once you have confirmed that your DynamoDB Trip table contains trip data, issue the following command from your *work* directory 
+In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called CarGuru. First, you'll
+need to create an account on developer.amazon.com and initilize the ASK CLI if you haven't already done so.
+
+<details>
+<summary><strong>Initialize the ASK CLI (expand for details)</strong></summary>
+Issue the following command:
+```bash
+ask init
+```
+
+You should now see this screen in the command prompt. This step isused to select your AWS profile. Choose the default profile.
+```bash
+(venv) jpdixonmbp:reinvent_cvra_bootcamp jpdixon$ ask init
+? Please create a new profile or overwrite the existing profile.
+ (Use arrow keys)
+  ──────────────
+❯ Create new profile 
+  ──────────────
+  Profile              Associated AWS Profile
+  [default]                 "default" 
+
+```
+
+Next, you'll see the following screen to select the AWS profile to use for Lambda function deployment. Choose default:
+```bash
+(venv) jpdixonmbp:reinvent_cvra_bootcamp jpdixon$ ask init
+? Please create a new profile or overwrite the existing profile.
+ [default]                 "default"
+-------------------- Initialize CLI --------------------
+Setting up ask profile: [default]
+? Please choose one from the following AWS profiles for skill's Lambda function deployment.
+ 
+❯ default 
+  dixonaws@amazon.com 
+  jpdixon@gmail.com 
+  ccdtw 
+  ──────────────
+  Skip AWS credential for ask-cli. 
+  Use the AWS environment variables. 
+  ──────────────
+
+
+```
+
+Next, the ASK CLI will open a browser window to amazon.com and ask you to sign in using your developer account credentials. Sign in and 
+close the browser. 
+```bash
+(venv) jpdixonmbp:reinvent_cvra_bootcamp jpdixon$ ask init
+? Please create a new profile or overwrite the existing profile.
+ [default]                 "default"
+-------------------- Initialize CLI --------------------
+Setting up ask profile: [default]
+? Please choose one from the following AWS profiles for skill's Lambda function deployment.
+ default
+Switch to 'Login with Amazon' page...
+  ◝  Listening on http://localhost:9090
+
+
+```
+If all goes well, you should see this on the command prompt:
+```bash
+(venv) jpdixonmbp:reinvent_cvra_bootcamp jpdixon$ ask init
+? Please create a new profile or overwrite the existing profile.
+ [default]                 "default"
+-------------------- Initialize CLI --------------------
+Setting up ask profile: [default]
+? Please choose one from the following AWS profiles for skill's Lambda function deployment.
+ default
+Switch to 'Login with Amazon' page...
+Tokens fetched and recorded in ask-cli config.
+Vendor ID set as M3D1DAHOJTACU3
+
+Profile [default] initialized successfully.
+(venv) jpdixonmbp:reinvent_cvra_bootcamp jpdixon$ 
+```
+
+
+</details>
+
+
+Once you have confirmed that your DynamoDB Trip table contains trip data withg getRecentTrips.py, and 
+initialized the Alexa Skills Kit CLI, issue the following command from your *work* directory 
 to clone the CarGuru skill. This command will create a new directory called CarGuru:
 
 ```bash
 ask new --skill-name "CarGuru" --url https://github.com/dixonaws/CarGuru.git  
 ```
 
+//todo
 Modify CarGuru's Lambda function to use your DynamoDB table. Then simply deploy it with:
 ```bash
 ask deploy
 ```
+
+//todo test the Alexa skill, have a look at the DynamoDB trip table
 
 ### Cleanup
 The last thing to do in this bootcamp is to clean up any resources that were deployed in your account. 
