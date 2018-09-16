@@ -136,8 +136,9 @@ impatient, install a virtual environment, install the dependencies from requirem
 <summary><strong>Step-by-step instructions (expand for details)</strong></summary>
 <p>
 Install and activate Python virtual environment in `pwd`/venv (macOS):
+
 ```bash
-virtualenv -p `which python3` venv
+virtualenv venv
 source venv/bin/activate
 ```
 
