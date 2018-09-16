@@ -173,7 +173,7 @@ dictItems is a <class 'list'>
 
 ```
 
-The getRecentTrips.py program simply queries your DynamoDB trip table, which is simialr to the CarGuru skill that 
+The getRecentTrips.py program simply queries your DynamoDB trip table, which is similar to the CarGuru skill that 
 we'll deploy in the next section.
 <details>
 <summary><strong>Code details for getRecentTrips.py (expand for details)</strong></summary>
@@ -216,7 +216,8 @@ dynamoDbClient=boto3.client('dynamodb')
 
 #### Deploy the CarGuru Alexa Skill
 In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called CarGuru.
-Once you have confirmed that your DynamoDB Trip table contains trip data, issue the following command to clone the CarGuru skill:
+Once you have confirmed that your DynamoDB Trip table contains trip data, issue the following command from your *work* directory 
+to clone the CarGuru skill. This command will create a new directory called CarGuru:
 
 ```bash
 ask new --skill-name "CarGuru" --url https://github.com/dixonaws/CarGuru.git  
