@@ -340,7 +340,7 @@ Also be sure to delete the following:
 * The CarGuru skill from developer.amazon.com
 
 
-#### Ideas for Customization and Enhancement
+## Ideas for Customization and Enhancement
 Hopefully, you were able to learn how to make use
 of the data collected by a simulated connected vehicle (and ultimately any connected 
 device). Here are some ideas to make enhancements and improvements from here:
