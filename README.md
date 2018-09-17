@@ -306,26 +306,31 @@ initialized the Alexa Skills Kit CLI, issue the following command from your *wor
 to clone the CarGuru skill. This command will create a new directory called CarGuru in the current directory:
 
 ```bash
-ask new --skill-name "CarGuru" --url https://github.com/dixonaws/CarGuru.git  
+ask new --skill-name "ConnectedCar" --url https://github.com/dixonaws/ConnectedCarAlexa.git  
 ```
 
 //todo
-Modify CarGuru's Lambda function to use your DynamoDB table. Then simply deploy it with:
+Modify ConnectedCar's Lambda function to use your DynamoDB table. Then simply deploy it with:
 ```bash
 ask deploy
 ```
 
-### 3.3 Interact with CarGuru
+### 3.3 Interact with ConnectedCar
 Open developer.amazon.com, login, and browse to you CarGuru Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You 
-should be able to see the CarGuru skill that you deployed in the previous section. Open CarGuru and click on "Test" near the top
-of the page. You can use this console to interact with an Alexa skill without using a physical Echo devce -- via text or
-via voice. Try these interactions:
+should be able to see the ConnectedCar skill that you deployed in the previous section. Open ConnectedCar and click 
+on "Test" near the top of the page. You can use this console to interact with an Alexa skill without using a 
+physical Echo devce -- via text or via voice. Try these interactions:
 
 "Alexa, open CarGuru"
 
 "Alexa, ask CarGuru about my car"
 
 "Alexa, ask CarGuru about my trip"
+
+You can also test via the command line with this command:
+```bash
+ask simulate --text "alexa, open connected car" --locale "en-US"
+```
 
 ---
 
