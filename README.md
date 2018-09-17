@@ -25,7 +25,7 @@ hood" of the CVRA and the IoT Device Simulator so that they can
 modify and extended it to fir their scenarios. 
 1. Deploy the CVRA (15 mins.)
 2. Install the IoT Device Simulator and Generate Trip Data (30 mins.)
-3. Deploy the CarGuru Alexa Skill (20 mins.)
+3. Deploy the ConnectedCar Alexa Skill (20 mins.)
 4. Cleanup (10 mins.)
 5. Ideas for Customization and Enhancement
 
@@ -129,8 +129,8 @@ The payload is of the form:
 
 ---
 
-## 3. Deploy the CarGuru Alexa Skill (20 mins.)
-In this section, we'll deploy an Alexa skill called CarGuru that will read back information about 
+## 3. Deploy the ConnectedCar Alexa Skill (20 mins.)
+In this section, we'll deploy an Alexa skill called ConnectedCar that will read back information about 
 the three recent trips that you have taken. You must have the ASK-CLI installed to complete this part of the lab.
 
 ### 3.1 Run a Python Program to Test Your Access
@@ -179,12 +179,12 @@ dictItems is a <class 'list'>
 
 ```
 
-The getRecentTrips.py program simply queries your DynamoDB trip table, which is similar to the CarGuru skill that 
+The getRecentTrips.py program simply queries your DynamoDB trip table, which is similar to the ConnectedCar skill that 
 we'll deploy in the next section.
 <details>
 <summary><strong>Code details for getRecentTrips.py (expand for details)</strong></summary>
 Have a look at the code listing for getRecentTrips.py. The guts 
-are similar to the CarGuru skill that we'll deploy in the next
+are similar to the ConnectedCar skill that we'll deploy in the next
 step, particularly the call to <i>scan</i> the DynamoDB trip table:
 
 ```python 
@@ -221,7 +221,7 @@ dynamoDbClient=boto3.client('dynamodb')
 
 
 ### 3.2 Deploy the Alexa Skill with the ASK-CL 
-In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called CarGuru. First, you'll
+In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called ConnectedCar. First, you'll
 need to create an account on developer.amazon.com and initilize the ASK CLI if you haven't already done so.
 
 <details>
@@ -303,7 +303,7 @@ Profile [default] initialized successfully.
 
 Once you have confirmed that your DynamoDB Trip table contains trip data withg getRecentTrips.py, and 
 initialized the Alexa Skills Kit CLI, issue the following command from your *work* directory 
-to clone the CarGuru skill. This command will create a new directory called CarGuru in the current directory:
+to clone the ConnectedCar skill. This command will create a new directory called ConnectedCar in the current directory:
 
 ```bash
 ask new --skill-name "ConnectedCar" --url https://github.com/dixonaws/ConnectedCarAlexa.git  
@@ -316,16 +316,16 @@ ask deploy
 ```
 
 ### 3.3 Interact with ConnectedCar
-Open developer.amazon.com, login, and browse to you CarGuru Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You 
+Open developer.amazon.com, login, and browse to you ConnectedCar Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You 
 should be able to see the ConnectedCar skill that you deployed in the previous section. Open ConnectedCar and click 
 on "Test" near the top of the page. You can use this console to interact with an Alexa skill without using a 
 physical Echo devce -- via text or via voice. Try these interactions:
 
-"Alexa, open CarGuru"
+"Alexa, open ConnectedCar"
 
-"Alexa, ask CarGuru about my car"
+"Alexa, ask ConnectedCar about my car"
 
-"Alexa, ask CarGuru about my trip"
+"Alexa, ask ConnectedCar about my trip"
 
 You can also test via the command line with this command:
 ```bash
@@ -348,8 +348,8 @@ aws cloudformation delete-stack --stack-name <your vehicle simulator stack>
 From the AWS console, ensure that any associated S3 buckets, DynamoDB tables, and IoT service is clean.
 
 Also be sure to delete the following:
-* The Lambda function for CarGuru
-* The CarGuru skill from developer.amazon.com
+* The Lambda function for ConnectedCar
+* The ConnectedCar skill from developer.amazon.com
 
 ---
 
@@ -358,7 +358,7 @@ Hopefully, you were able to learn how to make use
 of the data collected by a simulated connected vehicle (and ultimately any connected 
 device). Here are some ideas to make enhancements and improvements from here:
 * Adjust the IAM roles for more granular permissions
-* Develop account linking for the CarGuru skill to read back information only for linked VINs
+* Develop account linking for the ConnectedCar skill to read back information only for linked VINs
 * Create an authenticated API to access the VehicleTripTable (API Gateway, Lambda, Cognito)
-* Enhance CarGuru to get the latest fuel prices in a certain location
+* Enhance ConnectedCar to get the latest fuel prices in a certain location
 * Deploy the solution with a real vehicle, using Greengrass and an OBD II dongle!
