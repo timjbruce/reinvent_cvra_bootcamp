@@ -307,7 +307,7 @@ Profile [default] initialized successfully.
 
 Once you have confirmed that your DynamoDB Trip table contains trip data withg getRecentTrips.py, and 
 initialized the Alexa Skills Kit CLI, issue the following command from your *work* directory 
-to clone the ConnectedCar skill. This command will create a new directory called ConnectedCar in the current directory:
+to clone the ConnectedCar skill. This command will create a new directory called ConnectedCarAlexa in the current directory:
 
 ```bash
 ask new --skill-name "ConnectedCar" --url https://github.com/dixonaws/ConnectedCarAlexa.git  
@@ -344,6 +344,8 @@ From your worksheet, delete the following Cloudformation stacks:
 * Your CVRA Cloudformation stack
 * Your vehicle simulator Cloudformation stack
 
+Delete your Cloud9 instance if you created one.
+
 ```bash
 aws cloudformation delete-stack --stack-name <your CVRA stack>
 aws cloudformation delete-stack --stack-name <your vehicle simulator stack>
@@ -361,8 +363,10 @@ Also be sure to delete the following:
 Hopefully, you were able to learn how to make use
 of the data collected by a simulated connected vehicle (and ultimately any connected 
 device). Here are some ideas to make enhancements and improvements from here:
+* Enhance the Alexa skill to read values from many different cars 
 * Adjust the IAM roles for more granular permissions
 * Develop account linking for the ConnectedCar skill to read back information only for linked VINs
 * Create an authenticated API to access the VehicleTripTable (API Gateway, Lambda, Cognito)
-* Enhance ConnectedCar to get the latest fuel prices in a certain location
-* Deploy the solution with a real vehicle, using Greengrass and an OBD II dongle!
+* Enhance the ConnectedCar Alexa skill to get the latest fuel prices in a certain location
+* Use AWS-hosted APIs to 
+* Deploy the solution with a real vehicle, using Greengrass and an OBDII interface!
