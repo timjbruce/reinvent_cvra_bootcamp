@@ -33,17 +33,27 @@ modify and extended it to fir their scenarios.
 
 ---
 
-## Local Prepation Steps
-First, create a *work directory* where you can download the git repository for this bootcamp,
+## Cloud9 Preparation Steps
+> We recommend using a Cloud9 instance (hosted IDE) for the next steps, as it is bandwidth-friendly and helpful during troubleshooting!
+> Cloud9 is free-tier eligible
+
+First, login to the AWS console and create a new Cloud9 instance.
+create a *work directory* where you can download the git repository for this bootcamp,
 save the worksheet, make notes, etc. On my macOS system, I use ~/Developer/bootcamps (that is, /Users/dixonaws/Developer/bootcamps.) 
 Second, clone the git repository for this bootcamp:
 ```bash
 git clone https://github.com/dixonaws/reinvent_cvra_bootcamp
 ```
 
+Next, install the ASK CLI on your Cloud9 instance with:
+```bash
+npm install ask-cli -g
+```
+
+
 You should now have a new directory, *reinvent_cvra_bootcamp* in your work direcrtory. Make
 
-Third, complete the worksheet below *or*, if you are on macOS, you can use a utility in the reinvent_cvra_bootcamp to
+Third, complete the worksheet below *or*, if you are on macOS/Cloud9, you can use a utility in the reinvent_cvra_bootcamp to
 check versions and create worksheet (called worksheet.txt) for you:
 ```bash
 chmod +x create_worksheet.sh
@@ -155,13 +165,13 @@ pip install -r requirements.txt
 
 Run the program:
 ```bash
-python getRecentTrips.py <TripTable>
+python getRecentTrips.py --VehicleTripTable <TripTable> --HereAppId <app id> --HereAppCode <app code>
 ```
 
 Or, if you wanted to be very clever using your <i>ninja bash skills</i>, you could do something like this on the bash prompt: 
 
 ```bash
-python getRecentTrips.py `aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]' |grep 'Vehicle Trip table' |awk -F "|" '{print $4}'`
+python3 getRecentTrips.py --VehicleTripTable `aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]' |grep 'Vehicle Trip table' |awk -F "|" '{print $4}'` --HereAppId <app id> --HereAppCode <app code>
 ```
 > Quote trifecta: Note the tricky combination of backticks, single quotes, AND double quotes!
 </p>
@@ -169,7 +179,7 @@ python getRecentTrips.py `aws cloudformation describe-stacks --stack-name cvra-d
 <br>
 
 You should see output similar to the following after running the program:
-```json(venv) f45c898a35bf:reinventCvraBootcamp dixonaws$ python3 getRecentTrips.py cvra-demo-VehicleTripTable-U0C6DSG0JW11
+```json(venv) f45c898a35bf:reinventCvraBootcamp dixonaws$ python3 getRecentTrips.py --VehicleTripTable cvra-demo-VehicleTripTable-U0C6DSG0JW11
 Scanning trip table cvra-demo-VehicleTripTable-U0C6DSG0JW11... done (0).
 Found 18 items in the trip table.
 dictItems is a <class 'list'>
@@ -214,21 +224,21 @@ dynamoDbClient=boto3.client('dynamodb')
 > An improvement here for production applications would be to 
 > query the DynamoDB table instead of scanning it, per the 
 > [best practices for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html). 
-> You may even elect to create an API layer in front fo the 
+> You may even elect to create an API layer in front of the 
 > DynamoDB table so that other applications can use the 
 > data.
 </details>
 
 
-### 3.2 Deploy the Alexa Skill with the ASK-CL 
+### 3.2 Deploy the Alexa Skill with the ASK-CLI
 In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called ConnectedCar. First, you'll
-need to create an account on developer.amazon.com and initilize the ASK CLI if you haven't already done so.
+need to create an account on developer.amazon.com and initialize the ASK CLI if you haven't already done so.
 
 <details>
 <summary><strong>Initialize the ASK CLI (expand for details)</strong></summary>
 Issue the following command:
 ```bash
-ask init
+ask init --no-browser
 ```
 
 You should now see this screen in the command prompt. This step isused to select your AWS profile. Choose the default profile.
@@ -265,21 +275,15 @@ Setting up ask profile: [default]
 
 ```
 
-Next, the ASK CLI will open a browser window to amazon.com and ask you to sign in using your developer account credentials. Sign in and 
-close the browser. 
+Next, you'll see a URL listed. You must use this URL to login to the developer console and obtain an Authorization Code. 
+ 
 ```bash
-(venv) jpdixonmbp:reinvent_cvra_bootcamp jpdixon$ ask init
-? Please create a new profile or overwrite the existing profile.
- [default]                 "default"
--------------------- Initialize CLI --------------------
-Setting up ask profile: [default]
-? Please choose one from the following AWS profiles for skill's Lambda function deployment.
- default
-Switch to 'Login with Amazon' page...
-  ◝  Listening on http://localhost:9090
+Paste the following url to your browser:
+         https://www.amazon.com/ap/oa?redirect_uri=https%3A%2F%2Fs3.amazonaws.com%2Fask-cli%2Fresponse_parser.html&scope=alexa%3A%3Aask%3Askills%3Areadwrite%20alexa%3A%3Aask%3Amodels%3Areadwrite%20alexa%3A%3Aask%3Askills%3Atest&state=Ask-SkillModel-ReadWrite&response_type=code&client_id=amzn1.application-oa2-client.aad322b5faab44b980c8f87f94fbac56
 
-
+? Please enter the Authorization Code:  
 ```
+
 If all goes well, you should see this on the command prompt:
 ```bash
 (venv) jpdixonmbp:reinvent_cvra_bootcamp jpdixon$ ask init
@@ -291,7 +295,7 @@ Setting up ask profile: [default]
  default
 Switch to 'Login with Amazon' page...
 Tokens fetched and recorded in ask-cli config.
-Vendor ID set as M3D1DAHOJTACU3
+Vendor ID set as XXXXXXXXXX
 
 Profile [default] initialized successfully.
 (venv) jpdixonmbp:reinvent_cvra_bootcamp jpdixon$ 
