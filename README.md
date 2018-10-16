@@ -9,11 +9,11 @@ this bootcamp, we'll access trip data using an Alexa skill.
 >We'll assume that you have some basic knowledge of AWS 
 services like IAM, Cloudformation, DynamoDB, S3, IoT, etc., 
 are comfortable using the AWS CLI, and have some knowledge 
-of Python. You'll also need to prepare the following <b>prior</b> 
-to the workshop: 
->* Laptop running Windows or MacOS
+of Python. You'll also need to prepare the following for
+the workshop (can be done in Cloud9): 
+>* Laptop running Windows or MacOS and Google Chrome or Mozilla Firefox (Safari, Internet Explorer, or Microsoft Edge are not recommended)
 >* An AWS account with Administrator Access
->* The AWS CLI, configured with an Administrator Access ([directions here](https://docs.aws.amazon.com/cli/latest/userguide/installing.html))
+>* The AWS CLI, configured with a user that has Administrator Access ([directions here](https://docs.aws.amazon.com/cli/latest/userguide/installing.html))
 >* The ASK CLI ([Alexa Skills Kit CLI](https://developer.amazon.com/docs/smapi/quick-start-alexa-skills-kit-command-line-interface.html#step-1-prerequisites-for-using-ask-cli))
 >* Python, Node, and NPM, Virtualenv, git
 >* a HERE Maps app_code and app_id (register for a free account at [developer.here.com](developer.here.com))
@@ -27,7 +27,7 @@ modify and extended it to fir their scenarios.
 2. Install the IoT Device Simulator and Generate Trip Data (30 mins.)
 3. Deploy the ConnectedCar Alexa Skill (20 mins.)
 4. Cleanup (10 mins.)
-5. Ideas for Customization and Enhancement
+5. Review Ideas for Customization and Enhancement
 
 > If you have established an AWS account within the last 12 months, then this lab will be in the free tier. Otherwise, costs are anticipated to be less than $5
 
@@ -37,7 +37,30 @@ modify and extended it to fir their scenarios.
 > We recommend using a Cloud9 instance (hosted IDE) for the next steps, as it is bandwidth-friendly and helpful during troubleshooting!
 > Cloud9 is free-tier eligible
 
-First, login to the AWS console and create a new Cloud9 instance. Second, from a bash prompt, clone the git repository for this bootcamp:
+The AWS CLI is already installed on Cloud9, so we just need to configure it with permanent credentials. This is needed for compatibility
+with the ASK CLI that we'll install later.
+
+<details>
+<summary><strong>Detailed instructions to configure Cloud9 to use permenent credentials (expand for details)</strong></summary>
+1. Launch Cloud9
+2. Open Cloud9 Preferences by clicking AWS Cloud9 > Preference or by clicking on the "gear" icon in the upper right corner of the Cloud9 window
+3. Click "AWS Settings"
+4. Disable "AWS managed temporary credentials" 
+5. Open a bash prompt and type ```aws configure```
+6. Enter the Access Key and Secret Access Key of a user that has AdministratorAccess credentials
+
+Verify that everything worked by examining the file ```~/.aws/credentials```. It should resemble the following:
+```bash
+[default]
+aws_access_key_id = ABCDEF1234567890
+aws_secret_access_key = 2bacnfjjui689fwjek100009909922h
+region=us-east-1
+aws_session_token=
+```
+ 
+</details>
+
+Next, clone the git repository for this bootcamp:
 ```bash
 git clone https://github.com/dixonaws/reinvent_cvra_bootcamp
 ```
