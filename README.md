@@ -136,9 +136,8 @@ Profile [default] initialized successfully.
  
 ```
 
-
 </details>
-
+<br>
 
 You should now have a new directory, *reinvent_cvra_bootcamp* in your work direcrtory. Third, complete the 
 worksheet below *or*, if you are on macOS/Cloud9, you can use a utility in the reinvent_cvra_bootcamp to
@@ -148,6 +147,7 @@ chmod +x create_worksheet.sh
 ./create_worksheet.sh
 ```
 
+Now, you're ready to move on to Step 2 and deploy the Connected Vehicle Reference Architecture
 ---
 
 ## 1. Deploy the CVRA (15 mins.)
