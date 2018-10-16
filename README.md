@@ -10,7 +10,7 @@ this bootcamp, we'll access trip data using an Alexa skill.
 services like IAM, Cloudformation, DynamoDB, S3, IoT, etc., 
 are comfortable using the AWS CLI, and have some knowledge 
 of Python. You'll also need to prepare the following for
-the workshop (can be done in Cloud9): 
+the workshop (can be done in Cloud9 or on your local machine): 
 >* Laptop running Windows or MacOS and Google Chrome or Mozilla Firefox (Safari, Internet Explorer, or Microsoft Edge are not recommended)
 >* An AWS account with Administrator Access
 >* The AWS CLI, configured with a user that has Administrator Access ([directions here](https://docs.aws.amazon.com/cli/latest/userguide/installing.html))
@@ -60,16 +60,85 @@ aws_session_token=
 ```
  
 </details>
-
+<br>
 Next, clone the git repository for this bootcamp:
 ```bash
 git clone https://github.com/dixonaws/reinvent_cvra_bootcamp
 ```
 
-Next, install the ASK CLI on your Cloud9 instance with:
+Install the ASK CLI on your Cloud9 instance with the following command:
 ```bash
 npm install ask-cli -g
 ```
+
+Now, initialize the ASK CLI by issuing ```ask init --no-browser``` at the bash prompt.
+
+<details>
+<summary><strong>Initialize the ASK CLI (expand for details)</strong></summary>
+
+Issue the following command:
+```bash
+ask init --no-browser
+```
+
+You should now see this screen in the command prompt. This step isused to select your AWS profile. Choose the default profile.
+```bash
+dixonaws:/environment$ ask init
+? Please create a new profile or overwrite the existing profile.
+ (Use arrow keys)
+  ──────────────
+❯ Create new profile 
+  ──────────────
+  Profile              Associated AWS Profile
+  [default]                 "default" 
+
+```
+
+Next, you'll see the following screen to select the AWS profile to use for Lambda function deployment. Choose default:
+```bash
+? Please create a new profile or overwrite the existing profile.
+ [default]                 "default"
+-------------------- Initialize CLI --------------------
+Setting up ask profile: [default]
+? Please choose one from the following AWS profiles for skill's Lambda function deployment.
+ 
+❯ default  
+  ──────────────
+  Skip AWS credential for ask-cli. 
+  Use the AWS environment variables. 
+  ──────────────
+
+
+```
+
+Next, you'll see a URL listed. You must use this URL to login to the developer console and obtain an Authorization Code. 
+ 
+```bash
+Paste the following url to your browser:
+         https://www.amazon.com/ap/oa?redirect_uri=https%3A%2F%2Fs3.amazonaws.com%2Fask-cli%2Fresponse_parser.html&scope=alexa%3A%3Aask%3Askills%3Areadwrite%20alexa%3A%3Aask%3Amodels%3Areadwrite%20alexa%3A%3Aask%3Askills%3Atest&state=Ask-SkillModel-ReadWrite&response_type=code&client_id=amzn1.application-oa2-client.aadxxxxxxxxb44bac56
+
+? Please enter the Authorization Code:  
+```
+
+If all goes well, you should see this on the command prompt:
+```bash
+? Please create a new profile or overwrite the existing profile.
+ [default]                 "default"
+-------------------- Initialize CLI --------------------
+Setting up ask profile: [default]
+? Please choose one from the following AWS profiles for skill's Lambda function deployment.
+ default
+Switch to 'Login with Amazon' page...
+Tokens fetched and recorded in ask-cli config.
+Vendor ID set as XXXXXXXXXX
+
+Profile [default] initialized successfully.
+ 
+```
+
+
+</details>
+
 
 You should now have a new directory, *reinvent_cvra_bootcamp* in your work direcrtory. Third, complete the 
 worksheet below *or*, if you are on macOS/Cloud9, you can use a utility in the reinvent_cvra_bootcamp to
@@ -253,78 +322,7 @@ dynamoDbClient=boto3.client('dynamodb')
 In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called ConnectedCar. First, you'll
 need to create an account on developer.amazon.com and initialize the ASK CLI if you haven't already done so.
 
-<details>
-<summary><strong>Initialize the ASK CLI (expand for details)</strong></summary>
-Issue the following command:
-```bash
-ask init --no-browser
-```
-
-You should now see this screen in the command prompt. This step isused to select your AWS profile. Choose the default profile.
-```bash
-(venv) jpdixonmbp:reinvent_cvra_bootcamp jpdixon$ ask init
-? Please create a new profile or overwrite the existing profile.
- (Use arrow keys)
-  ──────────────
-❯ Create new profile 
-  ──────────────
-  Profile              Associated AWS Profile
-  [default]                 "default" 
-
-```
-
-Next, you'll see the following screen to select the AWS profile to use for Lambda function deployment. Choose default:
-```bash
-(venv) jpdixonmbp:reinvent_cvra_bootcamp jpdixon$ ask init
-? Please create a new profile or overwrite the existing profile.
- [default]                 "default"
--------------------- Initialize CLI --------------------
-Setting up ask profile: [default]
-? Please choose one from the following AWS profiles for skill's Lambda function deployment.
- 
-❯ default 
-  dixonaws@amazon.com 
-  jpdixon@gmail.com 
-  ccdtw 
-  ──────────────
-  Skip AWS credential for ask-cli. 
-  Use the AWS environment variables. 
-  ──────────────
-
-
-```
-
-Next, you'll see a URL listed. You must use this URL to login to the developer console and obtain an Authorization Code. 
- 
-```bash
-Paste the following url to your browser:
-         https://www.amazon.com/ap/oa?redirect_uri=https%3A%2F%2Fs3.amazonaws.com%2Fask-cli%2Fresponse_parser.html&scope=alexa%3A%3Aask%3Askills%3Areadwrite%20alexa%3A%3Aask%3Amodels%3Areadwrite%20alexa%3A%3Aask%3Askills%3Atest&state=Ask-SkillModel-ReadWrite&response_type=code&client_id=amzn1.application-oa2-client.aad322b5faab44b980c8f87f94fbac56
-
-? Please enter the Authorization Code:  
-```
-
-If all goes well, you should see this on the command prompt:
-```bash
-(venv) jpdixonmbp:reinvent_cvra_bootcamp jpdixon$ ask init
-? Please create a new profile or overwrite the existing profile.
- [default]                 "default"
--------------------- Initialize CLI --------------------
-Setting up ask profile: [default]
-? Please choose one from the following AWS profiles for skill's Lambda function deployment.
- default
-Switch to 'Login with Amazon' page...
-Tokens fetched and recorded in ask-cli config.
-Vendor ID set as XXXXXXXXXX
-
-Profile [default] initialized successfully.
-(venv) jpdixonmbp:reinvent_cvra_bootcamp jpdixon$ 
-```
-
-
-</details>
-
-
-Once you have confirmed that your DynamoDB Trip table contains trip data withg getRecentTrips.py, and 
+Once you have confirmed that your DynamoDB Trip table contains trip data with getRecentTrips.py, and 
 initialized the Alexa Skills Kit CLI, issue the following command from your *work* directory 
 to clone the ConnectedCar skill. This command will create a new directory called ConnectedCarAlexa in the current directory:
 
@@ -339,7 +337,7 @@ ask deploy
 ```
 
 ### 3.3 Interact with ConnectedCar
-Open developer.amazon.com, login, and browse to you ConnectedCar Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You 
+Open developer.amazon.com, login, and browse to your ConnectedCar Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You 
 should be able to see the ConnectedCar skill that you deployed in the previous section. Open ConnectedCar and click 
 on "Test" near the top of the page. You can use this console to interact with an Alexa skill without using a 
 physical Echo devce -- via text or via voice. Try these interactions:
@@ -387,5 +385,5 @@ device). Here are some ideas to make enhancements and improvements from here:
 * Develop account linking for the ConnectedCar skill to read back information only for linked VINs
 * Create an authenticated API to access the VehicleTripTable (API Gateway, Lambda, Cognito)
 * Enhance the ConnectedCar Alexa skill to get the latest fuel prices in a certain location
-* Use AWS-hosted APIs to 
-* Deploy the solution with a real vehicle, using Greengrass and an OBDII interface!
+* Connect to other public APIs to enhance your Alexa skill
+* Deploy the CVRA solution with a real vehicle, using Greengrass and an OBDII interface!
