@@ -228,6 +228,8 @@ The payload is of the form:
 }
 ```
 
+<b>*** At this point, you can move on to Step 3 and integrate with the Connected Vehicle Reference Architecture with Alexa ***</b>
+
 ---
 
 ## 3. Deploy the ConnectedCar Alexa Skill (20 mins.)
