@@ -37,10 +37,7 @@ modify and extended it to fir their scenarios.
 > We recommend using a Cloud9 instance (hosted IDE) for the next steps, as it is bandwidth-friendly and helpful during troubleshooting!
 > Cloud9 is free-tier eligible
 
-First, login to the AWS console and create a new Cloud9 instance.
-create a *work directory* where you can download the git repository for this bootcamp,
-save the worksheet, make notes, etc. On my macOS system, I use ~/Developer/bootcamps (that is, /Users/dixonaws/Developer/bootcamps.) 
-Second, clone the git repository for this bootcamp:
+First, login to the AWS console and create a new Cloud9 instance. Second, from a bash prompt, clone the git repository for this bootcamp:
 ```bash
 git clone https://github.com/dixonaws/reinvent_cvra_bootcamp
 ```
@@ -50,10 +47,8 @@ Next, install the ASK CLI on your Cloud9 instance with:
 npm install ask-cli -g
 ```
 
-
-You should now have a new directory, *reinvent_cvra_bootcamp* in your work direcrtory. Make
-
-Third, complete the worksheet below *or*, if you are on macOS/Cloud9, you can use a utility in the reinvent_cvra_bootcamp to
+You should now have a new directory, *reinvent_cvra_bootcamp* in your work direcrtory. Third, complete the 
+worksheet below *or*, if you are on macOS/Cloud9, you can use a utility in the reinvent_cvra_bootcamp to
 check versions and create worksheet (called worksheet.txt) for you:
 ```bash
 chmod +x create_worksheet.sh
@@ -143,7 +138,7 @@ The payload is of the form:
 In this section, we'll deploy an Alexa skill called ConnectedCar that will read back information about 
 the three recent trips that you have taken. You must have the ASK-CLI installed to complete this part of the lab.
 
-### 3.1 Run a Python Program to Test Your Access
+### 3.1 Run a Python Program to Test Your Permissions and CVRA Installation
 First, you can use a Python program included with the reinvent_cvra_bootcamp repo, getRecentTrips.py, to 
 test your configuration sofar. The best way to run this program is within a Python Virtual Environment. For the 
 impatient, install a virtual environment, install the dependencies from requirements.txt, and run getRecentTrips.py.
