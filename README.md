@@ -42,6 +42,7 @@ with the ASK CLI that we'll install later.
 
 <details>
 <summary><strong>Detailed instructions to configure Cloud9 to use permenent credentials (expand for details)</strong></summary>
+
 1. Launch Cloud9
 2. Open Cloud9 Preferences by clicking AWS Cloud9 > Preference or by clicking on the "gear" icon in the upper right corner of the Cloud9 window
 3. Click "AWS Settings"
