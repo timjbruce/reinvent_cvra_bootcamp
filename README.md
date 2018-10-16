@@ -234,12 +234,15 @@ The payload is of the form:
 
 ## 3. Deploy the ConnectedCar Alexa Skill (20 mins.)
 In this section, we'll deploy an Alexa skill called ConnectedCar that will read back information about 
-the three recent trips that you have taken. You must have the ASK-CLI installed to complete this part of the lab.
+the three recent trips that you have taken. You must have the ASK-CLI installed and initialized to complete this part of the lab.
 
-### 3.1 Run a Python Program to Test Your Permissions and CVRA Installation
+### 3.1 Obtain App_id and App_code from developer.here.com
+Head over to developer.here.com, establish an account, and make note of your app_code and app_id in your worksheet for this bootcamp. 
+
+### 3.2 Run a Python Program to Test Your Permissions and CVRA Installation
 First, you can use a Python program included with the reinvent_cvra_bootcamp repo, getRecentTrips.py, to 
-test your configuration sofar. The best way to run this program is within a Python Virtual Environment. For the 
-impatient, install a virtual environment, install the dependencies from requirements.txt, and run getRecentTrips.py.
+test your configuration sofar. The best way to run this program is within a Python Virtual Environment. Install a Python 
+virtual environment, install the dependencies from requirements.txt, and run get_recent_trips.py.
 
 <details>
 <summary><strong>Step-by-step instructions (expand for details)</strong></summary>
@@ -282,7 +285,7 @@ dictItems is a <class 'list'>
 
 ```
 
-The getRecentTrips.py program simply queries your DynamoDB trip table, which is similar to the ConnectedCar skill that 
+The get_recent_trips.py program simply queries your DynamoDB trip table, which is similar to the ConnectedCar skill that 
 we'll deploy in the next section.
 <details>
 <summary><strong>Code details for getRecentTrips.py (expand for details)</strong></summary>
@@ -323,7 +326,7 @@ dynamoDbClient=boto3.client('dynamodb')
 </details>
 
 
-### 3.2 Deploy the Alexa Skill with the ASK-CLI
+### 3.3 Deploy the Alexa Skill with the ASK-CLI
 In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called ConnectedCar. First, you'll
 need to create an account on developer.amazon.com and initialize the ASK CLI if you haven't already done so.
 
@@ -345,7 +348,7 @@ ask deploy
 Open developer.amazon.com, login, and browse to your ConnectedCar Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You 
 should be able to see the ConnectedCar skill that you deployed in the previous section. Open ConnectedCar and click 
 on "Test" near the top of the page. You can use this console to interact with an Alexa skill without using a 
-physical Echo devce -- via text or via voice. Try these interactions:
+physical Echo device -- via text or via voice. Try these interactions:
 
 "Alexa, open ConnectedCar"
 
