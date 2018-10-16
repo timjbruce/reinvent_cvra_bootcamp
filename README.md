@@ -201,6 +201,8 @@ CVRA deployment through the AWS Console or by using the CLI with something like:
 aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]'
 ```
 
+<b>*** Now, you can move on to Step 2, Deploy the IoT Device Simulator ***</b>
+
 ---
  
 ## 2. Deploy the IoT Device Simulator and Generate Trip Data (30 mins.)
