@@ -345,20 +345,20 @@ ask deploy
 ```
 
 ### 3.4 Interact with ConnectedCar
-Open developer.amazon.com, login, and browse to your ConnectedCar Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You 
-should be able to see the ConnectedCar skill that you deployed in the previous section. Open ConnectedCar and click 
+Open developer.amazon.com, login, and browse to your AutoGuide Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You 
+should be able to see the AutoGuide skill that you deployed in the previous section. Open AutoGuide and click 
 on "Test" near the top of the page. You can use this console to interact with an Alexa skill without using a 
 physical Echo device -- via text or via voice. Try these interactions:
 
-"Alexa, open ConnectedCar"
+"Alexa, open AutoGuide"
 
-"Alexa, ask ConnectedCar about my car"
+"Alexa, ask AutoGuide about my car"
 
-"Alexa, ask ConnectedCar about my trip"
+"Alexa, ask AutoGuide about my trip"
 
 You can also test via the command line with this command:
 ```bash
-ask simulate --text "alexa, open connected car" --locale "en-US"
+ask simulate --text "alexa, open auto guide" --locale "en-US"
 ```
 
 ---
