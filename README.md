@@ -148,6 +148,7 @@ chmod +x create_worksheet.sh
 ```
 
 Now, you're ready to move on to Step 2 and deploy the Connected Vehicle Reference Architecture
+
 ---
 
 ## 1. Deploy the CVRA (15 mins.)
