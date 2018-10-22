@@ -335,7 +335,7 @@ initialized the Alexa Skills Kit CLI, issue the following command from your *wor
 to clone the ConnectedCar skill. This command will create a new directory called ConnectedCarAlexa in the current directory:
 
 ```bash
-ask new --skill-name "ConnectedCar" --url https://github.com/dixonaws/ConnectedCarAlexa.git  
+ask new --skill-name "AutoGuide" --url https://github.com/dixonaws/ConnectedCarAlexa.git  
 ```
 
 //todo
