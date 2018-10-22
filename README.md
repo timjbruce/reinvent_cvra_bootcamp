@@ -58,7 +58,15 @@ aws_secret_access_key = 2bacnfjjui689fwjek100009909922h
 region=us-east-1
 aws_session_token=
 ```
- 
+
+You should now be able to run AWS CLI commands using the credentials on your Cloud9 instance. For example run the following
+command from Cloud9's bash prompt:
+```bash
+aws s3 ls
+```
+
+...should return a list of the S3 buckets in your account.
+
 </details>
 <br>
 Next, clone the git repository for this bootcamp:
