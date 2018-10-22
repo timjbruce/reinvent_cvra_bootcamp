@@ -36,38 +36,6 @@ modify and extended it to fir their scenarios.
 > We recommend using a Cloud9 instance (hosted IDE) for the next steps, as it is bandwidth-friendly and helpful during troubleshooting!
 > Cloud9 is free-tier eligible
 
-The AWS CLI is already installed on Cloud9, so we just need to configure it with permanent credentials. This is needed for compatibility
-with the ASK CLI that we'll install later.
-
-<details>
-<summary><strong>Detailed instructions to configure Cloud9 to use permenent credentials (expand for details)</strong></summary>
-
-1. Launch Cloud9
-2. Open Cloud9 Preferences by clicking AWS Cloud9 > Preference or by clicking on the "gear" icon in the upper right corner of the Cloud9 window
-3. Click "AWS Settings"
-4. Disable "AWS managed temporary credentials" 
-5. Open a bash prompt and type ```aws configure```
-6. Enter the Access Key and Secret Access Key of a user that has AdministratorAccess credentials
-
-Verify that everything worked by examining the file ```~/.aws/credentials```. It should resemble the following:
-```bash
-[default]
-aws_access_key_id = ABCDEF1234567890
-aws_secret_access_key = 2bacnfjjui689fwjek100009909922h
-region=us-east-1
-aws_session_token=
-```
-
-You should now be able to run AWS CLI commands using the credentials on your Cloud9 instance. For example run the following
-command from Cloud9's bash prompt:
-```bash
-aws s3 ls
-```
-
-...should return a list of the S3 buckets in your account.
-
-</details>
-<br>
 Next, clone the git repository for this bootcamp:
 ```bash
 git clone https://github.com/dixonaws/reinvent_cvra_bootcamp
@@ -168,7 +136,7 @@ The payload is of the form:
 
 ## 3. Deploy the ConnectedCar Alexa Skill (20 mins.)
 In this section, we'll deploy an Alexa skill called ConnectedCar that will read back information about 
-the three recent trips that you have taken. You must have the ASK-CLI installed and initialized to complete this part of the lab.
+the three recent trips that you have taken and details about your car.
 
 ### 3.1 Obtain App_id and App_code from developer.here.com
 Head over to developer.here.com, establish an account, and make note of your app_code and app_id in your worksheet for this bootcamp. 
@@ -262,15 +230,11 @@ dynamoDbClient=boto3.client('dynamodb')
 
 ### 3.3 Deploy the Alexa Skill with the ASK-CLI
 In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called ConnectedCar. First, you'll
-need to create an account on developer.amazon.com and initialize the ASK CLI if you haven't already done so.
+need to create an account on developer.amazon.com if you haven't already done so.
 
-Once you have confirmed that your DynamoDB Trip table contains trip data with getRecentTrips.py, and 
-initialized the Alexa Skills Kit CLI, issue the following command from your *work* directory 
-to clone the ConnectedCar skill. This command will create a new directory called ConnectedCarAlexa in the current directory:
+Once you have confirmed that your DynamoDB Trip table contains trip data with getRecentTrips.py, follow these instructions 
+to create a new *custom* skill called "ConnectedCar" in your developer.amazon.com account: [Alexa Skills Kit Documentation](https://developer.amazon.com/docs/devconsole/create-a-skill-and-choose-the-interaction-model.html)
 
-```bash
-ask new --skill-name "AutoGuide" --url https://github.com/dixonaws/ConnectedCarAlexa.git  
-```
 
 //todo
 Modify ConnectedCar's Lambda function to use your DynamoDB table. Then simply deploy it with:

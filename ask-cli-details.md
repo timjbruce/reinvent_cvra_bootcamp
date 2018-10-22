@@ -70,3 +70,38 @@ Profile [default] initialized successfully.
 
 </details>
 <br>
+
+
+------
+
+he AWS CLI is already installed on Cloud9, so we just need to configure it with permanent credentials. This is needed for compatibility
+with the ASK CLI that we'll install later.
+
+<details>
+<summary><strong>Detailed instructions to configure Cloud9 to use permenent credentials (expand for details)</strong></summary>
+
+1. Launch Cloud9
+2. Open Cloud9 Preferences by clicking AWS Cloud9 > Preference or by clicking on the "gear" icon in the upper right corner of the Cloud9 window
+3. Click "AWS Settings"
+4. Disable "AWS managed temporary credentials" 
+5. Open a bash prompt and type ```aws configure```
+6. Enter the Access Key and Secret Access Key of a user that has AdministratorAccess credentials
+
+Verify that everything worked by examining the file ```~/.aws/credentials```. It should resemble the following:
+```bash
+[default]
+aws_access_key_id = ABCDEF1234567890
+aws_secret_access_key = 2bacnfjjui689fwjek100009909922h
+region=us-east-1
+aws_session_token=
+```
+
+You should now be able to run AWS CLI commands using the credentials on your Cloud9 instance. For example run the following
+command from Cloud9's bash prompt:
+```bash
+aws s3 ls
+```
+
+...should return a list of the S3 buckets in your account.
+
+</details>
