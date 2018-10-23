@@ -235,12 +235,33 @@ need to create an account on developer.amazon.com if you haven't already done so
 Once you have confirmed that your DynamoDB Trip table contains trip data with getRecentTrips.py, follow these instructions 
 to create a new *custom* skill called "ConnectedCar" in your developer.amazon.com account: [Alexa Skills Kit Documentation](https://developer.amazon.com/docs/devconsole/create-a-skill-and-choose-the-interaction-model.html)
 
-1. Open your ConnectedCar skill
-2. Under Interaciton Model, click "JSON Editor"
+Create the Intent Schema for your skill:
+1. From the developer console, open your ConnectedCar skill
+2. Under Interaction Model, click "JSON Editor"
 3. Paste the contents of the intent_schema.json file into the JSON Editor for the skill
 4. Click "Save Model"
+<br>
 
- 
+// todo: upload code with deps and modify IAM role
+Next, create the Lambda endpoint and Lambda function for your skill:
+1. From the developer console, open the ConnectedCar skill
+2. Under Interaction Model, click on "Endpoint"
+3. Open a new browser window and navigate to the AWS Console
+4. Create a new Lambda function called "ConnectedCarLambda"
+5. Use the Python code from ConnectedCarAlexa.py for your Lambda function 
+6. Copy the ARN of the "ConnectedCarLambda" function into the developer console endpoint field
+<br>
+
+Next, save and build your Alexa skill:
+1. From the ConnectedCar build page, click "Save Model"
+2. Once saved, click "Build Model"
+<br>
+
+Now you can test your new Alexa skill from the developer console:
+1. Open the ConnectedCar skill
+2. Click on "Test"
+3. Ensure that the slider indicates that "Test is enabled for this skill"
+4. Type "Alexa, open Connected Car" into the Simulator to launch the skill
 
 //todo
 Configure your ConnectedCar's Lambda function with an environment variable called VehicleTripTable with the name of your trip table in DynamoDB.
