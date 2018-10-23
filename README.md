@@ -228,7 +228,7 @@ dynamoDbClient=boto3.client('dynamodb')
 </details>
 
 
-### 3.3 Deploy the Alexa Skill with the ASK-CLI
+### 3.3 Deploy the Alexa Skill
 In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called ConnectedCar. First, you'll
 need to create an account on developer.amazon.com if you haven't already done so.
 
@@ -243,6 +243,10 @@ Create the Intent Schema for your skill:
 <br>
 
 // todo: upload code with deps and modify IAM role
+
+//todo
+Configure your ConnectedCar's Lambda function with an environment variable called VehicleTripTable with the name of your trip table in DynamoDB.
+
 Next, create the Lambda endpoint and Lambda function for your skill:
 1. From the developer console, open the ConnectedCar skill
 2. Under Interaction Model, click on "Endpoint"
@@ -257,20 +261,9 @@ Next, save and build your Alexa skill:
 2. Once saved, click "Build Model"
 <br>
 
-Now you can test your new Alexa skill from the developer console:
-1. Open the ConnectedCar skill
-2. Click on "Test"
-3. Ensure that the slider indicates that "Test is enabled for this skill"
-4. Type "Alexa, open Connected Car" into the Simulator to launch the skill
-
-//todo
-Configure your ConnectedCar's Lambda function with an environment variable called VehicleTripTable with the name of your trip table in DynamoDB.
-
-
-
 ### 3.4 Interact with ConnectedCar
-Open developer.amazon.com, login, and browse to your AutoGuide Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You 
-should be able to see the AutoGuide skill that you deployed in the previous section. Open AutoGuide and click 
+Open developer.amazon.com, login, and browse to your ConnectedCar Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You 
+should be able to see the ConnectedCar skill that you deployed in the previous section. Open ConnectedCar and click 
 on "Test" near the top of the page. You can use this console to interact with an Alexa skill without using a 
 physical Echo device -- via text or via voice. Try these interactions:
 
