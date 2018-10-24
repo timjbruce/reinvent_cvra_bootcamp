@@ -18,8 +18,8 @@ the workshop (can be done in Cloud9 or on your local machine):
 Due to AWS Service availability in certain Regions we suggest you use **US-EAST-1** for this workshop.
 
 ## Introduction
-This Bootcamp has five main parts as shown below. The intent
-of this Bootcamp is to help attendees understand what's "under the
+This Workshop has five main sections as shown below. The intent
+of this Workshop is to help attendees understand what's "under the
 hood" of the CVRA and the IoT Device Simulator so that they can
 modify and extended it to for their scenarios.
 
@@ -33,7 +33,7 @@ modify and extended it to for their scenarios.
 > If you have established an AWS account within the last 12 months, then this lab will be in the free tier. Otherwise, costs are anticipated to be less than $5.
 For the AMT303 workshop we will be providing Credits to covers costs at the end of the workshop.
 
-This workshop has been written as modules and therefore after deploying the CVRA and the IoT Device Simulator each exercise is independent.
+This workshop has been written as modular and therefore after deploying the CVRA and the IoT Device Simulator each exercise is independent.
 ---
 
 ## Cloud9 Preparation Steps (Optional)
@@ -125,15 +125,19 @@ You will need to setup the Mapbox Token within the IoT Device Simulator Web Port
 
 At this point, you can move on to the next steps where you will build a Fleet Management Function and build an Alexa Skill.
 
-## Step 2. Build the Fleet Management Function
+---
 
+## Building the Fleet Management Function
+Click on the link for the [Fleet Management](fleetManagement/README.md) workshop module instructions.
 
-## Step 3. Generate Trip Data
+---
+
+## Generate Trip Data
 Log into the IoT Device Simulator Web Console.
 
 *The URL and credentials would have been sent to you via an Email, the Email address is the one your defined in the Stack deployment.*
 
-From the left hand menu select *Automotive* and select ![Add Vehicles](addVehicles.png) at the top of the page, choose the number of vehicles you want to create and click **Sumbit**.
+From the left hand menu select *Automotive* and select **+ Add Vehicles** at the top of the page, choose the number of vehicles you want to create and click **Sumbit**.
 
 We suggest you provision 5 vehicles to simulate trip data. Each simulated
 vehicle will travel one of several paths that have been pre-defined by the IoT
@@ -153,11 +157,21 @@ The payload is of the form:
 }
 ```
 
-## Step 4. Deploy the ConnectedCar Alexa Skill
-For
+---
 
-## Step 5. Build the Remote Command Function
+## Deploy the ConnectedCar Alexa Skill
+Click on the link for the [Alexa Skill](AlexSkill/README.md) workshop module instructions.
 
+If you have skipped the Fleet Management module please make sure you follow the [instructions](#Generate-Trip-Data) to generate some trip data before you start this Alexa Skill module.
+
+---
+
+## Build the Remote Command Function
+Click on the link for the [Remote Command](remoteCommands/README.md) workshop module instructions.
+
+*For this module you will need to write your own Lambda functions and the instructions only provide you with code snippets*
+
+---
 
 ## Cleanup (10 mins)
 The last thing to do in this workshop is to clean up any resources that were deployed in your account.
