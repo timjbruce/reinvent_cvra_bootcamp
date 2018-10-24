@@ -1,34 +1,40 @@
-# AWS Connected Vehicle Reference Architecture Bootcamp
-During this Bootcamp, we'll take a deep dive into the AWS 
-Connected Vehicle Reference Architecture. Attendees will install it, 
-generate trip data from a simulated vehicle, and learn how 
-the data can be accessed with various other AWS services. In 
-this bootcamp, we'll access trip data using an Alexa skill.
+# AMT303 Deep Dive into the AWS Connected Vehicle Reference Solution Workshop
+During this Workshop, we'll take a deep dive into the AWS
+Connected Vehicle Reference Architecture. Attendees will install it,
+generate trip data from a simulated vehicle, and learn how
+the data can be accessed with various other AWS services. In
+this workshop, we'll access trip data using an Alexa skill.
 
 > #### Prerequisites
->We'll assume that you have some basic knowledge of AWS 
-services like IAM, Cloudformation, DynamoDB, S3, IoT, etc., 
-are comfortable using the AWS CLI, and have some knowledge 
+>We'll assume that you have some basic knowledge of AWS
+services like IAM, Cloudformation, DynamoDB, S3, IoT, etc.,
+are comfortable using the AWS CLI, and have some knowledge
 of Python. You'll also need to prepare the following for
-the workshop (can be done in Cloud9 or on your local machine): 
+the workshop (can be done in Cloud9 or on your local machine):
 >* Laptop running Windows or MacOS and Google Chrome or Mozilla Firefox (Safari, Internet Explorer, or Microsoft Edge are not recommended)
 >* An AWS account with Administrator Access
 >* The AWS CLI, configured with a user that has Administrator Access ([directions here](https://docs.aws.amazon.com/cli/latest/userguide/installing.html))
 >* Python, Virtualenv, git
 >* a HERE Maps app_code and app_id (register for a free account at [developer.here.com](developer.here.com))
+>* Mapbox Account (you will need the API Key for the IoT Simulator)
 
 ## Introduction
-This Bootcamp has four main parts as shown below. The intent 
-of this Bootcamp is to help attendees understand what's "under the 
-hood" of the CVRA and the IoT Device Simulator so that they can 
-modify and extended it to fir their scenarios. 
-1. Deploy the CVRA (15 mins.)
-2. Install the IoT Device Simulator and Generate Trip Data (30 mins.)
-3. Deploy the ConnectedCar Alexa Skill (20 mins.)
-4. Cleanup (10 mins.)
-5. Review Ideas for Customization and Enhancement
+This Bootcamp has four main parts as shown below. The intent
+of this Bootcamp is to help attendees understand what's "under the
+hood" of the CVRA and the IoT Device Simulator so that they can
+modify and extended it to for their scenarios.
 
-> If you have established an AWS account within the last 12 months, then this lab will be in the free tier. Otherwise, costs are anticipated to be less than $5
+1. Deploy the CVRA (15 mins.)
+2. Install the IoT Device Simulator
+3. Build the Fleet Management Function
+4. Generate Trip Data (30 mins.)
+5. Deploy the ConnectedCar Alexa Skill (20 mins.)
+6. Build the remote command function
+7. Cleanup (10 mins.)
+8. Review Ideas for Customization and Enhancement
+
+> If you have established an AWS account within the last 12 months, then this lab will be in the free tier. Otherwise, costs are anticipated to be less than $5.
+For the AMT303 workshop we will be providing Credits to covers costs at the end.
 
 ---
 
@@ -41,7 +47,7 @@ Next, clone the git repository for this bootcamp:
 git clone https://github.com/dixonaws/reinvent_cvra_bootcamp
 ```
 
-You should now have a new directory, *reinvent_cvra_bootcamp* in your work directory. Third, complete the 
+You should now have a new directory, *reinvent_cvra_bootcamp* in your work directory. Third, complete the
 worksheet below *or*, if you are on macOS/Cloud9, you can use a utility in the reinvent_cvra_bootcamp to
 check versions and create worksheet (called worksheet.txt) for you:
 ```bash
@@ -55,17 +61,17 @@ chmod +x create_worksheet.sh
 
 ## 1. Deploy the CVRA (15 mins.)
 Let's deploy the Connected Vehicle Reference Architecture (CVRA).
- Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html), deploy 
+ Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html), deploy
  the CVRA in an AWS account where you have administrator access.
 The CVRA comes with a Cloudformation template that deploys and configures
 all of the AWS services necessary to ingest, store, process, and
 analyze data at scale from IoT devices. Automotive use cases aside,
-the CVRA provides a useful example of how to secure connect an 
-IoT device, perform JITR (Just in Time Registration), use 
-Kinesis Analytics to query streams of data, use an IoT rule to 
+the CVRA provides a useful example of how to secure connect an
+IoT device, perform JITR (Just in Time Registration), use
+Kinesis Analytics to query streams of data, use an IoT rule to
 store data in S3, etc.
 
-The CVRA Cloudformation 
+The CVRA Cloudformation
 template returns these outputs:
 
 | Key | Value | Description | Associated AWS Service
@@ -97,26 +103,28 @@ The output should resemble something like this:
 ]
 ```
 
-We're interested in the *VehicleTripTable* -- a table in DynamoDB. You can view the outputs from your 
+We're interested in the *VehicleTripTable* -- a table in DynamoDB. You can view the outputs from your
 CVRA deployment through the AWS Console or by using the CLI with something like:
 ```bash
 aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]'
 ```
 
-<b>*** Now, you can move on to Step 2, Deploy the IoT Device Simulator ***</b>
+*** Now, you can move on to Step 2, Deploy the IoT Device Simulator ***
 
 ---
- 
+
 ## 2. Deploy the IoT Device Simulator and Generate Trip Data (30 mins.)
-In this section, you'll install and configure the AWS IoT Device Simulator to generate 
-trip data. [Follow these directions](https://aws.amazon.com/answers/iot/iot-device-simulator/) 
+In this section, you'll install and configure the AWS IoT Device Simulator to generate
+trip data. [Follow these directions](https://aws.amazon.com/answers/iot/iot-device-simulator/)
 to install the simulator in your own AWS account.
 
-You can provision up to 25 vehicles to simulate trip data. Each simulated
-vehicle will travel one of several paths that have been pre-defined by the IoT
-device simulator. 
+You will need to setup the Mapbox API within the IoT Device Simulator Web Portal. For detail instructions of how to do this [follow these instructions](/Mapbox/README.md).
 
-The CVRA expects data to be published to a topic called: `connectedcar/telemetry/<VIN>` The 
+We suggest you provision up to 5 vehicles to simulate trip data. Each simulated
+vehicle will travel one of several paths that have been pre-defined by the IoT
+device simulator.
+
+The CVRA expects data to be published to a topic called: `connectedcar/telemetry/<VIN>` The
 device simulator allows you to simulate a number of vehicles and generate trip data.
 The payload is of the form:
 
@@ -135,15 +143,19 @@ The payload is of the form:
 ---
 
 ## 3. Deploy the ConnectedCar Alexa Skill (20 mins.)
-In this section, we'll deploy an Alexa skill called ConnectedCar that will read back information about 
+In this section, we'll deploy an Alexa skill called ConnectedCar that will read back information about
 the three recent trips that you have taken and details about your car.
 
 ### 3.1 Obtain App_id and App_code from developer.here.com
-Head over to developer.here.com, establish a freemium account, and make note of your app_code and app_id in your worksheet for this bootcamp. 
+<<<<<<< HEAD
+Head over to developer.here.com, establish an account, and make note of your app_code and app_id in your worksheet for this bootcamp.
+=======
+Head over to developer.here.com, establish a freemium account, and make note of your app_code and app_id in your worksheet for this bootcamp.
+>>>>>>> 2bb8fb607a8cd7a484679b7999eab6ab9d018c60
 
 ### 3.2 Run a Python Program to Test Your Permissions and CVRA Installation
-First, you can use a Python program included with the reinvent_cvra_bootcamp repo, getRecentTrips.py, to 
-test your configuration sofar. The best way to run this program is within a Python Virtual Environment. Install a Python 
+First, you can use a Python program included with the reinvent_cvra_bootcamp repo, getRecentTrips.py, to
+test your configuration sofar. The best way to run this program is within a Python Virtual Environment. Install a Python
 virtual environment, install the dependencies from requirements.txt, and run get_recent_trips.py.
 
 <details>
@@ -166,7 +178,7 @@ Run the program:
 python3 get_recent_trips.py --VehicleTripTable <TripTable> --HereAppId <app id> --HereAppCode <app code>
 ```
 
-Or, if you wanted to be very clever using your <i>bash ninja warrior skills</i>, you could do something like this on the bash prompt: 
+Or, if you wanted to be very clever using your <i>bash ninja warrior skills</i>, you could do something like this on the bash prompt:
 
 ```bash
 python3 getRecentTrips.py --VehicleTripTable `aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]' |grep 'Vehicle Trip table' |awk -F "|" '{print $4}'` --HereAppId <app id> --HereAppCode <app code>
@@ -187,15 +199,15 @@ dictItems is a <class 'list'>
 
 ```
 
-The get_recent_trips.py program simply queries your DynamoDB trip table, which is similar to the ConnectedCar skill that 
+The get_recent_trips.py program simply queries your DynamoDB trip table, which is similar to the ConnectedCar skill that
 we'll deploy in the next section.
 <details>
 <summary><strong>Code details for getRecentTrips.py (expand for details)</strong></summary>
-Have a look at the code listing for getRecentTrips.py. The guts 
+Have a look at the code listing for getRecentTrips.py. The guts
 are similar to the ConnectedCar skill that we'll deploy in the next
 step, particularly the call to <i>scan</i> the DynamoDB trip table:
 
-```python 
+```python
 dynamoDbClient=boto3.client('dynamodb')
 
     response=dynamoDbClient.scan(
@@ -219,11 +231,11 @@ dynamoDbClient=boto3.client('dynamodb')
     print("dictItems is a " + str(type(dictItems)))
 
 ```
-> An improvement here for production applications would be to 
-> query the DynamoDB table instead of scanning it, per the 
-> [best practices for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html). 
-> You may even elect to create an API layer in front of the 
-> DynamoDB table so that other applications can use the 
+> An improvement here for production applications would be to
+> query the DynamoDB table instead of scanning it, per the
+> [best practices for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html).
+> You may even elect to create an API layer in front of the
+> DynamoDB table so that other applications can use the
 > data.
 </details>
 
@@ -232,7 +244,7 @@ dynamoDbClient=boto3.client('dynamodb')
 In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called ConnectedCar. First, you'll
 need to create an account on developer.amazon.com if you haven't already done so.
 
-Once you have confirmed that your DynamoDB Trip table contains trip data with getRecentTrips.py, follow these instructions 
+Once you have confirmed that your DynamoDB Trip table contains trip data with getRecentTrips.py, follow these instructions
 to create a new *custom* skill called "ConnectedCar" in your developer.amazon.com account: [Alexa Skills Kit Documentation](https://developer.amazon.com/docs/devconsole/create-a-skill-and-choose-the-interaction-model.html)
 
 Create the Intent Schema for your skill:
@@ -259,11 +271,11 @@ Next, create the Lambda endpoint and Lambda function for your skill:
 1. From the Alexa Developer Console, open the ConnectedCar skill
 2. Under Interaction Model, click on "Endpoint"
 3. Open a new browser window and navigate to the AWS Console
-4. Create a new Lambda function called "ConnectedCarLambda" choosing "Author from scratch" and an existing role 
-5. For "Code entry type" choose to upload a .zip file and use the deployment package that you create in the previous step 
+4. Create a new Lambda function called "ConnectedCarLambda" choosing "Author from scratch" and an existing role
+5. For "Code entry type" choose to upload a .zip file and use the deployment package that you create in the previous step
 6. For "Execution role", choose to create a new role and attach the following policies
 * AmazonDynamoDBReadOnlyAccess
-* AWSLambdaBasicExecution 
+* AWSLambdaBasicExecution
 7. Modify the handler for the function to be ```ConnectedCarLambda.lambda_handler```
 8. Create four environment variables in your Lambda function: VehicleTripTable, AppCode, and AppId, Region
 
@@ -276,9 +288,9 @@ Navigate back to the Alexa Developer Console, save and build your Alexa skill:
 <br>
 
 ### 3.4 Interact with ConnectedCar
-Open developer.amazon.com, login, and browse to your ConnectedCar Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You 
-should be able to see the ConnectedCar skill that you deployed in the previous section. Open ConnectedCar and click 
-on "Test" near the top of the page. You can use this console to interact with an Alexa skill without using a 
+Open developer.amazon.com, login, and browse to your ConnectedCar Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You
+should be able to see the ConnectedCar skill that you deployed in the previous section. Open ConnectedCar and click
+on "Test" near the top of the page. You can use this console to interact with an Alexa skill without using a
 physical Echo device -- via text or via voice. Try these interactions:
 
 ```
@@ -294,12 +306,12 @@ You can also test via the command line with this command:
 ask simulate --text "alexa, open <your skill>" --locale "en-US"
 ```
 
-> Testing from the command line is handy for use in automated build pipelines 
+> Testing from the command line is handy for use in automated build pipelines
 
 ---
 
 ## 4. Cleanup (10 mins.)
-The last thing to do in this bootcamp is to clean up any resources that were deployed in your account. 
+The last thing to do in this bootcamp is to clean up any resources that were deployed in your account.
 From your worksheet, delete the following Cloudformation stacks:
 * Your CVRA Cloudformation stack
 * Your vehicle simulator Cloudformation stack
@@ -321,9 +333,9 @@ Also be sure to delete the following:
 
 ## 5. Ideas for Customization and Enhancement
 Hopefully, you were able to learn how to make use
-of the data collected by a simulated connected vehicle (and ultimately any connected 
+of the data collected by a simulated connected vehicle (and ultimately any connected
 device). Here are some ideas to make enhancements and improvements from here:
-* Enhance the Alexa skill to read values from many different cars 
+* Enhance the Alexa skill to read values from many different cars
 * Adjust the IAM roles for more granular permissions
 * Develop account linking for the ConnectedCar skill to read back information only for linked VINs
 * Create an authenticated API to access the VehicleTripTable (API Gateway, Lambda, Cognito)
