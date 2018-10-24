@@ -267,11 +267,13 @@ should be able to see the ConnectedCar skill that you deployed in the previous s
 on "Test" near the top of the page. You can use this console to interact with an Alexa skill without using a 
 physical Echo device -- via text or via voice. Try these interactions:
 
+```
 "Alexa, open <your skill name>"
 
 "Alexa, ask <your skill> about my car"
 
 "Alexa, ask <your skill> about my trips"
+```
 
 You can also test via the command line with this command:
 ```bash
