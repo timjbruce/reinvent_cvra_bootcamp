@@ -149,14 +149,14 @@ virtual environment, install the dependencies from requirements.txt, and run get
 <details>
 <summary><strong>Step-by-step instructions (expand for details)</strong></summary>
 <p>
-Install and activate Python virtual environment in ./venv (macOS):
+Install and activate Python virtual environment in ./venv:
 
 ```bash
 virtualenv venv
 source venv/bin/activate
 ```
 
-Install dependencies (macOS):
+Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
