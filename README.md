@@ -245,8 +245,8 @@ Create the Intent Schema for your skill:
 #### 3.3.1 Create a Deployment Package for Your Lambda Function
 You will need to create a deployment package, instructions here: https://aws.amazon.com/premiumsupport/knowledge-center/build-python-lambda-deployment-package/
 Install the following dependencies in your ConnectedCarLambda directory:
-requests
-boto3
+* requests
+* boto3
 
 From within your ConnectedCarLambda directory, create a deployment package for your skill code with the following command:
 ```bash
@@ -261,7 +261,9 @@ Next, create the Lambda endpoint and Lambda function for your skill:
 3. Open a new browser window and navigate to the AWS Console
 4. Create a new Lambda function called "ConnectedCarLambda" choosing "Author from scratch" and an existing role 
 5. For "Code entry type" choose to upload a .zip file and use the deployment package that you create in the previous step 
-6. For "Execution role", choose to create a new role and attach the AmazonDynamoDBReadOnlyAccess and AWSLambdaBasicExecution policies 
+6. For "Execution role", choose to create a new role and attach the following policies
+* AmazonDynamoDBReadOnlyAccess
+* AWSLambdaBasicExecution 
 7. Modify the handler for the function to be ```ConnectedCarLambda.lambda_handler```
 8. Create four environment variables in your Lambda function: VehicleTripTable, AppCode, and AppId, Region
 
