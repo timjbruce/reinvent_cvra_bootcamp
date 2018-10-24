@@ -243,7 +243,7 @@ Create the Intent Schema for your skill:
 <br>
 
 #### 3.3.1 Create a Deployment Package for Your Lambda Function
-You will need to create a deployment package, instructions here: https://aws.amazon.com/premiumsupport/knowledge-center/build-python-lambda-deployment-package/
+You will need to create a deployment package, instructions here: [Build an AWS Lambda Deployment Package for Python](https://aws.amazon.com/premiumsupport/knowledge-center/build-python-lambda-deployment-package/)
 Install the following dependencies in your ConnectedCarLambda directory:
 * requests
 * boto3
