@@ -1,5 +1,5 @@
 # Overview
-This part of the lab will build the additional components to store trip data and provide a Fleet Admin dashboard.
+This part of the lab we will build the additional components to store trip data and provide a Fleet Admin dashboard.
 
 ## Step 1 - Create DynamoDB Tables, Lambda Function and update an IoT Rule
 The following steps will guide you through creating two new DynamoDB tables, a Lambda function with the required IAM Role and Policy. Then we will update an IoT rules created by the CVRA CloudFormation template to store trip telemetry and route data into the new tables.
