@@ -1,5 +1,5 @@
 # IoT Simulator Map Box instructions
-The following instructions provide a guide on adding the MapBox API to the IoT Simulator.
+The following instructions provide a guide on adding the MapBox Token to the IoT Simulator.
 
 ## Getting the MapBox API Key
 
@@ -7,7 +7,7 @@ The following instructions provide a guide on adding the MapBox API to the IoT S
 
  Once logged into mapbox.com click on *Account*
 
- Scroll down to Access token and copy the default token.
+ Scroll down to Access Token and copy the default token.
 
  ![Access Token](accesstoken.png)
 

@@ -16,7 +16,7 @@ the workshop (can be done in Cloud9 or on your local machine):
 >* The AWS CLI, configured with a user that has Administrator Access ([directions here](https://docs.aws.amazon.com/cli/latest/userguide/installing.html))
 >* Python, Virtualenv, git
 >* a HERE Maps app_code and app_id (register for a free account at [developer.here.com](developer.here.com))
->* Mapbox Account (you will need the API Key for the IoT Simulator)
+>* Mapbox Account (you will need a Token for the IoT Simulator)
 
 ## Introduction
 This Bootcamp has four main parts as shown below. The intent
@@ -120,7 +120,7 @@ to install the simulator in your own AWS account.
 
 **Please note that you will need to enter an Email address you have access to in the workshop while deploying the Stack. Once the stack has deployed you will receive an Email with login instructions.**
 
-You will need to setup the Mapbox API within the IoT Device Simulator Web Portal. For detail instructions of how to do this [follow these instructions](/Mapbox/README.md).
+You will need to setup the Mapbox Token within the IoT Device Simulator Web Portal. For detail instructions of how to do this [follow these instructions](/Mapbox/README.md).
 
 We suggest you provision up to 5 vehicles to simulate trip data. Each simulated
 vehicle will travel one of several paths that have been pre-defined by the IoT
