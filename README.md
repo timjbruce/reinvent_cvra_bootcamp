@@ -34,7 +34,6 @@ modify and extended it to for their scenarios.
 For the AMT303 workshop we will be providing Credits to covers costs at the end of the workshop.
 
 This workshop has been written as modular and therefore after deploying the CVRA and the IoT Device Simulator each exercise is independent.
-
 ---
 
 ## Cloud9 Preparation Steps (Optional)
@@ -134,6 +133,8 @@ Click on the link for the [Fleet Management](fleetManagement/README.md) workshop
 ---
 
 ## Generate Trip Data
+If you have generated trips as part of the Fleet Management module you can skip this step.
+
 Log into the IoT Device Simulator Web Console.
 
 *The URL and credentials would have been sent to you via an Email, the Email address is the one your defined in the Stack deployment.*
