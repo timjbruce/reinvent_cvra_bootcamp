@@ -252,7 +252,7 @@ Next, create the Lambda endpoint and Lambda function for your skill:
 2. Under Interaction Model, click on "Endpoint"
 3. Open a new browser window and navigate to the AWS Console
 4. Create a new Lambda function called "ConnectedCarLambda"
-5. Use the Python code from ConnectedCarAlexa.py for your Lambda function 
+5. Use the Python code from ConnectedCarLambda.py for your Lambda function 
 6. Copy the ARN of the "ConnectedCarLambda" function into the developer console endpoint field
 <br>
 
@@ -267,15 +267,15 @@ should be able to see the ConnectedCar skill that you deployed in the previous s
 on "Test" near the top of the page. You can use this console to interact with an Alexa skill without using a 
 physical Echo device -- via text or via voice. Try these interactions:
 
-"Alexa, open AutoGuide"
+"Alexa, open <your skill name>"
 
-"Alexa, ask AutoGuide about my car"
+"Alexa, ask <your skill> about my car"
 
-"Alexa, ask AutoGuide about my trip"
+"Alexa, ask <your skill> about my trips"
 
 You can also test via the command line with this command:
 ```bash
-ask simulate --text "alexa, open auto guide" --locale "en-US"
+ask simulate --text "alexa, open <your skill>" --locale "en-US"
 ```
 
 ---
