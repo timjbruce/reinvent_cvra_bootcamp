@@ -260,9 +260,10 @@ Next, create the Lambda endpoint and Lambda function for your skill:
 2. Under Interaction Model, click on "Endpoint"
 3. Open a new browser window and navigate to the AWS Console
 4. Create a new Lambda function called "ConnectedCarLambda" choosing "Author from scratch" and an existing role 
-5. For "Code entry type" choose to upload a .zip file. Use the deployment package that you create in the previous step. 
-6. Modify the handler for the function to be ```ConnectedCarLambda.lambda_handler```
-7. Create four environment variables in your Lambda function: VehicleTripTable, AppCode, and AppId, Region
+5. For "Code entry type" choose to upload a .zip file and use the deployment package that you create in the previous step 
+6. For "Execution role", choose to create a new role and attach the AmazonDynamoDBReadOnlyAccess and AWSLambdaBasicExecution policies 
+7. Modify the handler for the function to be ```ConnectedCarLambda.lambda_handler```
+8. Create four environment variables in your Lambda function: VehicleTripTable, AppCode, and AppId, Region
 
 <br>
 
@@ -290,6 +291,8 @@ You can also test via the command line with this command:
 ```bash
 ask simulate --text "alexa, open <your skill>" --locale "en-US"
 ```
+
+> Testing from the command line is handy for use in automated build pipelines 
 
 ---
 
@@ -324,4 +327,5 @@ device). Here are some ideas to make enhancements and improvements from here:
 * Create an authenticated API to access the VehicleTripTable (API Gateway, Lambda, Cognito)
 * Enhance the ConnectedCar Alexa skill to get the latest fuel prices in a certain location
 * Connect to other public APIs to enhance your Alexa skill
+* Create a deployment pipeline for your Alexa skill and Lambda function
 * Deploy the CVRA solution with a real vehicle, using Greengrass and an OBDII interface!
