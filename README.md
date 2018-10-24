@@ -34,6 +34,7 @@ modify and extended it to for their scenarios.
 For the AMT303 workshop we will be providing Credits to covers costs at the end of the workshop.
 
 This workshop has been written as modular and therefore after deploying the CVRA and the IoT Device Simulator each exercise is independent.
+
 ---
 
 ## Cloud9 Preparation Steps (Optional)
