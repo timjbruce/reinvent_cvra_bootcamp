@@ -49,7 +49,7 @@ chmod +x create_worksheet.sh
 ./create_worksheet.sh
 ```
 
-<b>*** Now, you're ready to move on to Step 2 and deploy the Connected Vehicle Reference Architecture *** </b>
+<b>*** Now, you're ready to move on to the next step and deploy the Connected Vehicle Reference Architecture *** </b>
 
 ---
 
