@@ -242,21 +242,31 @@ Create the Intent Schema for your skill:
 4. Click "Save Model"
 <br>
 
-// todo: upload code with deps and modify IAM role
+#### 3.3.1 Create a Deployment Package for Your Lambda Function
+You will need to create a deployment package, instructions here: https://aws.amazon.com/premiumsupport/knowledge-center/build-python-lambda-deployment-package/
+Install the following dependencies in your ConnectedCarLambda directory:
+requests
+boto3
 
-//todo
-Configure your ConnectedCar's Lambda function with an environment variable called VehicleTripTable with the name of your trip table in DynamoDB.
+From within your ConnectedCarLambda directory, create a deployment package for your skill code with the following command:
+```bash
+zip -r ../ConnectedCarLambdaPackage.zip .
+```
+
+This command will create a deployment package in your reinvent_cvra_bootcamp directory. Use it in the next step to upload to Lambda.
 
 Next, create the Lambda endpoint and Lambda function for your skill:
 1. From the developer console, open the ConnectedCar skill
 2. Under Interaction Model, click on "Endpoint"
 3. Open a new browser window and navigate to the AWS Console
-4. Create a new Lambda function called "ConnectedCarLambda"
-5. Use the Python code from ConnectedCarLambda.py for your Lambda function 
-6. Copy the ARN of the "ConnectedCarLambda" function into the developer console endpoint field
+4. Create a new Lambda function called "ConnectedCarLambda" choosing "Author from scratch" and an existing role 
+5. For "Code entry type" choose to upload a .zip file. Use the deployment package that you create in the previous step. 
+6. Modify the handler for the function to be ```ConnectedCarLambda.lambda_handler```
+7. Create four environment variables in your Lambda function: VehicleTripTable, AppCode, and AppId, Region
+8. Copy the ARN of the "ConnectedCarLambda" function into the developer console endpoint field
 <br>
 
-Next, save and build your Alexa skill:
+Navigate back to the Alexa Developer Console, save and build your Alexa skill:
 1. From the ConnectedCar build page, click "Save Model"
 2. Once saved, click "Build Model"
 <br>
