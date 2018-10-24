@@ -256,19 +256,20 @@ zip -r ../ConnectedCarLambdaPackage.zip .
 This command will create a deployment package in your reinvent_cvra_bootcamp directory. Use it in the next step to upload to Lambda.
 
 Next, create the Lambda endpoint and Lambda function for your skill:
-1. From the developer console, open the ConnectedCar skill
+1. From the Alexa Developer Console, open the ConnectedCar skill
 2. Under Interaction Model, click on "Endpoint"
 3. Open a new browser window and navigate to the AWS Console
 4. Create a new Lambda function called "ConnectedCarLambda" choosing "Author from scratch" and an existing role 
 5. For "Code entry type" choose to upload a .zip file. Use the deployment package that you create in the previous step. 
 6. Modify the handler for the function to be ```ConnectedCarLambda.lambda_handler```
 7. Create four environment variables in your Lambda function: VehicleTripTable, AppCode, and AppId, Region
-8. Copy the ARN of the "ConnectedCarLambda" function into the developer console endpoint field
+
 <br>
 
 Navigate back to the Alexa Developer Console, save and build your Alexa skill:
-1. From the ConnectedCar build page, click "Save Model"
-2. Once saved, click "Build Model"
+1. Copy the ARN of the "ConnectedCarLambda" function into the developer console endpoint field
+2. From the ConnectedCar build page, click "Save Model"
+3. Once saved, click "Build Model"
 <br>
 
 ### 3.4 Interact with ConnectedCar
