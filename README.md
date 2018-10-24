@@ -166,12 +166,12 @@ Run the program:
 python getRecentTrips.py --VehicleTripTable <TripTable> --HereAppId <app id> --HereAppCode <app code>
 ```
 
-Or, if you wanted to be very clever using your <i>ninja bash skills</i>, you could do something like this on the bash prompt: 
+Or, if you wanted to be very clever using your <i>bash ninja warrior skills</i>, you could do something like this on the bash prompt: 
 
 ```bash
 python3 getRecentTrips.py --VehicleTripTable `aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]' |grep 'Vehicle Trip table' |awk -F "|" '{print $4}'` --HereAppId <app id> --HereAppCode <app code>
 ```
-> Quote trifecta: Note the tricky combination of backticks, single quotes, AND double quotes!
+> Quote trifecta: bash ninjas will note the tricky combination of backticks, single quotes, AND double quotes!
 </p>
 </details>
 <br>
@@ -243,7 +243,7 @@ Create the Intent Schema for your skill:
 <br>
 
 #### 3.3.1 Create a Deployment Package for Your Lambda Function
-You will need to create a deployment package, instructions here: [Build an AWS Lambda Deployment Package for Python](https://aws.amazon.com/premiumsupport/knowledge-center/build-python-lambda-deployment-package/)
+You will need to create a deployment package, instructions here: [Build an AWS Lambda Deployment Package for Python](https://aws.amazon.com/premiumsupport/knowledge-center/build-python-lambda-deployment-package/).
 Install the following dependencies in your ConnectedCarLambda directory:
 * requests
 * boto3
