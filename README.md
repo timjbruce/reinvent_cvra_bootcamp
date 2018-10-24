@@ -118,6 +118,8 @@ In this section, you'll install and configure the AWS IoT Device Simulator to ge
 trip data. [Follow these directions](https://aws.amazon.com/answers/iot/iot-device-simulator/)
 to install the simulator in your own AWS account.
 
+**Please note that you will need to enter an Email address you have access to in the workshop while deploying the Stack. Once the stack has deployed you will receive an Email with login instructions.**
+
 You will need to setup the Mapbox API within the IoT Device Simulator Web Portal. For detail instructions of how to do this [follow these instructions](/Mapbox/README.md).
 
 We suggest you provision up to 5 vehicles to simulate trip data. Each simulated
