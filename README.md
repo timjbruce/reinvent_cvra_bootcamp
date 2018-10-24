@@ -41,7 +41,7 @@ Next, clone the git repository for this bootcamp:
 git clone https://github.com/dixonaws/reinvent_cvra_bootcamp
 ```
 
-You should now have a new directory, *reinvent_cvra_bootcamp* in your work direcrtory. Third, complete the 
+You should now have a new directory, *reinvent_cvra_bootcamp* in your work directory. Third, complete the 
 worksheet below *or*, if you are on macOS/Cloud9, you can use a utility in the reinvent_cvra_bootcamp to
 check versions and create worksheet (called worksheet.txt) for you:
 ```bash
