@@ -163,7 +163,7 @@ pip install -r requirements.txt
 
 Run the program:
 ```bash
-python getRecentTrips.py --VehicleTripTable <TripTable> --HereAppId <app id> --HereAppCode <app code>
+python3 get_recent_trips.py --VehicleTripTable <TripTable> --HereAppId <app id> --HereAppCode <app code>
 ```
 
 Or, if you wanted to be very clever using your <i>bash ninja warrior skills</i>, you could do something like this on the bash prompt: 
