@@ -36,7 +36,7 @@ For the AMT303 workshop we will be providing Credits to covers costs at the end 
 This workshop has been written as modular and therefore after deploying the CVRA and the IoT Device Simulator each exercise is independent.
 ---
 
-## Cloud9 Preparation Steps (Optional)
+## Cloud9 Preparation Steps
 > We recommend using a Cloud9 instance (hosted IDE) for the next steps, as it is bandwidth-friendly and helpful during troubleshooting!
 > Cloud9 is free-tier eligible
 
@@ -60,15 +60,18 @@ chmod +x create_worksheet.sh
 ## Step 1. Deploy the CVRA and IoT Device Simulator
 ### Deploying the CVRA
 Let's deploy the Connected Vehicle Reference Architecture (CVRA).
- Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html), deploy
+Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html), deploy
  the CVRA in an AWS account where you have administrator access.
-We'll use "cvra-demo" for the stack name in this lab. The CVRA comes with a Cloudformation template that deploys and configures
+We'll use *cvra-demo* for the stack name in this lab. The CVRA comes with a Cloudformation template that deploys and configures
 all of the AWS services necessary to ingest, store, process, and
 analyze data at scale from IoT devices. Automotive use cases aside,
 the CVRA provides a useful example of how to secure connect an
 IoT device, perform JITR (Just in Time Registration), use
 Kinesis Analytics to query streams of data, use an IoT rule to
 store data in S3, etc.
+
+> Important: use the cvra-cloudformation.yaml that is included with this repository instead of the one 
+> referenced in the instructions linked above.
 
 The CVRA Cloudformation
 template returns these outputs:
