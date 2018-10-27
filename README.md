@@ -61,7 +61,7 @@ chmod +x create_worksheet.sh
 ### Deploying the CVRA
 Let's deploy the Connected Vehicle Reference Architecture (CVRA).
 Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html), deploy
- the CVRA in an AWS account where you have administrator access.
+ the CVRA in an AWS account where you have administrator access. *Important* Use the cvra-cloudformation that is included with this repository instead of the one referenced in the instructions.
 We'll use *cvra-demo* for the stack name in this lab. The CVRA comes with a Cloudformation template that deploys and configures
 all of the AWS services necessary to ingest, store, process, and
 analyze data at scale from IoT devices. Automotive use cases aside,
