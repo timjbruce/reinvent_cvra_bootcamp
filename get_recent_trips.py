@@ -106,7 +106,7 @@ def main():
 	listTrips.sort(key=sortFunc)
 
 	intRecordCount = json.dumps(response['Count'])
-	print("Found " + str(intRecordCount) + " items in the trip table.")
+	print("Received " + str(intRecordCount) + " items in the trip table.")
 	print("listItems is a " + str(type(listTrips)))
 
 	intTripNumber = 1
