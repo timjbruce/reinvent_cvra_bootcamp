@@ -103,7 +103,7 @@ def main():
 	# print(strJsonResponse)
 
 	# sort the list by timestamp
-	listTrips.sort(key=sortFunc)
+	listTrips.sort(key=sortFunc, reverse=True)
 
 	intRecordCount = json.dumps(response['Count'])
 	print("Received " + str(intRecordCount) + " items in the trip table.")
