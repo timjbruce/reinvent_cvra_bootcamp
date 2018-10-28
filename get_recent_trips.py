@@ -79,10 +79,12 @@ def main():
 	intStartTime = int(time.time())
 
 	response = []
+
 	try:
 		response = dynamoDbClient.scan(
 			TableName=strVehicleTripTable,
-			Select='ALL_ATTRIBUTES'
+			Select='ALL_ATTRIBUTES',
+			Limit=3
 		)
 	except ClientError as e:
 		print()
