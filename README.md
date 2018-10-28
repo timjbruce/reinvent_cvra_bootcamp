@@ -165,7 +165,7 @@ The payload is of the form:
 ---
 
 ## Deploy the ConnectedCar Alexa Skill
-Click on the link for the [Alexa Skill](AlexSkill/README.md) workshop module instructions.
+Click on the link for the [Alexa Skill](https://github.com/dixonaws/reinvent_cvra_bootcamp/tree/master/AlexaSkill) workshop module instructions.
 
 If you have skipped the Fleet Management module please make sure you follow the [instructions](#Generate-Trip-Data) to generate some trip data before you start this Alexa Skill module.
 
