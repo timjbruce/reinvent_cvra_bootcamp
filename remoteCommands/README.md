@@ -7,12 +7,12 @@ The below diagram shows the architecture of what you will create in this section
 
 ![Image of Remote Command Architecture](remotecommandarch.png)
 
-For the lab you will need to use the below JSON payload as the input into the Lambda function to simulate the remote command. Replace the VIN with a VIN from the IoT Simulator and update the timestamp
+For the lab you will need to use the below JSON payload as the input into the Lambda function to simulate the remote command. Input a VIN number from the IoT Simulator into the payload and update the timestamp
 
 ```json
 {
 "cmd": 10,
-"vin" : “DEFINE”,
+"vin" : “input vin here”,
 "args" : [],
 "timestamp" : "YYYY-MM-DD HH:mm:SS.mmmmmm"
 }
@@ -22,7 +22,7 @@ For the lab you will need to use the below JSON payload as the input into the La
 
 For the simulation of the car, we will deploy the below CloudFormation template which will give you an EC2 instance with Greengrass installed and a Cloud9 interface.
 
-[CloudFormation Greengrass Template](/cfn-gg-vehicle.json)
+[CloudFormation Greengrass Template](cfn-gg-vehicle.json)
 
 ### Remote Command Audit table.
 Create a new DynamoDB table called **vehicleCommandAuditTable** with a Primary Key called **vin** type **string** and a sort key called **exe_id** type String.
@@ -138,12 +138,12 @@ Finally create a new IoT rule for the topic connectedcar/cmdack with a Lambda fu
 
 ## Execute a Flash Lights and Honk Horn.
 
-Test the remote command by testing the Create Command Lambda Function with the below payload.
+Test the remote command by testing the created Command Lambda Function with the below payload.
 
 ```JSON
 {
 "cmd": 10,
-"vin" : “DEFINE”,
+"vin" : “vin number”,
 "args" : [],
 "timestamp" : "YYYY-MM-DD HH:mm:SS.mmmmmm"
 }

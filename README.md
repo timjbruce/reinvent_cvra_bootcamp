@@ -36,7 +36,7 @@ For the AMT303 workshop we will be providing Credits to covers costs at the end 
 This workshop has been written as modular and therefore after deploying the CVRA and the IoT Device Simulator each exercise is independent.
 ---
 
-## Cloud9 Preparation Steps
+## Cloud9 Preparation Steps (Optional)
 > We recommend using a Cloud9 instance (hosted IDE) for the next steps, as it is bandwidth-friendly and helpful during troubleshooting!
 > Cloud9 is free-tier eligible
 
@@ -60,18 +60,15 @@ chmod +x create_worksheet.sh
 ## Step 1. Deploy the CVRA and IoT Device Simulator
 ### Deploying the CVRA
 Let's deploy the Connected Vehicle Reference Architecture (CVRA).
-Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html), deploy
- the CVRA in an AWS account where you have administrator access. *Important* Use the cvra-cloudformation that is included with this repository instead of the one referenced in the instructions.
-We'll use *cvra-demo* for the stack name in this lab. The CVRA comes with a Cloudformation template that deploys and configures
+ Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html), deploy
+ the CVRA in an AWS account where you have administrator access.
+The CVRA comes with a Cloudformation template that deploys and configures
 all of the AWS services necessary to ingest, store, process, and
 analyze data at scale from IoT devices. Automotive use cases aside,
 the CVRA provides a useful example of how to secure connect an
 IoT device, perform JITR (Just in Time Registration), use
 Kinesis Analytics to query streams of data, use an IoT rule to
 store data in S3, etc.
-
-> Important: use the cvra-cloudformation.yaml that is included with this repository instead of the one 
-> referenced in the instructions linked above.
 
 The CVRA Cloudformation
 template returns these outputs:
@@ -131,6 +128,8 @@ At this point, you can move on to the next steps where you will build a Fleet Ma
 ---
 
 ## Building the Fleet Management Function
+In this module you will create additional DynamoDB tables and a Lambda function on-top of the CVRA that will store the latest Telemetry data for the vehicle and the trip routes which can then be accessed by a Fleet Management dashboard.
+
 Click on the link for the [Fleet Management](fleetManagement/README.md) workshop module instructions.
 
 ---
@@ -165,7 +164,7 @@ The payload is of the form:
 ---
 
 ## Deploy the ConnectedCar Alexa Skill
-Click on the link for the [Alexa Skill](https://github.com/dixonaws/reinvent_cvra_bootcamp/tree/master/AlexaSkill) workshop module instructions.
+Click on the link for the [Alexa Skill](AlexSkill/README.md) workshop module instructions.
 
 If you have skipped the Fleet Management module please make sure you follow the [instructions](#Generate-Trip-Data) to generate some trip data before you start this Alexa Skill module.
 
