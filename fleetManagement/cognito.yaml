@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: |
   This stack creates the Users resources needed.
-  Author: Pelayo Sanchez Margareto <pelaym@amazon.com>
+  Author: Pelayo Sanchez Margareto <pelaym@amazon.com> + Steve Blackwell <stevbla@amazon.com>
 Parameters:
   UserPool:
     Type: String
@@ -10,6 +10,10 @@ Parameters:
     Type: String
     Description: Name of the group for the fleet administrators
     Default: fleet-admins
+  FleetAdminEmail:
+    Type: String
+    Description: Email Address to send Fleet Admins password to.
+
 
 Resources:
   UserGroupFleetAdministrators:
@@ -84,3 +88,40 @@ Resources:
                   - "cognito-idp:ListUsersInGroup"
                 Effect: Allow
                 Resource: "*"
+
+  FleetAdminUser:
+    Type: AWS::Cognito::UserPoolUser
+    Properties:
+      DesiredDeliveryMediums:
+        - EMAIL
+      ForceAliasCreation: Yes
+      UserAttributes:
+        -
+          Name: given_name
+          Value: Fleet
+        -
+          Name: family_name
+          Value: Administrator
+        -
+          Name: locale
+          Value: en-US
+        -
+          Name: email
+          Value: !Ref FleetAdminEmail
+        -
+          Name: email_verified
+          Value: Yes
+        -
+          Name: phone_number
+          Value: "+14325551212"
+        -
+          Name: phone_number_verified
+          Value: Yes
+      Username: fleet.admin
+      UserPoolId: !Ref UserPool
+  FleetAdminGroupAttachment:
+    Type: AWS::Cognito::UserPoolUserToGroupAttachment
+    Properties:
+      GroupName: !Ref UserGroupFleetAdministrators
+      Username: !Ref FleetAdminUser
+      UserPoolId: !Ref UserPool

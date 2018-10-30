@@ -165,11 +165,11 @@ Additionally you can look at the DynamoDB tables created above to ensure data is
 
 In this section we will use the Cognito setup deployed within the CVRA and extend it to support the Fleet Admin Portal.
 
-1. Deploy the following CloudFormation template to add a fleet-admin group [Cognito CloudFormation Template](cognito.yaml)
+1. Deploy the following CloudFormation template to add a fleet-admin group and to create a user [Cognito CloudFormation Template](cognito.yaml)
 
-2. Via the AWS Console select the Cognito service, select the **connected-vehicle-user-pool** user pool.
+When deploying the stack you will need to enter your Email Address to ensure you get the password for the fleet.admin user.
 
-3. Create a new user with an Email invitation and add your Email address. Then add the user to the fleet-admins group.
+3. From the AWS Console, select the Cognito Service and then click on the **connected-vehicle-user-pool** user pool.
 
 4. Select **App client** under the General settings in Cognito, click **Show Details** and change the **Refresh token expiration** to 30.
 
