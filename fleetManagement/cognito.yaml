@@ -1,0 +1,86 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: |
+  This stack creates the Users resources needed.
+  Author: Pelayo Sanchez Margareto <pelaym@amazon.com>
+Parameters:
+  UserPool:
+    Type: String
+    Description: Cognito User Pool ID
+  FleetAdministratorsGroupName:
+    Type: String
+    Description: Name of the group for the fleet administrators
+    Default: fleet-admins
+
+Resources:
+  UserGroupFleetAdministrators:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: Group for the contact center personnel
+      GroupName: !Ref FleetAdministratorsGroupName
+      Precedence: 0
+      RoleArn: !GetAtt FleetAdministratorsRole.Arn
+      UserPoolId: !Ref UserPool
+  FleetAdministratorsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: FleetAdminRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              Federated: "cognito-identity.amazonaws.com"
+            Action:
+              - "sts:AssumeRoleWithWebIdentity"
+      Policies:
+        -
+          PolicyName: "CloudWatchLogs"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Sid: "WriteLogs"
+                Action:
+                  - "logs:CreateLogGroup"
+                  - "logs:CreateLogStream"
+                  - "logs:PutLogEvents"
+                Effect: "Allow"
+                Resource: "*"
+        -
+          PolicyName: "VehicleOverviewPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Sid: AccessMyCar
+                Action:
+                  - "iot:GetThingShadow"
+                  - "iot:Subscribe"
+                  - "iot:Publish"
+                  - "iot:Receive"
+                  - "iot:Connect"
+                Effect: Allow
+                Resource: "*"
+        -
+          PolicyName: "ManageVehicleTablesPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Sid: ManageDynamo
+                Action:
+                  - "dynamodb:*"
+                Effect: Allow
+                Resource: "*"
+        -
+          PolicyName: "OwnerManagement"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Sid: GetCognitoUsers
+                Action:
+                  - "cognito-idp:ListUsersInGroup"
+                Effect: Allow
+                Resource: "*"

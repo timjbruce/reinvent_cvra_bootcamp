@@ -1,0 +1,194 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: |
+  This stack creates the required services for Trip API Service
+  Author: Steve Blackwell <stevbla@amazon.com>
+Parameters:
+  TripTable:
+    Description: Table which contains trip information
+    Type: String
+  RouteTable:
+    Description: Table which contains route information
+    Default: vehicleRouteTable
+    Type: String
+
+Resources:
+  WebsiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Join ["", ["fleetmgtui", "-", Ref: "AWS::Region", "-", Ref: "AWS::AccountId"]]
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+  WebsiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref WebsiteBucket
+      PolicyDocument:
+        Statement:
+          -
+            Action:
+              - "s3:PutObject"
+              - "s3:GetObject"
+            Effect: Allow
+            Resource: !Sub "arn:aws:s3:::${WebsiteBucket}/*"
+            Principal:
+              AWS:
+                - !Sub "arn:aws:iam::${AWS::AccountId}:root"
+
+  vehicleTripFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Description: "Function to provide trip data for API"
+      Code:
+        ZipFile: !Sub |
+          'use strict';
+          var AWS = require("aws-sdk");
+          AWS.config.update({
+            region: "us-east-1",
+          });
+          var tripTable = process.env.TRIP_TABLE;
+          var routeTable = process.env.ROUTE_TABLE;
+          var docClient = new AWS.DynamoDB.DocumentClient();
+          exports.handler = function(event, context, callback) {
+            var responseCode = 200;
+            if (event.resource === '/vehicles/{vin}/trips' && event.httpMethod === 'GET') {
+              console.log("Method GET Trips with ", vin_val);
+              var params = {
+                  TableName : tripTable,
+                  KeyConditionExpression: "#vin = :vin",
+                  ExpressionAttributeNames:{
+                      "#vin": "vin"
+                  },
+                  ExpressionAttributeValues: {
+                      ":vin": event.pathParameters.vin
+                  }
+              };
+              docClient.query(params, function(err, data) {
+                if (err) {
+                    console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                } else {
+                    console.log("Query succeeded.");
+                    var responseBody = {
+                        data
+                    };
+                    var response = {
+                        statusCode: responseCode,
+                        headers: {
+                            "Access-Control-Allow-Origin": "*"
+                        },
+                        body: JSON.stringify(responseBody),
+                        isBase64Encoded: false
+                    };
+                console.log("response: " + JSON.stringify(response))
+                callback(null, response);
+                }
+              });
+            } else if (event.resource === '/vehicles/{vin}/trips/{trip_id}' && event.httpMethod === 'GET') {
+                var vin_val = event.pathParameters.vin;
+                var tripid = event.pathParameters.trip_id;
+                console.log('Method GET Route ' + tripid + ' for vin ' + vin_val);
+                var trip_params = {
+                  TableName: tripTable,
+                  Key: {
+                    vin: vin_val,
+                    trip_id: tripid
+                  }
+                };
+                docClient.get(trip_params, function(err, data_trip) {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    var trip_info = data_trip;
+                    var trip_route_params = {
+                      TableName: routeTable,
+                      Key: {
+                        trip_id: tripid
+                      }
+                    };
+                    docClient.get(trip_route_params, function(err, data_route) {
+                      if (err) {
+                        console.log(err);
+                      } else {
+                        if (data_route.Item){
+                          trip_info.Item.route = data_route.Item.route;
+                        }else{
+                          trip_info.Item.route = [];
+                        }
+                      }
+                      var responseBody = {
+                          trip_info
+                      };
+                      var response = {
+                          statusCode: responseCode,
+                          headers: {
+                              "Access-Control-Allow-Origin": "*"
+                          },
+                          body: JSON.stringify(responseBody),
+                          isBase64Encoded: false
+                      };
+                      console.log("response: " + JSON.stringify(response))
+                      callback(null, response);
+                    });
+                  }
+                });
+            }
+          };
+      Handler: index.handler
+      Runtime: nodejs6.10
+      Role: !GetAtt vehicleTripSeriveRole.Arn
+      Timeout: 300
+      MemorySize: 256
+      FunctionName: vehicleTripFunction
+      Environment:
+        Variables:
+          TRIP_TABLE: !Ref TripTable
+          ROUTE_TABLE: !Ref RouteTable
+
+  vehicleTripSeriveRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: vehicleTripServiceRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+                Service:
+                    - "lambda.amazonaws.com"
+            Action:
+                    - "sts:AssumeRole"
+      Policies:
+        -
+          PolicyName: "vehicleTripServicePolicy"
+          PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                  -
+                      Effect: "Allow"
+                      Action:
+                          - "logs:CreateLogGroup"
+                          - "logs:CreateLogStream"
+                          - "logs:PutLogEvents"
+                      Resource:
+                          !Join ["", ["arn:aws:logs:", Ref: "AWS::Region", ":", Ref: "AWS::AccountId", ":log-group:/aws/lambda/vehicleTripFunction:*"]]
+                  -
+                      Effect: "Allow"
+                      Action:
+                          - "dynamodb:BatchGetItem"
+                          - "dynamodb:BatchWriteItem"
+                          - "dynamodb:DeleteItem"
+                          - "dynamodb:GetItem"
+                          - "dynamodb:PutItem"
+                          - "dynamodb:Query"
+                          - "dynamodb:Scan"
+                          - "dynamodb:UpdateItem"
+                      Resource:
+                          - !Join ["", ["arn:aws:dynamodb:", Ref: "AWS::Region", ":", Ref: "AWS::AccountId", ":table/", Ref: TripTable]]
+                          - !Join ["", ["arn:aws:dynamodb:", Ref: "AWS::Region", ":", Ref: "AWS::AccountId", ":table/", Ref: RouteTable]]
+
+Outputs:
+  WebsiteBucket:
+    Description: S3 Bucket hosting Fleet Management UI
+    Value: !Ref WebsiteBucket
+    
