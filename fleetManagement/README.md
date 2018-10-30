@@ -223,9 +223,10 @@ You will also need the awscli setup to access your account.
 
 5. Next we will build the API sdk, run the below commands via your terminal / command line.
 
-```sh  
+```sh
 all_apis=$(aws apigateway get-rest-apis)
 vehicle_api_id=$(echo $all_apis | jq -r '.items[] | select(.name == "Vehicle Services API") | .id')
+mkdir -p lib/vehicle-api
 bash scripts/build.sh $vehicle_api_id
 ```
 
@@ -237,7 +238,6 @@ bash scripts/build.sh $vehicle_api_id
 
 ```bash
 cp -R dist/* output/
-cd ${CODEBUILD_SRC_DIR}/output
 
 export WEBSITE_BUCKET=fleetmgtui-us-east-1-<AWS_ACCOUNT_ID>
 
