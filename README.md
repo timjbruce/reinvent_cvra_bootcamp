@@ -1,30 +1,23 @@
 # AMT303 Deep Dive into the AWS Connected Vehicle Reference Solution Workshop
-During this Workshop, we'll take a deep dive into the AWS
-Connected Vehicle Reference Architecture. Attendees will install it, build functions on top of the CVRA including an Alexa Skill, generate trip data from a simulated vehicles, and learn how the data can be accessed with various other AWS services.
+During this Workshop, we'll take a deep dive into the AWS Connected Vehicle Reference Architecture (CVRA). Attendees will install it, build functions on top of the CVRA including an Alexa Skill, generate trip data from a simulated vehicles, and learn how the data can be accessed with various other AWS services.
 
 #### Prerequisites
-We'll assume that you have some basic knowledge of AWS
-services like IAM, Cloudformation, DynamoDB, S3, IoT, etc.,
-are comfortable using the AWS CLI, and have some knowledge
-of Python. You'll also need to prepare the following for
+We'll assume that you have some basic knowledge of AWS services like IAM, CloudFormation, DynamoDB, S3, IoT, etc., are comfortable using the AWS CLI, and have some knowledge of Python and Node.js. You'll also need to prepare the following for
 the workshop (can be done in Cloud9 or on your local machine):
 * Laptop running Windows or MacOS and Google Chrome or Mozilla Firefox (Safari, Internet Explorer, or Microsoft Edge are not recommended)
 * An AWS account with Administrator Access
 * The AWS CLI, configured with a user that has Administrator Access ([directions here](https://docs.aws.amazon.com/cli/latest/userguide/installing.html))
-* Python, Virtualenv, git
-* a HERE Maps app_code and app_id (register for a free account at [developer.here.com](developer.here.com))
-* Mapbox Account (you will need a Token for the IoT Simulator)
+* Python, Virtualenv, git and npm installed
+* A HERE Maps app_code and app_id (register for a free account at [http://developer.here.com](http://developer.here.com))
+* Mapbox Account (you will need a Token for the IoT Simulator) [http://mapbox.com](http://mapbox.com)
 
-Due to AWS Service availability in certain Regions we suggest you use **US-EAST-1** for this workshop.
+Due to AWS Service availability in certain Regions we recommend you use the **US-EAST-1** region for this workshop. If the us-east-1 region is not the default region for your profile we suggest setting AWS_DEFAULT_REGION=us-east-1 for this workshop.
 
 ## Introduction
-This Workshop has five main sections as shown below. The intent
-of this Workshop is to help attendees understand what's "under the
-hood" of the CVRA and the IoT Device Simulator so that they can
-modify and extended it to for their scenarios.
+This Workshop has five main sections which are listed below. The intent of this Workshop is to help attendees understand what's "under the hood" of the CVRA and the IoT Device Simulator so that they can modify and extended it to for their use cases.
 
-1. Deploy the [CVRA](#Deploy-the-CVRA) and [IoT Device Simulator](#Deploy-the-IoT-Device-Simulator) (15 mins)
-3. Build a Fleet Management Function (10 mins)
+1. Deploy the CVRA and IoT Device Simulator (15 mins)
+3. Build a Fleet Management Function (25 mins)
 4. Generate Trip Data (5 mins)
 5. Deploy the ConnectedCar Alexa Skill (30 mins)
 6. Build the Remote Command function (30 mins)
@@ -53,77 +46,75 @@ chmod +x create_worksheet.sh
 ./create_worksheet.sh
 ```
 
-<b>*** Now, you're ready to move on to the next step and deploy the Connected Vehicle Reference Architecture *** </b>
+***Now, you're ready to move on to Step 1 and deploy the Connected Vehicle Reference Architecture***
 
 ---
 
 ## Step 1. Deploy the CVRA and IoT Device Simulator
 ### Deploying the CVRA
 Let's deploy the Connected Vehicle Reference Architecture (CVRA).
- Following the [directions here](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/deployment.html), deploy
- the CVRA in an AWS account where you have administrator access.
-The CVRA comes with a Cloudformation template that deploys and configures
-all of the AWS services necessary to ingest, store, process, and
-analyze data at scale from IoT devices. Automotive use cases aside,
-the CVRA provides a useful example of how to secure connect an
-IoT device, perform JITR (Just in Time Registration), use
-Kinesis Analytics to query streams of data, use an IoT rule to
-store data in S3, etc.
 
-The CVRA Cloudformation
-template returns these outputs:
+>Note: Detailed documentation including an implementation guide on the CVRA can be found on the https://docs.aws.amazon.com website using the following link [Connected Vehicle Solution](https://docs.aws.amazon.com/solutions/latest/connected-vehicle-solution/welcome.html).*
 
-| Key | Value | Description | Associated AWS Service
-|:---|:---|:---|:---
-UserPool|arn:aws:cognito-idp:us-east-1:000000000:userpool/us-east-1_loAchZlyI|Connected Vehicle User Pool| Cognito
-CognitoIdentityPoolId|us-east-1:de4766b0-519a-4030-b036-97a3a2291c98|	Identity Pool ID| Cognito
-VehicleOwnerTable|	cvra-demo-VehicleOwnerTable-1TMCCT7LY76B0|	Vehicle Owner table|DynamoDB
-CognitoUserPoolId|	us-east-1_loAchZlyI|	Connected Vehicle User Pool ID|Cognito
-CognitoClientId|	6rjtru6aur0vni0htpvb49qeuf|	Connected Vehicle Client|Cognito
-DtcTable|	cvra-demo-DtcTable-UPJUO460FVYT|	DTC reference table|DynamoDB
-VehicleAnomalyTable|	cvra-demo-VehicleAnomalyTable-E3ZR7I8BN41D|	Vehicle Anomaly table|DynamoDB
-VehicleTripTable|	cvra-demo-VehicleTripTable-U0C6DSG0JW11|	Vehicle Trip table|DynamoDB
-TelemetricsApiEndpoint|	https://abcdef.execute-api.us-east-1.amazonaws.com/prod|RESTful API endpoint to interact with the CVRA (Cognito authZ required)|API Gateway
-Telemetrics API ID|(not used)|(not used)|API Gateway
-HealthReportTable|	cvra-demo-HealthReportTable-C4VRARO31UZ1|	Vehicle Health Report table|DynamoDB
-VehicleDtcTable|	cvra-demo-VehicleDtcTable-76E1UB71GEH3|	Vehicle DTC table|DynamoDB
+#### Instructions
 
-**Validation**: run the following command from a terminal window:
-```bash
-aws cloudformation describe-stacks --stack-name cvra-demo --query 'Stacks[*].StackStatus'
-```
+1. Download the CVRA CloudFormation template using the following link [cvra-cloudformation.yaml](cvra-cloudformation.yaml)
+2. Log in to the AWS Console with your account that has the administrator role and select **CloudFormation** from the **Services** dropdown menu.
 
-> We'll refer to the CVRA Cloudformation stack as **cvra-demo** throughout this bootcamp.
+> Note: Make sure you are in the US-EAST-1 region.
 
-The output should resemble something like this:
-```json
-[
-    "CREATE_COMPLETE"
-]
-```
+3. Click on **Create Stack**
+4. Select the **Upload a template to Amazon S3** radio button and then click **Choose File** and select the cvra-cloudformaiton.yaml file you download from Step 1.
+5. Click **Next**
+6. Name the Stack **CVRA** and click **Next**
+7. Accept all the defaults and click **Next**
+8. Tick the acknowledge box at the bottom of the page and click on **Create**
 
-We're interested in the *VehicleTripTable* -- a table in DynamoDB. You can view the outputs from your
-CVRA deployment through the AWS Console or by using the CLI with something like:
-```bash
-aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]'
-```
+The CVRA Stack will now deploy, you can check its status via the AWS Console Page. Once the Stacks completes successfully, you can move on to the next step.
 
-*** Now, you can move on to Step 2, Deploy the IoT Device Simulator ***
+The below image shows the AWS Services and functions that are deployed as part of the CVRA.
+
+![Connected Vehicle Solution Architecture](connected-vehicle-solution-architecture.png)
+
+*Now, you can move on to the next step and deploy the IoT Device Simulator*
 
 ---
 
 ### Deploying the IoT Device Simulator
-In this section, you'll install and configure the AWS IoT Device Simulator and use the Automotive module to generate trip data.
-[Follow these directions](https://aws.amazon.com/answers/iot/iot-device-simulator/)
-to install the simulator in your own AWS account.
+In this section, you'll install and configure the AWS IoT Device Simulator and use the Automotive module to generate trip data into the Connected Vehicle Reference Architecture.
 
-If the IoT Device Simulator CloudFormation Template fails to deploy due to a Permissions issue on ECS, just delete the Stack and re-deploy it again.
+For your reference information on the IoT Device Simulator can be found using the below links:
 
-**Please note that you will need to enter an Email address you have access to in the workshop while deploying the Stack. Once the stack has deployed you will receive an Email with login instructions.**
+* [Overview of the IoT Device Simulator](https://aws.amazon.com/answers/iot/iot-device-simulator/)
+* [Documentation of the IoT Device Simulator](https://docs.aws.amazon.com/solutions/latest/iot-device-simulator/welcome.html)
 
-You will need to setup the Mapbox Token within the IoT Device Simulator Web Portal. For detailed instructions of how to do this [follow these instructions](/MapBox/README.md).
+#### Instructions
 
-At this point, you can move on to the next steps where you will build a Fleet Management Function and build an Alexa Skill.
+1. Download the IoT Device Simulator CloudFormation template using the following link [iot-device-simulator.yaml](iot-device-simulator.yaml).
+2. From the AWS Console select **CloudFormation** from the services menu.
+
+> Note. Please make sure you are in the US-EAST-1 region.
+
+3. Click on **Create Stack**
+4. Select the **Upload a template to Amazon S3** radio button and then click **Choose File** and select the iot-device-simulator.yaml file you download from Step 1.
+5. Click **Next**
+6. Name the Stack **IoT-Device-Sim**, enter your name and a email address. Click **Next**
+
+**Please note that you will need to enter an Email address you have access to in the workshop. Once the stack has deployed you will receive an Email with login instructions for the Web portal.**
+
+7. Accept all the defaults and click **Next**
+8. Tick the acknowledge box at the bottom of the page and click on **Create**
+
+The Stack will now deploy, you can check the status via the CloudFormation page. If the IoT Device Simulator CloudFormation Template fails to deploy due to a Permissions issue on ECS, just delete the Stack and re-deploy it again.
+
+Once the Stack completes successfully, check your Email for the login in details. On your initial login you will be prompted to change your password. At this point it is suggested to setup the Mapbox Token within the IoT Device Simulator, for detailed instructions of how to do this [follow these instructions](/MapBox/README.md).
+
+The below image shows the AWS Services used to build the IoT Device Simulator for your reference.
+
+![IoT Device Simulator Architecture](iot-device-simulator-architecture.png)
+
+
+At this point, you can move on to the next steps where you will build a Fleet Management Function and an Alexa Skill.
 
 ---
 
