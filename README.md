@@ -109,6 +109,8 @@ The Stack will now deploy, you can check the status via the CloudFormation page.
 
 Once the Stack completes successfully, check your Email for the login in details. On your initial login you will be prompted to change your password. At this point it is suggested to setup the Mapbox Token within the IoT Device Simulator, for detailed instructions of how to do this [follow these instructions](/MapBox/README.md).
 
+> Note. When you have entered the Mapbox Token into the IoT Device Simulator you will need to logout and back in again for it to take affect.
+
 The below image shows the AWS Services used to build the IoT Device Simulator for your reference.
 
 ![IoT Device Simulator Architecture](iot-device-simulator-architecture.png)
@@ -119,9 +121,9 @@ At this point, you can move on to the next steps where you will build a Fleet Ma
 ---
 
 ## Building the Fleet Management Function
-In this module you will create additional DynamoDB tables and a Lambda function on-top of the CVRA that will store the latest Telemetry data for the vehicle and the trip routes which can then be accessed by a Fleet Management dashboard.
+In this module you will create additional DynamoDB tables and a Lambda function on-top of the CVRA that will store the latest Telemetry data from the vehicles and the trip routes which can then be accessed by a Fleet Management dashboard which you will also deploy.
 
-Click on the link for the [Fleet Management](fleetManagement/README.md) workshop module instructions.
+The following link provides the detailed instructions for the [Fleet Management](fleetManagement/README.md) module.
 
 ---
 
