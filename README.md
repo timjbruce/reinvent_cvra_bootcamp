@@ -8,7 +8,7 @@ the workshop (can be done in Cloud9 or on your local machine):
 * An AWS account with Administrator Access
 * The AWS CLI, configured with a user that has Administrator Access ([directions here](https://docs.aws.amazon.com/cli/latest/userguide/installing.html))
 * Python, Virtualenv, git and npm installed
-* A HERE Maps app_code and app_id (register for a free account at [http://developer.here.com](http://developer.here.com))
+* A HERE Maps app_code and app_id (register for a free account at [https://aws.amazon.com/marketplace/pp/B07JPLG9SR](https://aws.amazon.com/marketplace/pp/B07JPLG9SR))
 * Mapbox Account (you will need a Token for the IoT Simulator) [http://mapbox.com](http://mapbox.com)
 
 Due to AWS Service availability in certain Regions we recommend you use the **US-EAST-1** region for this workshop. If the us-east-1 region is not the default region for your profile we suggest setting AWS_DEFAULT_REGION=us-east-1 for this workshop.
