@@ -2,8 +2,14 @@
 In this section, we'll deploy an Alexa skill called ConnectedCar that will read back information about
 the three recent trips that you have taken and details about your car.
 
+> Perform the following steps from within the AlexaSkill folder in your downloaded copy of the reinvent_cvra_bootcamp
+repository.
+> You'll need to install the ASK CLI (Alexa Skills Kit CLI) in this section
+> You'll need Node v8.1.0 for this section
+
 ### 3.1 Obtain App_id and App_code from the HERE dveeloper site
-Head over to https://aws.amazon.com/marketplace/pp/B07JPLG9SR, establish a freemium account, and make note of your app_code and app_id in your worksheet for this bootcamp.
+Head over to https://aws.amazon.com/marketplace/pp/B07JPLG9SR, establish a freemium account, and 
+make note of your app_code and app_id in your worksheet for this bootcamp.
 
 ### 3.2 Run a Program to Test Your Permissions and CVRA Installation
 First, you can use a Node program included with the reinvent_cvra_bootcamp repo to
