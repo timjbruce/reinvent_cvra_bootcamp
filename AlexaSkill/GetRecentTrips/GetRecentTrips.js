@@ -2,19 +2,16 @@
 
 const AWS = require('aws-sdk');
 const fetch = require('node-fetch');
+const args = require('yargs').argv;
 
-const appId = "JXSUN2yqXCniL0tX9D5h";
-const appCode = "r7f5mAEt-uQMV9gN_xX5Qg";
-const tableName = "cvra-demo-VehicleTripTable-U0C6DSG0JW11";
-
-function GetTripDetailsFromDynamo() {
+function GetTripDetails(appId, appCode, tableName) {
     AWS.config.update({
         region: "us-east-1"
     });
 
     var docClient = new AWS.DynamoDB.DocumentClient();
 
-    console.log("Scanning DynamoDB VehicleTripTable directly for trips...");
+    console.log("Scanning DynamoDB VehicleTripTable for trips...");
 
     var params = {
         TableName: tableName
@@ -67,8 +64,16 @@ function main() {
     console.log('GetRecentTrips v1.0');
     console.log("-----------------------------------------");
 
-    GetTripDetailsFromDynamo();
+    const appId = args.appId;
+    const appCode = args.appCode;
+    const tableName = args.tableName;
 
-}
+    console.log('HERE app_id: ' + appId);
+    console.log('HERE app_code: ' + appCode);
+    console.log('VehicleTripTable: ' + tableName);
+
+    GetTripDetails(appId, appCode, tableName);
+
+} // main
 
 main();

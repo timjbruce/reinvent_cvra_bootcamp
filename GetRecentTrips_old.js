@@ -2,6 +2,7 @@
 
 const AWS = require('aws-sdk');
 const fetch = require('node-fetch');
+const args = require('yargs').argv;
 
 const appId = "JXSUN2yqXCniL0tX9D5h";
 const appCode = "r7f5mAEt-uQMV9gN_xX5Qg";
@@ -66,7 +67,10 @@ function GetTripDetailsFromDynamo() {
 function main() {
     console.log('GetRecentTrips v1.0');
     console.log("-----------------------------------------");
-
+    console.log('HERE app_id: ' + args.app_id);
+    console.log('HERE app_code: ' + args.app_code);
+    console.log('VehicleTripTable: ' + args.vehicle_trip_table);
+    
     GetTripDetailsFromDynamo();
 
 }

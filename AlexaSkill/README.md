@@ -21,9 +21,20 @@ program prints them to the console.
 Instructions:
 1. Descend into the AlexaSkill/GetRecentTrips directory
 2. Install dependencies with ```npm install```
-3. Run the program with ```node GetRecentTrips.js```
+3. Run the program with the following command:
+ 
+```bash
+node GetRecentTrips.js --app_id=x --app_code=y --vehicle_trip_table=z
+```
 
-You shold see output similar to the following:
+Or, if you wanted to be clever using your <i>bash ninja skills</i>, you could do something like this on the bash prompt:
+
+```bash
+node GetRecentTrips.js --tableName=`echo $(aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]' |grep 'Vehicle Trip table' |awk -F '|' '{print $4}')` --appCode=<your_app_code> --appId=<your_app_id>
+```
+> bash ninjas will note the tricky combination of backticks and single quotes!
+
+You should see output similar to the following:
 
 ```
 GetRecentTrips v1.0
@@ -37,12 +48,6 @@ vin: 9JVVV63E5NVZWH5UH, start time: 2018-10-17T01:00:09.695Z, distance: 228.0, n
 ```
 
 
-Or, if you wanted to be very clever using your <i>bash ninja warrior skills</i>, you could do something like this on the bash prompt:
-
-```bash
-python3 getRecentTrips.py --VehicleTripTable `aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]' |grep 'Vehicle Trip table' |awk -F "|" '{print $4}'` --HereAppId <app id> --HereAppCode <app code>
-```
-> Quote trifecta: bash ninjas will note the tricky combination of backticks, single quotes, AND double quotes!
 
 ### 3.3 Deploy the Alexa Skill
 In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called ConnectedCar. 
