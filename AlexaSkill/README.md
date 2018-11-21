@@ -4,7 +4,9 @@ the three recent trips that you have taken and details about your car.
 
 > Perform the following steps from within the AlexaSkill folder in your downloaded copy of the reinvent_cvra_bootcamp
 repository.
+
 > You'll need to install the ASK CLI (Alexa Skills Kit CLI) in this section
+
 > You'll need Node v8.1.0 for this section
 
 ### 3.1 Obtain App_id and App_code from the HERE dveeloper site
