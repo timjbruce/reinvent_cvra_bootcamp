@@ -5,30 +5,31 @@ the three recent trips that you have taken and details about your car.
 ### 3.1 Obtain App_id and App_code from the HERE dveeloper site
 Head over to https://aws.amazon.com/marketplace/pp/B07JPLG9SR, establish a freemium account, and make note of your app_code and app_id in your worksheet for this bootcamp.
 
-### 3.2 Run a Python Program to Test Your Permissions and CVRA Installation
-First, you can use a Python program included with the reinvent_cvra_bootcamp repo, getRecentTrips.py, to
-test your configuration sofar. The best way to run this program is within a Python Virtual Environment. Install a Python
-virtual environment, install the dependencies from requirements.txt, and run get_recent_trips.py.
+### 3.2 Run a Program to Test Your Permissions and CVRA Installation
+First, you can use a Node program included with the reinvent_cvra_bootcamp repo to
+test your configuration. GetRecentTrips.js is a Node v8.1.0 program that is similar to the 
+Alexa Lambda function -- it scans your VehicleTripTable for recent trips, then queries HERE APIs for 
+the neighborhood that matches the GPS location of the trip. Instead of speaking the results, this 
+program prints them to the console.
 
-<details>
-<summary><strong>Step-by-step instructions (expand for details)</strong></summary>
-<p>
-Install and activate Python virtual environment in ./venv:
+Instructions:
+1. Descend into the AlexaSkill/GetRecentTrips directory
+2. Install dependencies with ```npm install```
+3. Run the program with ```node GetRecentTrips.js```
 
-```bash
-virtualenv venv
-source venv/bin/activate
+You shold see output similar to the following:
+
+```
+GetRecentTrips v1.0
+-----------------------------------------
+Scanning DynamoDB VehicleTripTable for trips...
+Scan succeeded, 8 trips found.
+Your 3 most recent trips were: 
+vin: 9JVVV63E5NVZWH5UH, start time: 2018-11-20T17:46:43.608Z, distance: 10.2, neighborhood: Reston, VA, United States
+vin: 2Z61V6JISOE60EWI8, start time: 2018-10-28T18:34:41.432Z, distance: 0.0, neighborhood: Herndon, VA, United States
+vin: 9JVVV63E5NVZWH5UH, start time: 2018-10-17T01:00:09.695Z, distance: 228.0, neighborhood: Eisenhower East, Alexandria, VA, United States
 ```
 
-Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-Run the program:
-```bash
-python3 get_recent_trips.py --VehicleTripTable <TripTable> --HereAppId <app id> --HereAppCode <app code>
-```
 
 Or, if you wanted to be very clever using your <i>bash ninja warrior skills</i>, you could do something like this on the bash prompt:
 
@@ -36,108 +37,15 @@ Or, if you wanted to be very clever using your <i>bash ninja warrior skills</i>,
 python3 getRecentTrips.py --VehicleTripTable `aws cloudformation describe-stacks --stack-name cvra-demo --output table --query 'Stacks[*].Outputs[*]' |grep 'Vehicle Trip table' |awk -F "|" '{print $4}'` --HereAppId <app id> --HereAppCode <app code>
 ```
 > Quote trifecta: bash ninjas will note the tricky combination of backticks, single quotes, AND double quotes!
-</p>
-</details>
-<br>
-
-You should see output similar to the following after running the program:
-```json(venv) f45c898a35bf:reinventCvraBootcamp dixonaws$ python3 getRecentTrips.py --VehicleTripTable cvra-demo-VehicleTripTable-U0C6DSG0JW11
-Scanning trip table cvra-demo-VehicleTripTable-U0C6DSG0JW11... done (0).
-Found 18 items in the trip table.
-dictItems is a <class 'list'>
-**** Trip 1 (VIN: 2Z61V6JISOE60EWI8)
-{'ignition_status': {'S': 'off'}, 'transmission_gear_position': {'S': 'fourth'}, 'engine_speed_mean': {'N': '3525.2780709525855'}, 'name': {'S': 'aggregated_telemetrics'}, 'driver_safety_score': {'N': '74.82328344340092'}, 'brake_mean': {'N': '0'}, 'high_braking_event': {'N': '0'}, 'fuel_level': {'N': '99.95453355436261'}, 'latitude': {'N': '38.958911'}, 'idle_duration': {'N': '213'}, 'fuel_consumed_since_restart': {'N': '0.019374198537822133'}, 'torque_at_transmission_mean': {'N': '314.3124901722019'}, 'timestamp': {'S': '2018-08-21 23:13:01.589000000'}, 'vehicle_speed_mean': {'N': '79.9034721171209'}, 'start_time': {'S': '2018-08-21T23:12:31.456Z'}, 'end_time': {'S': '2018-08-21T23:13:01.589Z'}, 'trip_id': {'S': '84983a6b-0881-4600-ad20-9db40eb7f868'}, 'oil_temp_mean': {'N': '29.021054075000006'}, 'geojson': {'M': {'bucket': {'S': 'connected-vehicle-trip-us-east-1-477157386854'}, 'key': {'S': 'trip/2Z61V6JISOE60EWI8/84983a6b-0881-4600-ad20-9db40eb7f868.json'}}}, 'accelerator_pedal_position_mean': {'N': '38.609446258882855'}, 'longitude': {'N': '-77.401168'}, 'vin': {'S': '2Z61V6JISOE60EWI8'}, 'brake_pedal_status': {'BOOL': False}, 'high_speed_duration': {'N': '0'}, 'odometer': {'N': '0.6705392939350361'}, 'high_acceleration_event': {'N': '2'}}
-...
-
-```
-
-The get_recent_trips.py program simply queries your DynamoDB trip table, which is similar to the ConnectedCar skill that
-we'll deploy in the next section.
-<details>
-<summary><strong>Code details for getRecentTrips.py (expand for details)</strong></summary>
-Have a look at the code listing for getRecentTrips.py. The guts
-are similar to the ConnectedCar skill that we'll deploy in the next
-step, particularly the call to <i>scan</i> the DynamoDB trip table:
-
-```python
-dynamoDbClient=boto3.client('dynamodb')
-
-    response=dynamoDbClient.scan(
-        TableName='cvra-demo-VehicleTripTable-U0C6DSG0JW11',
-        Select='ALL_ATTRIBUTES'
-    )
-
-    dictItems=response['Items']
-
-    intRecordCount=json.dumps(response['Count'])
-    print("Found " + str(intRecordCount) + " items in the trip table.")
-
-    intTripNumber=1
-    for item in dictItems:
-        strVin=str(item['vin']['S'])
-        print("**** Trip " + str(intTripNumber) + " (VIN: " + strVin + ")")
-        print(item)
-        print()
-        intTripNumber=intTripNumber+1
-
-    print("dictItems is a " + str(type(dictItems)))
-
-```
-> An improvement here for production applications would be to
-> query the DynamoDB table instead of scanning it, per the
-> [best practices for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html).
-> You may even elect to create an API layer in front of the
-> DynamoDB table so that other applications can use the
-> data.
-</details>
-
 
 ### 3.3 Deploy the Alexa Skill
-In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called ConnectedCar. First, you'll
-need to create an account on developer.amazon.com if you haven't already done so.
+In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called ConnectedCar. 
+First, you'll need to create an account on developer.amazon.com if you haven't already done so.
 
-Once you have confirmed that your DynamoDB Trip table contains trip data with getRecentTrips.py, follow these instructions
-to create a new *custom* skill called "ConnectedCar" in your developer.amazon.com account: [Alexa Skills Kit Documentation](https://developer.amazon.com/docs/devconsole/create-a-skill-and-choose-the-interaction-model.html)
+Once you have confirmed that your DynamoDB Trip table contains trip data with the GetRecentTrips.js program,
+follow these instructions to create a new skill using the ASK CLI. 
 
-Create the Intent Schema for your skill:
-1. From the developer console, open your ConnectedCar skill
-2. Under Interaction Model, click "JSON Editor"
-3. Paste the contents of the intent_schema.json file into the JSON Editor for the skill
-4. Click "Save Model"
-<br>
-
-#### 3.3.1 Create a Deployment Package for Your Lambda Function
-You will need to create a deployment package, instructions here: [Build an AWS Lambda Deployment Package for Python](https://aws.amazon.com/premiumsupport/knowledge-center/build-python-lambda-deployment-package/).
-Install the following dependencies in your ConnectedCarLambda directory:
-* requests
-* boto3
-
-From within your ConnectedCarLambda directory, create a deployment package for your skill code with the following command:
-```bash
-zip -r ../ConnectedCarLambdaPackage.zip .
-```
-
-This command will create a deployment package in your reinvent_cvra_bootcamp directory. Use it in the next step to upload to Lambda.
-
-Next, create the Lambda endpoint and Lambda function for your skill:
-1. From the Alexa Developer Console, open the ConnectedCar skill
-2. Under Interaction Model, click on "Endpoint"
-3. Open a new browser window and navigate to the AWS Console
-4. Create a new Lambda function called "ConnectedCarLambda" choosing "Author from scratch" and an existing role
-5. For "Code entry type" choose to upload a .zip file and use the deployment package that you create in the previous step
-6. For "Execution role", choose to create a new role and attach the following policies
-* AmazonDynamoDBReadOnlyAccess
-* AWSLambdaBasicExecution
-7. Modify the handler for the function to be ```ConnectedCarLambda.lambda_handler```
-8. Create four environment variables in your Lambda function: VehicleTripTable, AppCode, and AppId, Region
-
-<br>
-
-Navigate back to the Alexa Developer Console, save and build your Alexa skill:
-1. Copy the ARN of the "ConnectedCarLambda" function into the developer console endpoint field
-2. From the ConnectedCar build page, click "Save Model"
-3. Once saved, click "Build Model"
-<br>
+// todo: add ASK CLI instructions
 
 ### 3.4 Interact with ConnectedCar
 Open developer.amazon.com, login, and browse to your ConnectedCar Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You
