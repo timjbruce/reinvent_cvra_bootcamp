@@ -20,12 +20,6 @@ nvm install v8.1.0 && nvm use v8.1.0
 npm install ask-cli --global
 ```
 
-3. Configure the ASK CLI
-Install the ASK CLI on your Cloud9 instance with the following command:
-```bash
-npm install ask-cli -g
-```
-
 Now, initialize the ASK CLI by issuing ```ask init --no-browser``` at the bash prompt.
 
 <details>
