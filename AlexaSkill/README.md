@@ -143,7 +143,7 @@ Instructions:
 3. Run the program with the following command:
  
 ```bash
-node GetRecentTrips.js --appId=<your_app_id> --appCode=<your_app_code> --vehicle_trip_table=<your_vehicle_trip_table>
+node GetRecentTrips.js --appId=<your_app_id> --appCode=<your_app_code> --tableName=<your_vehicle_trip_table>
 ```
 
 Or, if you wanted to be clever using your <i>bash ninja skills</i>, you could do something like this on the bash prompt:
@@ -175,7 +175,48 @@ First, you'll need to create an account on developer.amazon.com if you haven't a
 Once you have confirmed that your DynamoDB Trip table contains trip data with the GetRecentTrips.js program,
 follow these instructions to create a new skill using the ASK CLI. 
 
-// todo: add ASK CLI instructions
+1. Run the following command from the AlexaSkill directory to create a new "hello world" skill with the ASK CLI
+```ask new --skill-name "ConnectedCar"```
+
+This command will create a new directory called ConnectedCar. The invocation name for this skill is "greeter."
+
+2. Deploy the ConnectedCar skill
+Run the following command from the ConnectedCar directory:
+```
+ask deploy
+```
+If all goes well, this command will do two things: 1) create a new skill in developer.amazon.com called ConnectedCar, and create a 
+new Lambda function called ask-custom-ConnectedCar.
+
+3. Test invocation of the ConnectedCar skill
+Open developer.amazon.com, navigate to the ConnectedCar skill, and test. Or, from the command line you can run the following:
+```bash
+ask simulate --skill-id <skill-id> --text "open greeter" --locale "en-US"
+```
+
+4. Change the invocation name of the skill to "Connected Car"
+From your Cloud9 interface, open models/en-US.json and change the interactionModel.languageModel.invocationName. Redeploy and test
+the skill with ```ask deploy``` and ```ask simulate```
+
+5. Update the Lambda function code and deploy again
+Our Lambda function requires the node-fetch library, so install it with ```npm install`` (make sure you're in the ConnectedCar/lambda/custom directory).
+You'll also need to update the Lambda function code. Replace the contents of AlexaSkill/ConnectedCar/lambda/custom/index.js with
+the program from AlexaSkill/ConnectedCarLambda.js
+
+6. Update the IAM role for the Alexa Lambda
+If you have named your Alexa skill "ConnectedCar," then you should have a Lambda function named ask-custom-ConnectedCar, and an
+IAM role called ask-lambda-ConnectedCar. Add the AmazonDynamoDBReadOnlyAccess policy to the ask-lambda-ConnectedCar role.
+Next, from Cloud9, do another deployment with ASK CLI:
+
+```bash
+ask deploy --target lambda
+```
+
+> By default, the The ASK CLI updates both the intent schema for the Alexa skill as well as the supporting Lambda function. You can
+> choose to update them independently by specifying the --target parameter. 
+
+At this point, the Alexa skill should be functional. If you launch it with "Alexa, Open Connected Car," then you should be able to 
+hear informaiton about your most recent trips. 
 
 ### 3.4 Interact with ConnectedCar
 Open developer.amazon.com, login, and browse to your ConnectedCar Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You
@@ -184,16 +225,16 @@ on "Test" near the top of the page. You can use this console to interact with an
 physical Echo device -- via text or via voice. Try these interactions:
 
 ```
-"Alexa, open <your skill name>"
-
-"Alexa, ask <your skill> about my car"
-
-"Alexa, ask <your skill> about my trips"
+"Alexa, open Connected Car"
 ```
 
 You can also test via the command line with this command:
 ```bash
-ask simulate --text "alexa, open <your skill>" --locale "en-US"
+ask simulate --text "alexa, open connected car" --locale "en-US"
 ```
 
-> Testing from the command line is handy for use in automated build pipelines
+> Testing from the command line is useful for use in automated build pipelines!
+
+This section is intended to demostrate the inetgration of connected vehicle data with other services. We chose to integrate with
+Alexa and HERE Maps because they are familiar and convenient with the ASK CLI. Of course, once your connected vehicle data is in AWS (DynamoDB in this case),
+then you could similarly integrate with a variety of other services.
