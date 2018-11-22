@@ -199,13 +199,20 @@ From your Cloud9 interface, open models/en-US.json and change the interactionMod
 the skill with ```ask deploy``` and ```ask simulate```
 
 5. Update the Lambda function code and deploy again
-Our Lambda function requires the node-fetch library, so install it with ```npm install`` (make sure you're in the ConnectedCar/lambda/custom directory).
+Our Lambda function requires the node-fetch library, so enter the ConnectedCar/lambda/custom directory and install it with ```npm install```
 You'll also need to update the Lambda function code. Replace the contents of AlexaSkill/ConnectedCar/lambda/custom/index.js with
 the program from AlexaSkill/ConnectedCarLambda.js
 
 6. Update the IAM role for the Alexa Lambda
 If you have named your Alexa skill "ConnectedCar," then you should have a Lambda function named ask-custom-ConnectedCar, and an
 IAM role called ask-lambda-ConnectedCar. Add the AmazonDynamoDBReadOnlyAccess policy to the ask-lambda-ConnectedCar role.
+
+7. Update the Lambda function with environment variables
+Browse to your AWS Console and open the Lambda servuce. Open your ask-custom-ConnectedCar Lambda function. Create three environment variables:
+a. app_id
+b. app_code
+c. table_name
+
 Next, from Cloud9, do another deployment with ASK CLI:
 
 ```bash
