@@ -20,7 +20,10 @@ nvm install v8.1.0 && nvm use v8.1.0
 npm install ask-cli --global
 ```
 
-Now, initialize the ASK CLI by issuing ```ask init --no-browser``` at the bash prompt.
+3. Initialize the ASK CLI by issuing the following command:
+```bash
+ask init --no-browser
+``` 
 
 <details>
 <summary><strong>Initialize the ASK CLI (expand for details)</strong></summary>
