@@ -175,12 +175,12 @@ First, you'll need to create an account on developer.amazon.com if you haven't a
 Once you have confirmed that your DynamoDB Trip table contains trip data with the GetRecentTrips.js program,
 follow these instructions to create a new skill using the ASK CLI. 
 
-1. Run the following command from the AlexaSkill directory to create a new "hello world" skill with the ASK CLI
+1. Run the following command from the AlexaSkill directory to create a new "hello world" skill with the ASK CLI<br>
 ```ask new --skill-name "ConnectedCar"```
 
 This command will create a new directory called ConnectedCar. The invocation name for this skill is "greeter."
 
-2. Deploy the ConnectedCar skill
+2. Deploy the ConnectedCar skill<br>
 Run the following command from the ConnectedCar directory:
 ```
 ask deploy
@@ -188,26 +188,26 @@ ask deploy
 If all goes well, this command will do two things: 1) create a new skill in developer.amazon.com called ConnectedCar, and create a 
 new Lambda function called ask-custom-ConnectedCar.
 
-3. Test invocation of the ConnectedCar skill
+3. Test invocation of the ConnectedCar skill<br>
 Open developer.amazon.com, navigate to the ConnectedCar skill, and test. Or, from the command line you can run the following:
 ```bash
 ask simulate --skill-id <skill-id> --text "open greeter" --locale "en-US"
 ```
 
-4. Change the invocation name of the skill to "Connected Car"
+4. Change the invocation name of the skill to "Connected Car"<br>
 From your Cloud9 interface, open models/en-US.json and change the interactionModel.languageModel.invocationName. Redeploy and test
 the skill with ```ask deploy``` and ```ask simulate```
 
-5. Update the Lambda function code and deploy again
+5. Update the Lambda function code and deploy again<br>
 Our Lambda function requires the node-fetch library, so enter the ConnectedCar/lambda/custom directory and install it with ```npm install```
 You'll also need to update the Lambda function code. Replace the contents of AlexaSkill/ConnectedCar/lambda/custom/index.js with
 the program from AlexaSkill/ConnectedCarLambda.js
 
-6. Update the IAM role for the Alexa Lambda
+6. Update the IAM role for the Alexa Lambda<br>
 If you have named your Alexa skill "ConnectedCar," then you should have a Lambda function named ask-custom-ConnectedCar, and an
 IAM role called ask-lambda-ConnectedCar. Add the AmazonDynamoDBReadOnlyAccess policy to the ask-lambda-ConnectedCar role.
 
-7. Update the Lambda function with environment variables
+7. Update the Lambda function with environment variables<br>
 Browse to your AWS Console and open the Lambda servuce. Open your ask-custom-ConnectedCar Lambda function. Create three environment variables:
 a. app_id
 b. app_code
