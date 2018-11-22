@@ -52,7 +52,7 @@ aws s3 ls
 ...should return a list of the S3 buckets in your account.
 
 </details>
-
+<br>
 
 4. Initialize the ASK CLI by issuing the following command:
 ```bash
