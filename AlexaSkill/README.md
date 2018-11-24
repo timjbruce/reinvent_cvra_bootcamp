@@ -3,11 +3,7 @@ In this section, we'll deploy an Alexa skill called ConnectedCar that will read 
 the three recent trips that you have taken.
 
 > Perform the following steps from within the AlexaSkill folder in your downloaded copy of the reinvent_cvra_bootcamp
-repository.
-
-> You'll need to install the ASK CLI (Alexa Skills Kit CLI) in this section
-
-> You'll need Node v8.1.0 for this section
+repository. If you havent already, run ```git clone https://github.com/dixonaws/reinvent_cvra_bootcamp``` in your Cloud9 environment
 
 > We'll be using us-east-1 (N Virginia) for this section
 
@@ -22,6 +18,7 @@ we need to configure it with permanent credentials.
 3. Disable "AWS managed temporary credentials" 
 4. Open a bash prompt and type ```aws configure```
 5. Enter the Access Key and Secret Access Key of a user that has AdministratorAccess credentials
+6. Be sure to enter ```us-east-1``` as the region
 
 Verify that everything worked by examining the file ```~/.aws/credentials```. It should resemble the following:
 ```bash
@@ -128,11 +125,7 @@ Profile [default] initialized successfully.
 nvm install v8.1.0
 
 ```
-
-
 ------
-
-// todo: update main instructions to clone the git repo locally into cloud9
 
 ### 3.1 Obtain an App_id and App_code from the HERE dveeloper site
 Head over to https://aws.amazon.com/marketplace/pp/B07JPLG9SR, establish a freemium account, and 
