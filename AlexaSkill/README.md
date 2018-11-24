@@ -122,9 +122,12 @@ Profile [default] initialized successfully.
 
 4. Install and activate Node v8.1.0 in your Cloud9 environment
 ```bash
-nvm install v8.1.0
+nvm install v8.1.4
 
 ```
+
+>Note: Node v8.1.0 has a specific compatibility problem with the ASK CLI
+
 ------
 
 ### 3.1 Obtain an App_id and App_code from the HERE dveeloper site
