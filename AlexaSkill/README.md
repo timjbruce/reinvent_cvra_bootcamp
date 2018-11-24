@@ -213,7 +213,7 @@ the skill with ```ask deploy``` and test again from the console
 Our Lambda function requires the ```node-fetch library```, so enter 
 the ```AlexaSkill/amt303/lambda/custom``` directory and install it with ```npm install node-fetch --save```
 You'll also need to update the Lambda function code. Replace the contents of ```AlexaSkill/amt303/lambda/custom/index.js```
-with the program from ```AlexaSkill/ConnectedCarLambda.js```. Exeute another deployment.
+with the program from ```AlexaSkill/ConnectedCarLambda.js```. Execute another deployment.
 
 6. Update the IAM role for the Alexa Lambda<br>
 If you have named your Alexa skill "amt303," then you should have a Lambda function named 
