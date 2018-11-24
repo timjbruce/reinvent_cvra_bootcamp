@@ -9,13 +9,9 @@ repository.
 
 > You'll need Node v8.1.0 for this section
 
-Preparation for this section:
-1. Install the ASK CLI (from the base Cloud9 directory)
-```bash
-npm install ask-cli --global
-```
+> We'll be using us-east-1 (N Virginia) for this section
 
-2. The AWS CLI is already installed on Cloud9, but is configured to use the EC2 instance role. For compatibility with the ASK CLI,
+1. The AWS CLI is already installed on Cloud9, but is configured to use the EC2 instance role. For compatibility with the ASK CLI,
 we need to configure it with permanent credentials.
 
 <details>
@@ -48,6 +44,13 @@ aws s3 ls
 
 </details>
 <br>
+
+
+2. Install the ASK CLI (from the base Cloud9 directory)
+```bash
+npm install ask-cli --global
+```
+
 
 3. Initialize the ASK CLI by issuing the following command:
 ```bash
