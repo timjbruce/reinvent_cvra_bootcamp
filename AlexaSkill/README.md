@@ -202,19 +202,16 @@ If all goes well, this command will do two things: 1) create a new skill in deve
 new Lambda function called ask-custom-amt303.
 
 3. Test invocation of the amt303 skill<br>
-Open developer.amazon.com, navigate to the amt303 skill, and test. Or, from the command line you can run the following:
-```bash
-ask simulate --skill-id <skill-id> --text "open hello world" --locale "en-US"
-```
-
-> Note: you can get the skill-id from the developer.amazon.com console.
+Open developer.amazon.com, navigate to the amt303 skill, navigate to the test tab, and test 
+with "alexa, open hello world." 
 
 4. Change the invocation name of the skill to "Connected Car"<br>
 From your Cloud9 interface, open models/en-US.json and change the ```interactionModel.languageModel.invocationName```. Redeploy and test
-the skill with ```ask deploy``` and ```ask simulate```
+the skill with ```ask deploy``` and test again from the console
 
 5. Update the Lambda function code and deploy again<br>
-Our Lambda function requires the node-fetch library, so enter the ConnectedCar/lambda/custom directory and install it with ```npm install```
+Our Lambda function requires the ```node-fetch library```, so enter 
+the ConnectedCar/lambda/custom directory and install it with ```npm install```
 You'll also need to update the Lambda function code. Replace the contents of AlexaSkill/ConnectedCar/lambda/custom/index.js with
 the program from AlexaSkill/ConnectedCarLambda.js
 
