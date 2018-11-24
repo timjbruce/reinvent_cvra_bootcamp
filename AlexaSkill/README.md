@@ -206,7 +206,7 @@ ask simulate --skill-id <skill-id> --text "open hello world" --locale "en-US"
 ```
 
 4. Change the invocation name of the skill to "Connected Car"<br>
-From your Cloud9 interface, open models/en-US.json and change the interactionModel.languageModel.invocationName. Redeploy and test
+From your Cloud9 interface, open models/en-US.json and change the ```interactionModel.languageModel.invocationName```. Redeploy and test
 the skill with ```ask deploy``` and ```ask simulate```
 
 5. Update the Lambda function code and deploy again<br>
