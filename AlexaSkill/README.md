@@ -184,6 +184,11 @@ skill called ConnectedCar. Follow these instructions to create a new skill using
 1. Run the following command from the AlexaSkill directory to create a new "hello world" skill with the ASK CLI<br>
 ```ask new --skill-name "ConnectedCar"```
 
+Choose the following:
+- Runtime: Node.js V8
+- Template: "Hello World" (of course)
+- 
+
 This command will create a new directory called ConnectedCar. The invocation name for this skill is "greeter."
 
 2. Deploy the ConnectedCar skill<br>
@@ -197,7 +202,7 @@ new Lambda function called ask-custom-ConnectedCar.
 3. Test invocation of the ConnectedCar skill<br>
 Open developer.amazon.com, navigate to the ConnectedCar skill, and test. Or, from the command line you can run the following:
 ```bash
-ask simulate --skill-id <skill-id> --text "open greeter" --locale "en-US"
+ask simulate --skill-id <skill-id> --text "open hello world" --locale "en-US"
 ```
 
 4. Change the invocation name of the skill to "Connected Car"<br>
