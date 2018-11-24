@@ -125,7 +125,7 @@ Profile [default] initialized successfully.
 
 4. Install and activate Node v8.1.0 in your Cloud9 environment
 ```bash
-nvm install v8.1.0 && nvm use v8.1.0
+nvm install v8.1.0
 
 ```
 
