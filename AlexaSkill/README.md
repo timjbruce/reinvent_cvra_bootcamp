@@ -3,7 +3,7 @@ In this section, we'll deploy an Alexa skill called ConnectedCar that will read 
 the three recent trips that you have taken.
 
 > Perform the following steps from within the ```AlexaSkill``` folder in your downloaded copy of the ```reinvent_cvra_bootcamp```
-repository. If you havent already, run ```git clone https://github.com/dixonaws/reinvent_cvra_bootcamp``` in your Cloud9 environment
+repository. If you haven't already, run ```git clone https://github.com/dixonaws/reinvent_cvra_bootcamp``` in your Cloud9 environment
 
 > We'll be using us-east-1 (N Virginia) for this section
 
@@ -62,7 +62,7 @@ Issue the following command:
 ask init --no-browser
 ```
 
-You should now see this screen in the command prompt. This step isused to select your AWS profile. Choose the default profile.
+You should now see this screen in the command prompt. This step is used to select your AWS profile. Choose the default profile.
 ```bash
 dixonaws:/environment$ ask init
 ? Please create a new profile or overwrite the existing profile.
@@ -130,9 +130,9 @@ nvm install v8.1.4
 
 ------
 
-### 3.1 Obtain an App_id and App_code from the HERE dveeloper site
+### 3.1 Obtain an App_id and App_code from the HERE developer site
 Head over to https://aws.amazon.com/marketplace/pp/B07JPLG9SR, establish a freemium account, and 
-make note of your app_code and app_id in your worksheet for this bootcamp.
+make note of your app_code and app_id in your worksheet for this session.
 
 ### 3.2 Run a Program to Test Your Permissions and CVRA Installation
 First, you can use a Node program included with the reinvent_cvra_bootcamp repo to
@@ -223,7 +223,7 @@ IAM role called ask-lambda-amt303. Add the ```AmazonDynamoDBReadOnlyAccess``` po
 ```ask-lambda-amt303``` role.
 
 7. Update the Lambda function with environment variables<br>
-Browse to your AWS Console and open the Lambda servuce. Open your ```ask-custom-amt303```
+Browse to your AWS Console and open the Lambda service. Open your ```ask-custom-amt303```
 Lambda function. Create three environment variables with values corresponding to the values in your 
 worksheet:
 a. app_id
@@ -240,11 +240,11 @@ ask deploy --target lambda
 > choose to update them independently by specifying the --target parameter. 
 
 At this point, the Alexa skill should be functional. If you launch it with "Alexa, Open Connected Car," then you should be able to 
-hear informaiton about your most recent trips. 
+hear information about your most recent trips. 
 
 ### 3.4 Interact with ConnectedCar
 Open developer.amazon.com, login, and browse to your ConnectedCar Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You
-should be able to see the ConnectedCar skill that you deployed in the previous section. Open ConnectedCar and click
+should be able to see the ConnectedCar skill that you deployed in the previous section. Open amt303 and click
 on "Test" near the top of the page. You can use this console to interact with an Alexa skill without using a
 physical Echo device -- via text or via voice. Try these interactions:
 
@@ -261,6 +261,6 @@ ask dialog --locale "en-US"
 > parameter; see this link for documentation
 > https://developer.amazon.com/docs/smapi/ask-cli-command-reference.html#dialog-command
 
-This section is intended to demostrate the inetgration of connected vehicle data with other services. We chose to integrate with
+This section is intended to demonstrate the integration of connected vehicle data with other services. We chose to integrate with
 Alexa and HERE Maps because they are familiar and convenient with the ASK CLI. Of course, once your connected vehicle data is in AWS (DynamoDB in this case),
 then you could similarly integrate with a variety of other services.
