@@ -206,7 +206,7 @@ Open developer.amazon.com, navigate to the ```amt303 skill```, navigate to the t
 with "alexa, open hello world." 
 
 4. Change the invocation name of the skill to "Connected Car"<br>
-From your Cloud9 interface, open models/en-US.json and change the ```interactionModel.languageModel.invocationName```. Redeploy and test
+From your Cloud9 interface, open ```models/en-US.json``` and change the ```interactionModel.languageModel.invocationName```. Redeploy and test
 the skill with ```ask deploy``` and test again from the console
 
 5. Update the Lambda function code and deploy again<br>
