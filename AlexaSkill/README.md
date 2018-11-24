@@ -2,7 +2,7 @@
 In this section, we'll deploy an Alexa skill called ConnectedCar that will read back information about
 the three recent trips that you have taken.
 
-> Perform the following steps from within the AlexaSkill folder in your downloaded copy of the reinvent_cvra_bootcamp
+> Perform the following steps from within the ```AlexaSkill``` folder in your downloaded copy of the ```reinvent_cvra_bootcamp```
 repository. If you havent already, run ```git clone https://github.com/dixonaws/reinvent_cvra_bootcamp``` in your Cloud9 environment
 
 > We'll be using us-east-1 (N Virginia) for this section
@@ -190,7 +190,7 @@ Choose the following:
 - Runtime: Node.js V8
 - Template: "Hello World" (naturally)
 
-This command will create a new directory called ```amt303```. The dwfault invocation 
+This command will create a new directory called ```amt303```. The default invocation 
 name for this skill is "hello world," which we'll change later.
 
 2. Deploy the amt303 skill<br>
@@ -198,8 +198,8 @@ Run the following command from the ConnectedCar directory:
 ```
 ask deploy
 ```
-If all goes well, this command will do two things: 1) creates a new skill in developer.amazon.com called ```amt303```, and 
-2) creates a new Lambda function called ```ask-custom-amt303```.
+If all goes well, this command will do two things: a) create a new skill in developer.amazon.com called ```amt303```, and 
+b) creates a new Lambda function called ```ask-custom-amt303```.
 
 3. Test invocation of the amt303 skill<br>
 Open developer.amazon.com, navigate to the ```amt303 skill```, navigate to the test tab, and test 
