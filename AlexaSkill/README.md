@@ -182,7 +182,9 @@ step, you'll use the trip data recorded in your DynamoDB table with an Alexa
 skill called ConnectedCar. Follow these instructions to create a new skill using the ASK CLI. 
 
 1. Run the following command from the AlexaSkill directory to create a new "hello world" skill with the ASK CLI<br>
-```ask new --skill-name "ConnectedCar"```
+```ask new --skill-name "amt303"```
+
+> Note: the skill name will be "amt303," but we will modify the *invocation name* in a later step 
 
 Choose the following:
 - Runtime: Node.js V8
@@ -204,6 +206,8 @@ Open developer.amazon.com, navigate to the ConnectedCar skill, and test. Or, fro
 ```bash
 ask simulate --skill-id <skill-id> --text "open hello world" --locale "en-US"
 ```
+
+> Note: you can get the skil-id from the developer.amazon.com console.
 
 4. Change the invocation name of the skill to "Connected Car"<br>
 From your Cloud9 interface, open models/en-US.json and change the ```interactionModel.languageModel.invocationName```. Redeploy and test
