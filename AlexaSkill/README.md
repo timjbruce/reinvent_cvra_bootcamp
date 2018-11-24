@@ -198,11 +198,11 @@ Run the following command from the ConnectedCar directory:
 ```
 ask deploy
 ```
-If all goes well, this command will do two things: 1) create a new skill in developer.amazon.com called amt303, and create a 
-new Lambda function called ask-custom-amt303.
+If all goes well, this command will do two things: 1) create a new skill in developer.amazon.com called ```amt303```, and create a 
+new Lambda function called ```ask-custom-amt303```.
 
 3. Test invocation of the amt303 skill<br>
-Open developer.amazon.com, navigate to the amt303 skill, navigate to the test tab, and test 
+Open developer.amazon.com, navigate to the ```amt303 skill```, navigate to the test tab, and test 
 with "alexa, open hello world." 
 
 4. Change the invocation name of the skill to "Connected Car"<br>
@@ -211,7 +211,7 @@ the skill with ```ask deploy``` and test again from the console
 
 5. Update the Lambda function code and deploy again<br>
 Our Lambda function requires the ```node-fetch library```, so enter 
-the ConnectedCar/lambda/custom directory and install it with ```npm install```
+the ConnectedCar/lambda/custom directory and install it with ```npm install node-fetch --save```
 You'll also need to update the Lambda function code. Replace the contents of AlexaSkill/ConnectedCar/lambda/custom/index.js with
 the program from AlexaSkill/ConnectedCarLambda.js
 
