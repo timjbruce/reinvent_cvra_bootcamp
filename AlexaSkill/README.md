@@ -120,7 +120,7 @@ Profile [default] initialized successfully.
 </details>
 <br>
 
-4. Install and activate Node v8.1.0 in your Cloud9 environment
+4. Install and activate Node v8.1.4 in your Cloud9 environment
 ```bash
 nvm install v8.1.4
 
