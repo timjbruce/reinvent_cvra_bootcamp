@@ -173,11 +173,10 @@ not present.
 
 
 ### 3.3 Deploy the Alexa Skill
-In ths step, you'll use the trip data recorded in your DynamoDB table with an Alexa skill called ConnectedCar. 
-First, you'll need to create an account on developer.amazon.com if you haven't already done so.
-
-Once you have confirmed that your DynamoDB Trip table contains trip data with the GetRecentTrips.js program,
-follow these instructions to create a new skill using the ASK CLI. 
+In step 3.2, you confirmed that your DynamoDB Trip table contains trip data,
+that you have HERE credentials setup properly, and that your AWS permissions are ok. In ths 
+step, you'll use the trip data recorded in your DynamoDB table with an Alexa 
+skill called ConnectedCar. Follow these instructions to create a new skill using the ASK CLI. 
 
 1. Run the following command from the AlexaSkill directory to create a new "hello world" skill with the ASK CLI<br>
 ```ask new --skill-name "ConnectedCar"```
