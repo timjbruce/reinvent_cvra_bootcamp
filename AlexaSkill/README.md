@@ -211,16 +211,20 @@ the skill with ```ask deploy``` and test again from the console
 
 5. Update the Lambda function code and deploy again<br>
 Our Lambda function requires the ```node-fetch library```, so enter 
-the ConnectedCar/lambda/custom directory and install it with ```npm install node-fetch --save```
-You'll also need to update the Lambda function code. Replace the contents of AlexaSkill/ConnectedCar/lambda/custom/index.js with
-the program from AlexaSkill/ConnectedCarLambda.js
+the ```AlexaSkill/amt303/lambda/custom``` directory and install it with ```npm install node-fetch --save```
+You'll also need to update the Lambda function code. Replace the contents of ```AlexaSkill/amt303/lambda/custom/index.js```
+with the program from ```AlexaSkill/ConnectedCarLambda.js```. Exeute another deployment.
 
 6. Update the IAM role for the Alexa Lambda<br>
-If you have named your Alexa skill "ConnectedCar," then you should have a Lambda function named ask-custom-ConnectedCar, and an
-IAM role called ask-lambda-ConnectedCar. Add the AmazonDynamoDBReadOnlyAccess policy to the ask-lambda-ConnectedCar role.
+If you have named your Alexa skill "amt303," then you should have a Lambda function named 
+```ask-custom-amt303```, and an
+IAM role called ask-lambda-amt303. Add the ```AmazonDynamoDBReadOnlyAccess``` policy to the 
+```ask-lambda-ConnectedCar``` role.
 
 7. Update the Lambda function with environment variables<br>
-Browse to your AWS Console and open the Lambda servuce. Open your ask-custom-ConnectedCar Lambda function. Create three environment variables:
+Browse to your AWS Console and open the Lambda servuce. Open your ```ask-custom-amt303```
+Lambda function. Create three environment variables with values corresponding to the values in your 
+worksheet:
 a. app_id
 b. app_code
 c. table_name
