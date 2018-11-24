@@ -191,23 +191,23 @@ Choose the following:
 - Template: "Hello World" (of course)
 - 
 
-This command will create a new directory called ConnectedCar. The invocation name for this skill is "greeter."
+This command will create a new directory called ```amt303```. The invocation name for this skill is "hello world."
 
-2. Deploy the ConnectedCar skill<br>
+2. Deploy the amt303 skill<br>
 Run the following command from the ConnectedCar directory:
 ```
 ask deploy
 ```
-If all goes well, this command will do two things: 1) create a new skill in developer.amazon.com called ConnectedCar, and create a 
-new Lambda function called ask-custom-ConnectedCar.
+If all goes well, this command will do two things: 1) create a new skill in developer.amazon.com called amt303, and create a 
+new Lambda function called ask-custom-amt303.
 
-3. Test invocation of the ConnectedCar skill<br>
-Open developer.amazon.com, navigate to the ConnectedCar skill, and test. Or, from the command line you can run the following:
+3. Test invocation of the amt303 skill<br>
+Open developer.amazon.com, navigate to the amt303 skill, and test. Or, from the command line you can run the following:
 ```bash
 ask simulate --skill-id <skill-id> --text "open hello world" --locale "en-US"
 ```
 
-> Note: you can get the skil-id from the developer.amazon.com console.
+> Note: you can get the skill-id from the developer.amazon.com console.
 
 4. Change the invocation name of the skill to "Connected Car"<br>
 From your Cloud9 interface, open models/en-US.json and change the ```interactionModel.languageModel.invocationName```. Redeploy and test
