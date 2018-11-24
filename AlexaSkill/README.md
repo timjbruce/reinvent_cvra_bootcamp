@@ -203,7 +203,7 @@ new Lambda function called ```ask-custom-amt303```.
 
 3. Test invocation of the amt303 skill<br>
 Open developer.amazon.com, navigate to the ```amt303 skill```, navigate to the test tab, and test 
-with "alexa, open hello world." 
+with "alexa, open hello world." Alternatively, you can test from the command line with ```ask dialog --locale "en-US"```
 
 4. Change the invocation name of the skill to "Connected Car"<br>
 From your Cloud9 interface, open ```models/en-US.json``` and change the ```interactionModel.languageModel.invocationName```. Redeploy and test
