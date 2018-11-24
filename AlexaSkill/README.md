@@ -188,26 +188,27 @@ skill called ConnectedCar. Follow these instructions to create a new skill using
 
 Choose the following:
 - Runtime: Node.js V8
-- Template: "Hello World" (of course)
-- 
+- Template: "Hello World" (naturally)
 
-This command will create a new directory called ```amt303```. The invocation name for this skill is "hello world."
+This command will create a new directory called ```amt303```. The dwfault invocation 
+name for this skill is "hello world," which we'll change later.
 
 2. Deploy the amt303 skill<br>
 Run the following command from the ConnectedCar directory:
 ```
 ask deploy
 ```
-If all goes well, this command will do two things: 1) create a new skill in developer.amazon.com called ```amt303```, and create a 
-new Lambda function called ```ask-custom-amt303```.
+If all goes well, this command will do two things: 1) creates a new skill in developer.amazon.com called ```amt303```, and 
+2) creates a new Lambda function called ```ask-custom-amt303```.
 
 3. Test invocation of the amt303 skill<br>
 Open developer.amazon.com, navigate to the ```amt303 skill```, navigate to the test tab, and test 
-with "alexa, open hello world." Alternatively, you can test from the command line with ```ask dialog --locale "en-US"```
+with "alexa, open hello world." Alternatively, you can test from the command line 
+with ```ask dialog --locale "en-US"```
 
 4. Change the invocation name of the skill to "Connected Car"<br>
 From your Cloud9 interface, open ```models/en-US.json``` and change the ```interactionModel.languageModel.invocationName```. Redeploy and test
-the skill with ```ask deploy``` and test again from the console
+the skill with ```ask deploy``` and test again from the console or command line.
 
 5. Update the Lambda function code and deploy again<br>
 Our Lambda function requires the ```node-fetch library```, so enter 
@@ -219,7 +220,7 @@ with the program from ```AlexaSkill/ConnectedCarLambda.js```. Execute another de
 If you have named your Alexa skill "amt303," then you should have a Lambda function named 
 ```ask-custom-amt303```, and an
 IAM role called ask-lambda-amt303. Add the ```AmazonDynamoDBReadOnlyAccess``` policy to the 
-```ask-lambda-ConnectedCar``` role.
+```ask-lambda-amt303``` role.
 
 7. Update the Lambda function with environment variables<br>
 Browse to your AWS Console and open the Lambda servuce. Open your ```ask-custom-amt303```
@@ -253,10 +254,12 @@ physical Echo device -- via text or via voice. Try these interactions:
 
 You can also test via the command line with this command:
 ```bash
-ask simulate --text "alexa, open connected car" --locale "en-US"
+ask dialog --locale "en-US"
 ```
 
-> Testing from the command line is useful for use in automated build pipelines!
+> Testing from the command line is useful for use in automated build pipelines, particularly the 'replay'
+> parameter; see this link for documentation
+> https://developer.amazon.com/docs/smapi/ask-cli-command-reference.html#dialog-command
 
 This section is intended to demostrate the inetgration of connected vehicle data with other services. We chose to integrate with
 Alexa and HERE Maps because they are familiar and convenient with the ASK CLI. Of course, once your connected vehicle data is in AWS (DynamoDB in this case),
