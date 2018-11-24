@@ -167,6 +167,9 @@ vin: 2Z61V6JISOE60EWI8, start time: 2018-10-28T18:34:41.432Z, distance: 0.0, nei
 vin: 9JVVV63E5NVZWH5UH, start time: 2018-10-17T01:00:09.695Z, distance: 228.0, neighborhood: Eisenhower East, Alexandria, VA, United States
 ```
 
+> Note: if you get an error when running this program "The security token included in the request is 
+invalid," then have a look at your ~/.aws/credentials file and ensure that ```aws_session_token``` is 
+not present.
 
 
 ### 3.3 Deploy the Alexa Skill
