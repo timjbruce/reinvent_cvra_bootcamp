@@ -1,5 +1,7 @@
 # Overview
-This part of the lab you will simulate a vehicle executing remote commands to flash its lights.
+This part of the lab you will simulate a vehicle executing a remote command to flash its lights and beep its horn.
+
+This part of the workshop is more advanced and requires knowledge of how AWS Services work and being able to code in python and node.js, we have only provided guidence in the instructions rather than step by step instructions.
 
 The lab will utilise a EC2 instance running Greengrass to simulate the vehicle.
 
@@ -7,7 +9,7 @@ The below diagram shows the architecture of what you will create in this section
 
 ![Image of Remote Command Architecture](remotecommandarch.png)
 
-For the lab you will need to use the below JSON payload as the input into the Lambda function to simulate the remote command. Input a VIN number from the IoT Simulator into the payload and update the timestamp
+For the lab you will need to use the below JSON payload as the input into the Lambda function to simulate the remote command. You will need to input a VIN number from the IoT Simulator into the payload and update the timestamp
 
 ```json
 {
@@ -22,7 +24,7 @@ For the lab you will need to use the below JSON payload as the input into the La
 
 For the simulation of the car, we will deploy the below CloudFormation template which will give you an EC2 instance with Greengrass installed and a Cloud9 interface.
 
-[CloudFormation Greengrass Template](cfn-gg-vehicle.json)
+[CloudFormation Greengrass Template](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://s3.amazonaws.com/cvra-deepdrive-us-east-1-683617902415/cfn-iot-gg-ml-c9-workshop.json&stackName=cfn-iot-gg-ml-c9)
 
 ### Remote Command Audit table.
 Create a new DynamoDB table called **vehicleCommandAuditTable** with a Primary Key called **vin** type **string** and a sort key called **exe_id** type String.
@@ -43,9 +45,7 @@ Select SQS as the event source with the **remoteCommandsQueue** as the SQS queue
 The Function will need to take the SQS event and send a message to IoT topic **connectedcar/cmdsend**
 
 ### Deploy a Vehicle
-Deploy the attached CloudFormation template.
-
-Once deployed log into the Cloud9 web page.
+Log into the Cloud9 web page.
 
 From the AWS Console open AWS IoT and Choose Greengrass and then select "Get Started".
 
