@@ -196,11 +196,11 @@ It will take a while for the CloudFront distribution to deploy, while this is ha
 
 ## Building the Web UI
 
-For this step you will need npm installed on your laptop, if you do not have it installed you can follow these [instructions](https://www.npmjs.com/get-npm) to install it.
+For this step you will need Node.js (npm) installed on your laptop, if you do not have it installed you can follow these [instructions](https://www.npmjs.com/get-npm) to install it.
 
 You will also need the awscli setup to access your account.
 
-1. Download the source code for the Fleet Management Portal to your laptop and uncompress the [Zip File](web-ui.zip)
+1. Download the source code for the Fleet Management Portal to your laptop and uncompress the [Zip File](https://s3.amazonaws.com/cvra-deepdrive-us-east-1-683617902415/web-ui.zip)
 
 2. Change Directory (cd) into the uncompressed zip file directory.
 
@@ -220,7 +220,19 @@ You will also need the awscli setup to access your account.
   "MAPBOX_API_TOKEN":""
 }
 ```
-
+An example of what the file should look like is below:
+```json
+{
+  "AWS_ACCOUNT_ID":"683617902415",
+  "AWS_REGION":"us-east-1",
+  "USER_POOL_ID":"us-east-1_PVS4Ll5de",
+  "USER_POOL_CLIENT_ID":"be2dbsi4dcukksoold8s6454q",
+  "IDENTITY_POOL_ID":"us-east-1:d9263cf5-bbbc-4fbe-826c-b465f59a36fa",
+  "COGNITO_CUSTOM_DOMAIN":"683617902415",
+  "IOT_ENDPOINT":"a3nez6ylijpipt.iot.us-east-1.amazonaws.com",
+  "MAPBOX_API_TOKEN":"pk.eyJ1Ijoic3RldmJsYSIsImEiOiJjamk5cTlsd2swd3plM2twMGxqZWRha2VmIn0.DeYYrRLsYmk90Mf7EiIo-A"
+}
+```
 4. From the web-ui directory run npm install
 
 `$ npm install`
@@ -260,10 +272,16 @@ Before re:Invent this step will be automated.
 3. For each VIN within the IoT Simulator you will need to make a new entry into the vehicleTable with the following String Items.
  - modelName
  - vehicleId
+ - vin
 
-The modelName can be anything you like for example "Tesla Model S" and the vehicleId has to be a unique 5 digit number.
-
+The modelName can be anything you like for example "Yellow Car" or "Sports X" and the vehicleId has to be a unique 5 digit number.
 
 ## Accessing the Fleet Management Portal.
 
-Browse to the CloudFront domain name created earlier and use the fleet.admin User you created earlier on to log-in.
+The CloudFront distribution will take a little while to deploy, so if its still deploying please move onto the Alexa Skill part and come back to viewing the portal once the deployment has completed.
+
+Browse to the CloudFront domain name created earlier (dasd789sdfa.cloudfront.net for example) and use the fleet.admin User you created earlier on to log-in.
+
+Once logged in you should see a dashboard simular to the below image.
+
+![Fleet Admin Dashboard](fm-dash.png)
