@@ -153,7 +153,7 @@ Additionally you can look at the DynamoDB tables created above to ensure data is
 
 ## Create a new Trip API Service
 
-1. Download the attached [Trip Function CloudFormation Template](trip-function-cfm.yaml) and deploy it into your account. As part of the stack deployment you will need to reference the trip and route DynamoDB tables so please make a note of them before deploying the stack.
+1. Click the following link [Trip Function CloudFormation Template](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://s3.amazonaws.com/cvra-deepdrive-us-east-1-683617902415/trip-function-cfm.yaml&stackName=tripFunction) to deploy the CloudFormation template into your account. As part of the stack deployment you will need to reference the trip and route DynamoDB tables so please make a note of them before deploying the stack.
 
 *Note that the above CloudFormation template also deploys a S3 Bucket which will host the Fleet Admin Portal*
 
@@ -169,9 +169,9 @@ Additionally you can look at the DynamoDB tables created above to ensure data is
 
 In this section we will use the Cognito setup deployed within the CVRA and extend it to support the Fleet Admin Portal.
 
-1. Deploy the following CloudFormation template to add a fleet-admin group and to create a user [Cognito CloudFormation Template](cognito.yaml)
+1. Deploy the following CloudFormation template to add a fleet-admin group and to create a user [Cognito CloudFormation Template](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://s3.amazonaws.com/cvra-deepdrive-us-east-1-683617902415/cognito.yaml&stackName=fleetAdminCognito)
 
-When deploying the stack you will need to enter your Email Address to ensure you get the password for the fleet.admin user.
+When deploying the stack you will need to enter your Email Address to ensure you get the password for the fleet.admin user and you will need to enter you Cognito Pool ID. Your Cognito Pool ID can be found in the output of the cvra CloudFormation template called CognitoUserPoolId.
 
 3. From the AWS Console, select the Cognito Service and then click on the **connected-vehicle-user-pool** user pool.
 
@@ -186,7 +186,7 @@ When deploying the stack you will need to enter your Email Address to ensure you
  - **Viewer Protocol Policy** should be Redirect HTTP to HTTPS
  - **Query String Forwarding and Caching** should be Forward all, cache based on all
  - **Object Caching** should be set to Customized with a **Default TTL** of 5
-
+ 
 It will take a while for the CloudFront distribution to deploy, while this is happening we can build the web site. Before you move to the next step take a note of the CloudFront domain name.
 
 7. Back in Cognito, select **App client settings** under the connected-vehicle-user-pool.
