@@ -1,0 +1,713 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "AWS CloudFormation template for various IoT workshops. Creates a Cloud9 and SageMaker instance and bootstraps both instances.",
+
+  "Parameters" : {
+    "01C9InstanceType" : {
+      "Description" : "Cloud9 instance type",
+      "Type" : "String",
+      "Default" : "m4.large",
+      "AllowedValues" : [ "m4.large", "m4.xlarge", "t2.large" ],
+      "ConstraintDescription" : "Must be a valid Cloud9 instance type"
+    },
+    "02MLInstanceType" : {
+      "Description" : "SageMaker instance type",
+      "Type" : "String",
+      "Default" : "ml.m4.xlarge",
+      "AllowedValues" : [ "ml.m4.xlarge", "ml.p2.xlarge", "ml.t2.large" ],
+      "ConstraintDescription" : "Must be a valid SageMaker instance type"
+    }
+  },
+
+  "Resources" : {
+
+    "VPC" : {
+      "Type" : "AWS::EC2::VPC",
+      "Properties" : {
+        "CidrBlock" : "192.168.128.0/24",
+        "EnableDnsSupport" : "true",
+        "EnableDnsHostnames" : "true",
+        "Tags" : [
+          { "Key" : "CFN Stack", "Value" : { "Ref" : "AWS::StackName" } },
+          { "Key" : "Name", "Value" : "IoT workshop 192.168.128.0/24" }
+        ]
+      }
+    },
+
+    "PubSubnet" : {
+      "Type" : "AWS::EC2::Subnet",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "AvailabilityZone" : {"Fn::Join": ["", [{"Ref": "AWS::Region"}, "a" ]]},
+        "CidrBlock" : "192.168.128.0/25",
+        "MapPublicIpOnLaunch" : "true",
+        "Tags" : [
+          { "Key" : "CFN Stack", "Value" : { "Ref" : "AWS::StackName" } },
+          { "Key" : "Name", "Value" : "IoT workshop 192.168.128.0/25" }
+        ]
+      }
+    },
+
+    "InternetGateway" : {
+      "Type" : "AWS::EC2::InternetGateway",
+      "Properties" : {
+        "Tags" : [
+          { "Key" : "CFN Stack", "Value" : { "Ref" : "AWS::StackName" } },
+          { "Key" : "Name", "Value" : "IoT workshop" }
+        ]
+      }
+    },
+
+    "GatewayToInternet" : {
+       "Type" : "AWS::EC2::VPCGatewayAttachment",
+       "Properties" : {
+         "VpcId" : { "Ref" : "VPC" },
+         "InternetGatewayId" : { "Ref" : "InternetGateway" }
+       }
+    },
+
+    "PublicRouteTable" : {
+      "Type" : "AWS::EC2::RouteTable",
+      "DependsOn": "GatewayToInternet",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "Tags" : [
+          { "Key" : "CFN Stack", "Value" : { "Ref" : "AWS::StackName" } },
+          { "Key" : "Name", "Value" : "IoT workshop" }
+        ]
+      }
+    },
+
+    "PublicRoute" : {
+      "Type" : "AWS::EC2::Route",
+      "Properties" : {
+        "RouteTableId" : { "Ref" : "PublicRouteTable" },
+        "DestinationCidrBlock" : "0.0.0.0/0",
+        "GatewayId" : { "Ref" : "InternetGateway" }
+      }
+    },
+
+    "PubSubnetRTAssoc" : {
+      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties" : {
+        "SubnetId" : { "Ref" : "PubSubnet" },
+        "RouteTableId" : { "Ref" : "PublicRouteTable" }
+      }
+    },
+
+    "GGOtaS3UrlSignerRole": {
+       "Type": "AWS::IAM::Role",
+       "Properties": {
+          "AssumeRolePolicyDocument": {
+             "Statement": [ {
+                "Effect": "Allow",
+                "Principal": {
+                   "Service": [ "iot.amazonaws.com" ]
+                },
+                "Action": [ "sts:AssumeRole" ]
+             } ]
+          },
+          "Policies": [ {
+             "PolicyName": {"Fn::Join": ["-", ["GGOtaS3UrlSignerPolicy", {"Ref": "AWS::Region"} ]]},
+             "PolicyDocument": {
+                 "Version":"2012-10-17",
+                 "Statement":[
+                   {
+                       "Effect": "Allow",
+                       "Action": [
+                           "s3:GetObject"
+                       ],
+                       "Resource": [
+                           "arn:aws:s3:::eu-central-1-greengrass-updates/*",
+                           "arn:aws:s3:::eu-west-1-greengrass-updates/*",
+                           "arn:aws:s3:::us-east-1-greengrass-updates/*",
+                           "arn:aws:s3:::ap-northeast-1-greengrass-updates/*",
+                           "arn:aws:s3:::us-west-2-greengrass-updates/*",
+                           "arn:aws:s3:::ap-southeast-2-greengrass-updates/*"
+                       ]
+                   }
+                 ]
+               }
+             }
+           ],
+          "Path": "/"
+        }
+    },
+
+    "IoTWSS3Bucket" : {
+      "Type" : "AWS::S3::Bucket"
+    },
+
+    "IoTWSIoTPolicy": {
+         "Type": "AWS::IoT::Policy",
+         "Properties": {
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                  {
+                      "Effect": "Allow",
+                      "Action": [
+                          "iot:*"
+                      ],
+                      "Resource": [
+                          "*"
+                      ]
+                  }
+              ]
+            }
+         }
+      },
+
+      "IoTWSRegLambdaJITRRole": {
+         "Type": "AWS::IAM::Role",
+         "Properties": {
+            "AssumeRolePolicyDocument": {
+               "Statement": [ {
+                  "Effect": "Allow",
+                  "Principal": {
+                     "Service": [ "lambda.amazonaws.com" ]
+                  },
+                  "Action": [ "sts:AssumeRole" ]
+               } ]
+            },
+            "Policies": [ {
+               "PolicyName": {"Fn::Join": ["", ["IoTWSRegLambdaJITRPolicy-", {"Ref": "AWS::Region"} ]]},
+               "PolicyDocument": {
+                   "Version":"2012-10-17",
+                   "Statement":[
+                      {
+                         "Effect":"Allow",
+                         "Action":[
+                            "logs:CreateLogGroup",
+                            "logs:CreateLogStream",
+                            "logs:PutLogEvents"
+                         ],
+                         "Resource":"arn:aws:logs:*:*:*"
+                      },
+                      {
+                         "Effect":"Allow",
+                         "Action":[
+                            "iot:CreateThing",
+                            "iot:UpdateCertificate",
+                            "iot:CreatePolicy",
+                            "iot:AttachPolicy",
+                            "iot:DescribeCertificate",
+                            "iot:AttachThingPrincipal"
+                         ],
+                         "Resource":"*"
+                      }
+                   ]
+                }
+               }
+             ],
+            "Path": "/"
+          }
+      },
+
+    "IoTWSIoTServiceRole": {
+       "Type": "AWS::IAM::Role",
+       "Properties": {
+          "AssumeRolePolicyDocument": {
+             "Statement": [ {
+                "Effect": "Allow",
+                "Principal": {
+                   "Service": [ "iot.amazonaws.com" ]
+                },
+                "Action": [ "sts:AssumeRole" ]
+             } ]
+          },
+          "ManagedPolicyArns": [
+            "arn:aws:iam::aws:policy/service-role/AWSIoTThingsRegistration",
+            "arn:aws:iam::aws:policy/service-role/AWSIoTLogging",
+            "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+          ],
+          "Path": "/"
+        }
+    },
+
+    "IoTWSC9Role": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "ec2.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": {"Fn::Join": ["", ["IoTWSC9Policy-", {"Ref": "AWS::Region"} ]]},
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement" : [ {
+                  "Effect" : "Allow",
+                  "Action" : [
+                      "iot:*",
+                      "greengrass:*",
+                      "s3:*",
+                      "iam:PassRole",
+                      "lambda:CreateFunction",
+                      "lambda:GetFunction",
+                      "lambda:ListFunctions",
+                      "lambda:DeleteFunction",
+                      "lambda:AddPermission",
+                      "lambda:GetPolicy",
+                      "logs:FilterLogEvents",
+                      "dynamodb:PutItem",
+                      "dynamodb:GetItem",
+                      "dynamodb:Scan"
+                  ],
+                  "Resource" : "*"
+              }]
+            }
+          }
+        ],
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+        ],
+        "Path": "/"
+      }
+    },
+    "IoTWSC9InstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Path": "/",
+        "Roles": [
+          {
+            "Ref": "IoTWSC9Role"
+          }
+        ]
+      }
+    },
+
+    "IoTWSC9Instance": {
+      "Description": "-",
+      "Type": "AWS::Cloud9::EnvironmentEC2",
+      "Properties": {
+        "Description": "AWS Cloud9 instance for IoT workshops",
+        "AutomaticStopTimeMinutes": 120,
+        "InstanceType": { "Ref" : "01C9InstanceType" },
+        "Name": { "Ref": "AWS::StackName" },
+        "SubnetId": { "Ref" : "PubSubnet" }
+      }
+    },
+
+    "LambdaExecutionRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Path": "/",
+        "Policies": [
+          {
+            "PolicyName" : {"Fn::Join": ["", ["IoTWSLambdaPolicy-", {"Ref": "AWS::Region"} ]]},
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": "arn:aws:logs:*:*:*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "cloudformation:DescribeStacks",
+                    "cloudformation:DescribeStackEvents",
+                    "cloudformation:DescribeStackResource",
+                    "cloudformation:DescribeStackResources",
+                    "ec2:DescribeInstances",
+                    "ec2:AssociateIamInstanceProfile",
+                    "ec2:ModifyInstanceAttribute",
+                    "ec2:ReplaceIamInstanceProfileAssociation",
+                    "iam:ListInstanceProfiles",
+                    "iam:PassRole",
+                    "ssm:DescribeInstanceInformation",
+                    "ssm:SendCommand"
+                  ],
+                  "Resource": "*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:*"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::GetAtt": [
+                        "IoTWSS3Bucket",
+                        "Arn"
+                      ]
+                    },
+                    {
+                      "Fn::Join": [
+                        "",
+                        [
+                          {
+                            "Fn::GetAtt": [
+                              "IoTWSS3Bucket",
+                              "Arn"
+                            ]
+                          },
+                          "/*"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+
+    "CreateBootstrapC9Lambda": {
+      "Description": "Copy lambda to S3 for bootstrapping Cloud9 instance",
+      "Type": "Custom::CreateBootstrapC9Lambda",
+      "DependsOn": [
+        "CreateBootstrapC9LambdaFunction",
+        "IoTWSS3Bucket",
+        "LambdaExecutionRole"
+      ],
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CreateBootstrapC9LambdaFunction",
+            "Arn"
+          ]
+        },
+        "S3_BUCKET": { "Ref": "IoTWSS3Bucket" },
+      }
+    },
+
+    "CreateBootstrapC9LambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "ZipFile": {
+            "Fn::Join": [
+              "\n",
+              [
+                "from __future__ import print_function",
+                "import boto3",
+                "import logging",
+                "import json",
+                "import time",
+                "import traceback",
+                "import urllib",
+                "import cfnresponse",
+                "",
+                "logger = logging.getLogger()",
+                "logger.setLevel(logging.INFO)",
+                "",
+                "lambda_zip_url = 'http://d2kq1dzvc5e22d.cloudfront.net/workshop-cfn/src/c9_bootstrap_lambda.zip'",
+                "tmp_file_lambda_zip = '/tmp/c9_bootstrap_lambda.zip'",
+                "",
+                "def handler(event, context):",
+                "    logger.info('event: {}'.format(event))",
+                "    logger.info('context: {}'.format(context))",
+                "    responseData = {}",
+                "",
+                "    # Immediately respond on Delete",
+                "    if event['RequestType'] == 'Delete':",
+                "        try:",
+                "            cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')",
+                "        except Exception as e:",
+                "            logger.error(e, exc_info=True)",
+                "            responseData = {'Error': traceback.format_exc(e)}",
+                "            cfnresponse.send(event, context, cfnresponse.FAILED, responseData, 'CustomResourcePhysicalID')",
+                "",
+                "    if event['RequestType'] == 'Create':",
+                "        s3_bucket = event['ResourceProperties']['S3_BUCKET']",
+                "        s3_key = 'c9_bootstrap_lambda.zip'",
+                "",
+                "        max_tries = 5",
+                "        num_tries = 0",
+                "        uploaded = False",
+                "        errors = []",
+                "        while uploaded is False and num_tries < max_tries:",
+                "            num_tries +=1",
+                "            logger.info('num_tries: {} max_tries: {}'.format(num_tries, max_tries))",
+                "            try:",
+                "                logger.info('downloading lambda zip from: {}'.format(lambda_zip_url))",
+                "                fn, h = urllib.urlretrieve (lambda_zip_url, tmp_file_lambda_zip)",
+                "                logger.info('fn: {}'.format(fn))",
+                "                logger.info('h: {}'.format(h.items()))",
+                "",
+                "                logger.info('uploading lambda zip {} to s3 bucket {}'.format(tmp_file_lambda_zip, s3_bucket))",
+                "                c_s3 = boto3.client('s3')",
+                "                r_s3 = boto3.resource('s3')",
+                "                r_s3.meta.client.upload_file(tmp_file_lambda_zip, s3_bucket, s3_key)",
+                "",
+                "                time.sleep(5)",
+                "",
+                "                response = c_s3.head_object(",
+                "                    Bucket=s3_bucket,",
+                "                    Key=s3_key",
+                "                )",
+                "                uploaded = True",
+                "                logger.info('response - head_object: {}'.format(response))",
+                "            except Exception as e:",
+                "                logger.error(e, exc_info=True)",
+                "                errors.append(traceback.format_exc(e))",
+                "",
+                "        if uploaded is True:",
+                "            responseData = {'Success': 'Lambda package uploaded to bucket '+s3_bucket}",
+                "            cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')",
+                "        else:",
+                "            responseData = {'Error': ', '.join(errors)}",
+                "            cfnresponse.send(event, context, cfnresponse.FAILED, responseData, 'CustomResourcePhysicalID')"
+              ]
+            ]
+          }
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaExecutionRole",
+            "Arn"
+          ]
+        },
+        "Runtime": "python2.7",
+        "MemorySize" : 128,
+        "Timeout": "120"
+      }
+    },
+
+    "BootstrapC9InstanceLambda": {
+      "Description": "Bootstrap Cloud9 instance",
+      "Type": "Custom::BootstrapC9InstanceLambda",
+      "DependsOn": [
+        "CreateBootstrapC9Lambda",
+        "CreateBootstrapC9LambdaFunction",
+        "BootstrapC9InstanceLambdaFunction",
+        "IoTWSS3Bucket",
+        "IoTWSRegLambdaJITRRole",
+        "IoTWSIoTServiceRole",
+        "IoTWSIoTPolicy",
+        "IoTWSIoTServiceRole",
+        "IoTWSC9Instance",
+        "IoTWSC9InstanceProfile",
+        "IoTWSC9SecurityGroup",
+        "LambdaExecutionRole"
+      ],
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "BootstrapC9InstanceLambdaFunction",
+            "Arn"
+          ]
+        },
+        "REGION": { "Ref": "AWS::Region" },
+        "StackName": { "Ref": "AWS::StackName" },
+        "EnvironmentId": { "Ref": "IoTWSC9Instance" },
+        "LabIdeInstanceProfileName": { "Ref": "IoTWSC9InstanceProfile" },
+        "LabIdeInstanceProfileArn": {
+          "Fn::GetAtt": [
+            "IoTWSC9InstanceProfile",
+            "Arn"
+          ]
+        },
+        "S3_BUCKET": { "Ref": "IoTWSS3Bucket" },
+        "ARN_LAMBDA_ROLE": { "Fn::GetAtt" : ["IoTWSRegLambdaJITRRole", "Arn"] },
+        "ARN_IOT_PROVISIONING_ROLE": { "Fn::GetAtt" : ["IoTWSIoTServiceRole", "Arn"] },
+        "IOT_POLICY": { "Ref": "IoTWSIoTPolicy" },
+        "SecurityGroupId" : {"Ref" : "IoTWSC9SecurityGroup"}
+      }
+    },
+
+    "BootstrapC9InstanceLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": { "Ref": "IoTWSS3Bucket"},
+          "S3Key": "c9_bootstrap_lambda.zip"
+        },
+        "Handler": "c9_bootstrap_lambda.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaExecutionRole",
+            "Arn"
+          ]
+        },
+        "Runtime": "python2.7",
+        "MemorySize" : 256,
+        "Timeout": "600"
+      }
+    },
+
+    "IoTWSC9SecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "GroupDescription" : "Enable access to various ports",
+        "Tags" : [ { "Key" : "Name", "Value" : "C9 IoT workshop" } ],
+        "SecurityGroupIngress" : [
+          {"IpProtocol" : "tcp", "FromPort" : "8883", "ToPort" : "8883", "CidrIp" : "0.0.0.0/0"}
+        ]
+      }
+    },
+
+    "IoTWSSageMakerSecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "GroupDescription" : "Enable access to port 22",
+        "Tags" : [ { "Key" : "Name", "Value" : "SageMaker IoT workshop" } ],
+        "SecurityGroupIngress" : [
+          {"IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "443", "ToPort" : "443", "CidrIp" : "0.0.0.0/0"}
+        ]
+      }
+    },
+
+    "IoTWSSageMakerExecRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "sagemaker.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Path": "/",
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
+        ],
+        "Policies": [
+          {
+            "PolicyName": "IoTWSSageMakerInlinePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                      "s3:*",
+                      "iam:GetRole"
+                  ],
+                  "Resource": "*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+
+    "IoTWSSageMakerInstanceLifecycleConfig": {
+      "Type": "AWS::SageMaker::NotebookInstanceLifecycleConfig",
+      "Properties": {
+        "OnCreate": [
+          {
+            "Content": {
+              "Fn::Base64" : { "Fn::Join" : ["", [
+                "#!/bin/bash -v\n",
+                "date\n",
+                "echo LANG=en_US.utf-8 >> /etc/environment\n",
+                "echo LC_ALL=en_US.UTF-8 >> /etc/environment\n",
+                "S3_BUCKET=", { "Ref" : "IoTWSS3Bucket" }, "\n",
+                "mkdir -p /home/ec2-user/SageMaker/Greengrass-ML\n",
+                "cd /tmp/\n",
+                "#wget http://aws-workshops-1589389556.eu-west-1.elb.amazonaws.com/workshop-cfn/src/greengrass-ml-sagemaker.tgz\n",
+                "wget http://d2kq1dzvc5e22d.cloudfront.net/workshop-cfn/src/greengrass-ml-sagemaker.tgz\n",
+                "tar zxvf greengrass-ml-sagemaker.tgz -C /home/ec2-user/SageMaker/Greengrass-ML/\n",
+                "\n",
+                "mv /home/ec2-user/SageMaker/Greengrass-ML/greengrass-ml_mxnet_cifar10_with_gluon_local.ipynb /tmp/\n",
+                "sed -e \"s/XXXS3BUCKETXXX/$S3_BUCKET/\" greengrass-ml_mxnet_cifar10_with_gluon_local.ipynb > /home/ec2-user/SageMaker/Greengrass-ML/greengrass-ml_mxnet_cifar10_with_gluon_local.ipynb\n",
+                "\n",
+                "\n",
+                "chown -R ec2-user:ec2-user /home/ec2-user/SageMaker/Greengrass-ML\n",
+                "\n",
+                "exit 0\n"
+                ]]}}
+          }
+        ]
+      }
+    },
+
+    "IoTWSSageMakerInstance": {
+        "Type": "AWS::SageMaker::NotebookInstance",
+        "Properties": {
+          "InstanceType"       : { "Ref" : "02MLInstanceType" },
+          "SubnetId"           : { "Ref" : "PubSubnet" },
+          "SecurityGroupIds"   : [ {"Ref" : "IoTWSSageMakerSecurityGroup"} ],
+          "RoleArn"            : { "Fn::GetAtt" : [ "IoTWSSageMakerExecRole", "Arn" ] },
+          "LifecycleConfigName": { "Fn::GetAtt" : [ "IoTWSSageMakerInstanceLifecycleConfig", "NotebookInstanceLifecycleConfigName" ] },
+          "Tags"               : [ { "Key" : "Name", "Value" : "IoT workshop" } ]
+      }
+    }
+  },
+
+  "Outputs" : {
+    "SageMakerInstance": {
+      "Value": { "Fn::Join": ["", ["https://", { "Ref": "AWS::Region" }, ".console.aws.amazon.com/sagemaker/home?region=",
+                              { "Ref": "AWS::Region" }, "#/notebook-instances/openNotebook/", { "Fn::GetAtt" : ["IoTWSSageMakerInstance", "NotebookInstanceName"]} ] ] }
+    },
+    "Cloud9IDE": {
+      "Value": { "Fn::Join": ["", ["https://", { "Ref": "AWS::Region" }, ".console.aws.amazon.com/cloud9/ide/",
+                              { "Ref": "IoTWSC9Instance" }, "?region=", { "Ref": "AWS::Region" } ] ] }
+    },
+    "S3Bucket" : {
+      "Description" : "Name of the S3 Bucket for the IoT workshop",
+      "Value" : { "Ref" : "IoTWSS3Bucket" }
+    },
+    "IoTPolicy" : {
+      "Description" : "Name of the IoT policy for JITP",
+      "Value" : { "Ref": "IoTWSIoTPolicy" }
+    },
+    "ArnIoTProvRole" : {
+      "Description" : "Role Arn for IoT device provisiong",
+      "Value" : { "Fn::GetAtt" : ["IoTWSIoTServiceRole", "Arn"] }
+    },
+    "ArnLambdaRole" : {
+      "Description" : "Role Arn for the JITR Lambda function",
+      "Value" : { "Fn::GetAtt" : ["IoTWSRegLambdaJITRRole", "Arn"] }
+    },
+    "GGOtaS3UrlSignerRoleArn" : {
+      "Description" : "The IAM role arn for OTA which is used to presign the S3 url which links to the Greengrass software update.",
+      "Value" : { "Fn::GetAtt" : ["GGOtaS3UrlSignerRole", "Arn"] }
+    }
+  }
+}
