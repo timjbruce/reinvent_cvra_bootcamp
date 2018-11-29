@@ -241,10 +241,14 @@ At this point, the Alexa skill should be functional. If you launch it with "Alex
 hear information about your most recent trips. 
 
 ### 3.4 Interact with ConnectedCar
-Open developer.amazon.com, login, and browse to your ConnectedCar Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You
-should be able to see the ConnectedCar skill that you deployed in the previous section. Open amt303 and click
+Open developer.amazon.com, login, and browse to your amt303 Alexa Skill. Click on "Developer Console," and then "Alexa Skills Kit." You
+should be able to see the amt303 skill that you deployed in the previous section. Open amt303 and click
 on "Test" near the top of the page. You can use this console to interact with an Alexa skill without using a
 physical Echo device -- via text or via voice. Try these interactions:
+
+> Note: due to the nature of the Alexa Voice Service, you may need to disable/re-enable testing for the skill
+> using the slider at the top left of the testing console. Try this step if you recieve errors or unexpected 
+> results when testing the skill.
 
 ```
 "Alexa, open Connected Car"
