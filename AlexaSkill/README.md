@@ -204,7 +204,7 @@ with "alexa, open hello world." Alternatively, you can test from the command lin
 with ```ask dialog --locale "en-US"```
 
 6. Change the invocation name of the skill to "Connected Car"<br>
-From your Cloud9 interface, open ```models/en-US.json``` and change the ```interactionModel.languageModel.invocationName```. Redeploy and test
+From your Cloud9 interface, open ```AlexaSkill/amt303/models/en-US.json``` and change the ```interactionModel.languageModel.invocationName```. Redeploy and test
 the skill with ```ask deploy``` and test again from the console or command line.
 
 7. Update the Lambda function code and deploy again<br>
