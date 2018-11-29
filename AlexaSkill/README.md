@@ -191,7 +191,7 @@ This command will create a new directory called ```amt303```. The default invoca
 name for this skill is "hello world," which we'll change later.
 
 4. Deploy the amt303 skill<br>
-Run the following command from the ConnectedCar directory:
+Run the following command from the amt303 directory:
 ```
 ask deploy
 ```
