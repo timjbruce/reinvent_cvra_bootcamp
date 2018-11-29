@@ -58,12 +58,11 @@ Let's deploy the Connected Vehicle Reference Architecture (CVRA).
 
 #### Instructions
 
-1. To deploy the CRVA into your account click the following link [cvra-cloudformation.yaml](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://s3.amazonaws.com/cvra-deepdrive-us-east-1-683617902415/cvra-cloudformation.yaml&stackName=cvra), this will open the CloudFormation template into your account.
+1. To deploy the CVRA into your account click the following link [cvra-cloudformation.yaml](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://s3.amazonaws.com/cvra-deepdrive-us-east-1-683617902415/cvra-cloudformation.yaml&stackName=cvra), this will open the CloudFormation template into your account.
 
 If you are not already logged into your AWS Console you will need to log in with the AWS Account Credentials which you will want to use for this workshop.
 
-2. Accept all the defaults and click **Next**
-3. Tick the acknowledge box at the bottom of the page and click on **Create**
+2. Tick the acknowledge box at the bottom of the page and click on **Create**
 
 The CVRA Stack will now deploy, you can check its status via the AWS Console Page. Once the Stacks completes successfully, you can move on to the next step.
 
@@ -85,20 +84,14 @@ For your reference information on the IoT Device Simulator can be found using th
 
 #### Instructions
 
-1. Download the IoT Device Simulator CloudFormation template using the following link [iot-device-simulator.yaml](iot-device-simulator.yaml).
-2. From the AWS Console select **CloudFormation** from the services menu.
+1. To deploy the IoT Device Simulator into your account click the following link [iot-device-simulator.yaml](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://s3.amazonaws.com/cvra-deepdrive-us-east-1-683617902415/iot-device-simulator.yaml&stackName=IoT-Device-Sim)
 
-> Note. Please make sure you are in the US-EAST-1 region.
-
-3. Click on **Create Stack**
-4. Select the **Upload a template to Amazon S3** radio button and then click **Choose File** and select the iot-device-simulator.yaml file you download from Step 1.
-5. Click **Next**
-6. Name the Stack **IoT-Device-Sim**, enter your name and a email address. Click **Next**
+2. Enter a username and Email address in the dialog boxes.
 
 **Please note that you will need to enter an Email address you have access to in the workshop. Once the stack has deployed you will receive an Email with login instructions for the Web portal.**
 
-7. Accept all the defaults and click **Next**
-8. Tick the acknowledge box at the bottom of the page and click on **Create**
+
+3. Tick the acknowledge box at the bottom of the page and click on **Create**
 
 The Stack will now deploy, you can check the status via the CloudFormation page. If the IoT Device Simulator CloudFormation Template fails to deploy due to a Permissions issue on ECS, just delete the Stack and re-deploy it again.
 
@@ -158,7 +151,7 @@ If you have skipped the Fleet Management module please make sure you follow the 
 
 ---
 
-## Build the Remote Command Function
+## Optional - Build the Remote Command Function
 Click on the link for the [Remote Command](remoteCommands/README.md) workshop module instructions.
 
 *For this module you will need to write your own Lambda functions and the instructions only provide you with code snippets*
