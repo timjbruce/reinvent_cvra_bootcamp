@@ -223,9 +223,9 @@ IAM role called ask-lambda-amt303. Add the ```AmazonDynamoDBReadOnlyAccess``` po
 Browse to your AWS Console and open the Lambda service. Open your ```ask-custom-amt303```
 Lambda function. Create three environment variables with values corresponding to the values in your 
 worksheet:<br>
-a. app_id<br>
-b. app_code<br>
-c. table_name<br>
+a. appId<br>
+b. appCode<br>
+c. tableName<br>
 <br>
 
 Next, from Cloud9, do another deployment with ASK CLI:
