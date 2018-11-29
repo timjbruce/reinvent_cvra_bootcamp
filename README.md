@@ -58,17 +58,12 @@ Let's deploy the Connected Vehicle Reference Architecture (CVRA).
 
 #### Instructions
 
-1. Download the CVRA CloudFormation template using the following link [cvra-cloudformation.yaml](cvra-cloudformation.yaml)
-2. Log in to the AWS Console with your account that has the administrator role and select **CloudFormation** from the **Services** dropdown menu.
+1. To deploy the CRVA into your account click the following link [cvra-cloudformation.yaml](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://s3.amazonaws.com/cvra-deepdrive-us-east-1-683617902415/cvra-cloudformation.yaml&stackName=cvra), this will open the CloudFormation template into your account.
 
-> Note: Make sure you are in the US-EAST-1 region.
+If you are not already logged into your AWS Console you will need to log in with the AWS Account Credentials which you will want to use for this workshop.
 
-3. Click on **Create Stack**
-4. Select the **Upload a template to Amazon S3** radio button and then click **Choose File** and select the cvra-cloudformaiton.yaml file you download from Step 1.
-5. Click **Next**
-6. Name the Stack **CVRA** and click **Next**
-7. Accept all the defaults and click **Next**
-8. Tick the acknowledge box at the bottom of the page and click on **Create**
+2. Accept all the defaults and click **Next**
+3. Tick the acknowledge box at the bottom of the page and click on **Create**
 
 The CVRA Stack will now deploy, you can check its status via the AWS Console Page. Once the Stacks completes successfully, you can move on to the next step.
 
