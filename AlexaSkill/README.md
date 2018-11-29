@@ -231,7 +231,7 @@ c. table_name<br>
 Next, from Cloud9, do another deployment with ASK CLI:
 
 ```bash
-ask deploy --target lambda
+ask deploy --target lambda --force
 ```
 
 > By default, the The ASK CLI updates both the intent schema for the Alexa skill as well as the supporting Lambda function. You can
