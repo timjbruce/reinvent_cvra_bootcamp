@@ -203,7 +203,7 @@ Open developer.amazon.com, navigate to the ```amt303 skill```, navigate to the t
 with "alexa, open hello world." Alternatively, you can test from the command line 
 with ```ask dialog --locale "en-US"```
 
-6. Change the invocation name of the skill to "Connected Car"<br>
+6. Change the invocation name of the skill to "connected car"<br>
 From your Cloud9 interface, open ```AlexaSkill/amt303/models/en-US.json``` and change the ```interactionModel.languageModel.invocationName```. Redeploy and test
 the skill with ```ask deploy``` and test again from the console or command line.
 

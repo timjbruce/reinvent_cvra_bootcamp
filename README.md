@@ -16,12 +16,14 @@ Due to AWS Service availability in certain Regions we recommend you use the **US
 ## Introduction
 This Workshop has five main sections which are listed below. The intent of this Workshop is to help attendees understand what's "under the hood" of the CVRA and the IoT Device Simulator so that they can modify and extended it to for their use cases.
 
-1. Deploy the CVRA and IoT Device Simulator (15 mins)
-3. Build a Fleet Management Function (25 mins)
+1. Deploy the CVRA and (15 mins)
+2. Deploy the IoT Device Simulator (15 mins)
+3. Build a Fleet Management Function (25 mins)  <-- we are skipping this step today, and including it in this guide if you want to do this later
 4. Generate Trip Data (5 mins)
 5. Deploy the ConnectedCar Alexa Skill (30 mins)
-6. Build the Remote Command function (30 mins)
-7. Cleanup
+6. Build the Remote Command function (30 mins)  <-- we are skipping this step today, and including it in this guide if you want to do this later
+7. Build a quick, open API to your data in the CVRA (30 mins)
+8. Cleanup
 
 > If you have established an AWS account within the last 12 months, then this lab will be in the free tier. Otherwise, costs are anticipated to be less than $5.
 For the AMT303 workshop we will be providing Credits to covers costs at the end of the workshop.
@@ -32,6 +34,8 @@ This workshop has been written as modular and therefore after deploying the CVRA
 ## Cloud9 Preparation Steps (Optional)
 > We recommend using a Cloud9 instance (hosted IDE) for the next steps, as it is bandwidth-friendly and helpful during troubleshooting!
 > Cloud9 is free-tier eligible
+
+[How to create a Cloud9 Instance](https://docs.aws.amazon.com/cloud9/latest/user-guide/setup-express.html)
 
 Next, clone the git repository for this bootcamp:
 ```bash
@@ -156,6 +160,10 @@ Click on the link for the [Remote Command](remoteCommands/README.md) workshop mo
 
 *For this module you will need to write your own Lambda functions and the instructions only provide you with code snippets*
 
+---
+
+## Optional - Build a quick, open API for your data
+The 
 ---
 
 ## Cleanup (10 mins)
