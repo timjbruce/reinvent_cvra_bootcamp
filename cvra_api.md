@@ -89,7 +89,8 @@ a) Update following line and put in your user pool id, client id, username, and 
 ```1aws cognito-idp admin-initiate-auth --user-pool-id <your_user_pool> --client-id <your_client_id> --auth-flow ADMIN_NO_SRP_AUTH --auth-parameters 'USERNAME=<username>,PASSWORD="<password>"'```<br>
 
 This step allows us to begin the initial login for this user.  You should see a response similar to the following:<br>
-```{
+```
+{
     "ChallengeName": "NEW_PASSWORD_REQUIRED", 
     "ChallengeParameters": {
         "USER_ID_FOR_SRP": "tim", 
@@ -97,7 +98,8 @@ This step allows us to begin the initial login for this user.  You should see a 
         "userAttributes": "{\"email_verified\":\"true\",\"phone_number_verified\":\"true\",\"phone_number\":\"+15555555555\",\"email\":\"someone@amazon.com\"}"
     }, 
     "Session": "urGPer5Gr_RCFRW8MYbUHqOxrno-DIKEhJzinvtgNklYLDHueWuT-rSPGWavZG5DgmBnV84yZGcPqfs1Wv_q5a5aaXP-tK2b9V9SVXw4mR-7whgyWHIV_P9ubMNfdY8bIf22RS758ejoH2C3aZDUIAMD-QbhGrBOfsCS5aOWru_Vc47kMZaIg1xuJZQ-JtX48ECa_wGM7r4vU3oYu4YXGgc78Gfnv_Fdjstv7DVeYzJL-y93ohm19Kub3AmHa3AmmWKfCQBrNcK__DxN6ED5bCPVVRqd0VzPcJhrhV6ugZplpFwOf9bHLJoUpKxW53AVRRaU_FK3snSllp52d4uhHtM_RsLQNxhiWx4VfHq-bUBUrel1AHubdN2RrQU1_iOUMQTASLjt5ZkrWDZNK9fTzBVW8lZTGmn2nj3xwp_HvbuBHkLIHW4JAfvPhQ9Yaxb133YAFlf3ARDI9KYNWwvWwrisMWxPUPYTA8mn46ZgwdpuOa_t_QHAwY-rDU_BJMgOyny7EgMxQPU57z-C2d24Qd-AmiFiyvZ9P-SBoUCWJxWH8_sov8MCDwG1wixfkbndUxkv1JjwOj4kwCSv2uvzO4ojxvZYPVzJWN9tUsOw7mPYCCWUX5qVE8PbwSA5XE20SBQu-ZPQfJK6kqihQcybWpIwch9L8rdH4LBPIUwDs1ukdjhbTyEae7P209JHc6kkqG2yQpmDS-51IbdP6aaAjFLtpcxEkOpXnZjYIa5l_9eVHTs6-077VUpcowsq2rW4OFOfb_fFwnz-R08I4ZHazwX_CV43PXsg1nOCbSaftnbawkv3lbBKNCfvYJ5Negs_n97QIw"
-}```
+}
+```
 
 Note the ChallengeName calls out that a New Password is required.  To finish the authentication step, we must submit a change password response to this.<br>
 
@@ -113,7 +115,8 @@ If this had been a successful authentication without a challenge, we would have 
         "AccessToken": "eyJraWQiOiJsclE4SjRIYmJIdXRDSE9ncFdneE9uODJKb1VpKzJPYTZkZHV5cVJ5YUM4PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIwOTU3MDBhMy1kOWE2LTRiYmQtODEyMi02M2NhOWZhMGY2YzIiLCJldmVudF9pZCI6IjcwNGY5ZWJmLTI4YWQtMTFlOS1hM2M2LWVmMWNlMjM3YzA5NSIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE1NDkzMDYwOTksImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX0Mwd0lHdkF4RSIsImV4cCI6MTU0OTMwOTY5OSwiaWF0IjoxNTQ5MzA2MDk5LCJqdGkiOiI5YmU2NzQwMy1mNjE2LTRjYWYtODY2Ny01ZWE3OTQyY2NiZmMiLCJjbGllbnRfaWQiOiIxcTBvcmRzaWNyaTllNXZyZGFvc2xhZ3QydiIsInVzZXJuYW1lIjoidGltIn0.VLtMSClakPcCqKCEPnz_MknFTMO4n9xFll2Ho1tTWpO6tbU6SxgcmtuzaZjI66j9VrLoz2x0_718BAtCYmE8dKxN5W0m0bnOb8IpQ0dONMyhzaAQ9ip5dtyL-gUZ1rNGS21g8hNLzTZJHt2KI4Q_8IsOsCq0AwkNQeJR0zLSqb9hXLNVV2YOwUfyDHgPRNynknZenSskwnlv3JWOpffagH4eLDWfWwhpIbzjbZdEfodpnqWmh0HdhqzUxPr1mZN44m8VUaAz6Xzs6hm2s0WpR1XeCZQmj3cs8YFRxVeZXYASGGYBVfHmQ71enHicOxUO0nfjpJQQoiF6efILBj6KIA"
     }, 
     "ChallengeParameters": {}
-}```<br>
+}
+```
 
 :hand: If you received this response, please copy your IDToken from the response and proceed to step c below.</br>
 
@@ -130,7 +133,8 @@ This command should then return a response such as this, if successfully run:<br
         "AccessToken": "eyJraWQiOiJsclE4SjRIYmJIdXRDSE9ncFdneE9uODJKb1VpKzJPYTZkZHV5cVJ5YUM4PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIwOTU3MDBhMy1kOWE2LTRiYmQtODEyMi02M2NhOWZhMGY2YzIiLCJldmVudF9pZCI6IjcwNGY5ZWJmLTI4YWQtMTFlOS1hM2M2LWVmMWNlMjM3YzA5NSIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE1NDkzMDYwOTksImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX0Mwd0lHdkF4RSIsImV4cCI6MTU0OTMwOTY5OSwiaWF0IjoxNTQ5MzA2MDk5LCJqdGkiOiI5YmU2NzQwMy1mNjE2LTRjYWYtODY2Ny01ZWE3OTQyY2NiZmMiLCJjbGllbnRfaWQiOiIxcTBvcmRzaWNyaTllNXZyZGFvc2xhZ3QydiIsInVzZXJuYW1lIjoidGltIn0.VLtMSClakPcCqKCEPnz_MknFTMO4n9xFll2Ho1tTWpO6tbU6SxgcmtuzaZjI66j9VrLoz2x0_718BAtCYmE8dKxN5W0m0bnOb8IpQ0dONMyhzaAQ9ip5dtyL-gUZ1rNGS21g8hNLzTZJHt2KI4Q_8IsOsCq0AwkNQeJR0zLSqb9hXLNVV2YOwUfyDHgPRNynknZenSskwnlv3JWOpffagH4eLDWfWwhpIbzjbZdEfodpnqWmh0HdhqzUxPr1mZN44m8VUaAz6Xzs6hm2s0WpR1XeCZQmj3cs8YFRxVeZXYASGGYBVfHmQ71enHicOxUO0nfjpJQQoiF6efILBj6KIA"
     }, 
     "ChallengeParameters": {}
-}```<br>
+}
+```
 
 Copy the IdToken value for future commands.
 
@@ -139,6 +143,4 @@ c. Make calls to the API using CURL
 With the data we just received, we can successfully make calls to the API using the Invoke URL from above and the IdToken value.  Modify the following command to include your IdToken and Invoke URL, paste it into the terminal window and press Enter.<br>
 
 ```curl -H "Authorization : <your_IdToken>" <your_invoke_url>/vehicles```<br>
-
-
 
