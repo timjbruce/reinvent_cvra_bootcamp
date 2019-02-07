@@ -39,7 +39,7 @@ This workshop has been written as modular and therefore after deploying the CVRA
 
 Next, clone the git repository for this bootcamp:
 ```bash
-git clone https://github.com/dixonaws/reinvent_cvra_bootcamp
+git clone https://github.com/timjbruce/reinvent_cvra_bootcamp
 ```
 
 You should now have a new directory, *reinvent_cvra_bootcamp* in your work directory. Third, complete the
