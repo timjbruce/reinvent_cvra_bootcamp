@@ -31,82 +31,104 @@ This API, as it is built, is meant to secure the data in the CVRA tables.  As su
 
 When you are done with these steps, you should have a records in Cognito, and DynamoDB that tie a user to vehicle, similar to this.
 
-![cognito](apiimages/1.png)
-![dynamodb](apiimages/2.png)
-![dynamodb](apiimages/3.png)
+![cognito](apiimages/1.png){:height="50%" width="50%"}<br>
+![dynamodb](apiimages/2.png){:height="50%" width="50%"}<br>
+![dynamodb](apiimages/3.png){:height="50%" width="50%"}<br>
 
 1. Get a VIN from your Connected Car Trip Table
 
 a) From the console, navigate to DynamoDB.<br>
-![step1.a](apiimages/4.png)
+![step1.a](apiimages/4.png){:height="50%" width="50%"}<br>
+
 b) Click on "Tables" in the Navigation.<br>
-![step1.b](apiimages/5.png)
+![step1.b](apiimages/5.png){:height="50%" width="50%"}<br>
+
 c) The Connected Car Trip Table's name begins with "cvra-VehicleTripTable-".  Find this table and click on it.<br>
-![step1.c](apiimages/6.png)
+![step1.c](apiimages/6.png){:height="50%" width="50%"}<br>
+
 d) Click on the "Items" tab to display the records in it.<br>
-![step1.d](apiimages/7.png)
+![step1.d](apiimages/7.png){:height="50%" width="50%"}<br>
+
 e) Copy any of the VINs from this table.<br>
-![step1.e](apiimages/8.png)
+![step1.e](apiimages/8.png){:height="50%" width="50%"}<br>
 
 2. Add an Owner Record
 
 a) Continuing from Step 1, click on the Vehicle Owner Table.  This table begins with "cvra-VehicleOwnerTable-".<br>
-![step2.a](apiimages/9.png)
+![step2.a](apiimages/9.png){:height="50%" width="50%"}<br>
+
 b) Click the "Create Item" button.<br>
-![step2.b](apiimages/10.png)
+![step2.b](apiimages/10.png){:height="50%" width="50%"}<br>
+
 c) Add in a record using your first name with all lower case letters as the "owner_id" and the VIN from step 1 as the vin.<br>
-![step2.c](apiimages/11.png)
+![step2.c](apiimages/11.png){:height="50%" width="50%"}<br>
+
 d) Click "Save".<br>
-![step2.d](apiimages/12.png)
+![step2.d](apiimages/12.png){:height="50%" width="50%"}<br>
 
 Your record should now appear in the Items view for your Owners Table.
-![step2](apiimages/13.png)
+![step2](apiimages/13.png){:height="50%" width="50%"}<br>
 
 3. Modify the Cognito User Pool
 
 a) From the console, navigate to "Cognito".<br>
-![step3.a](apiimages/14.png)
+![step3.a](apiimages/14.png){:height="50%" width="50%"}<br>
+
 b) Click on "Manage User Pools".<br>
-![step3.b](apiimages/15.png)
+![step3.b](apiimages/15.png){:height="50%" width="50%"}<br>
+
 c) Click on "connected_vehicle_user_pool".<br>
-![step3.c](apiimages/16.png)
+![step3.c](apiimages/16.png){:height="50%" width="50%"}<br>
+
 d) Copy your "Pool ID" at the top of the page.  You will need this for a later step.<br>
-![step3.d](apiimages/17.png)
+![step3.d](apiimages/17.png){:height="50%" width="50%"}<br>
+
 e) Click on "App Clients" on the left hand navigation.<br>
-![step3.e](apiimages/18.png)
+![step3.e](apiimages/18.png){:height="50%" width="50%"}<br>
+
 f) Click the "Show Details" button.<br>\
-![step3.f](apiimages/19.png)
+![step3.f](apiimages/19.png){:height="50%" width="50%"}<br>
+
 g) Check the "Enable sign-in API for server-based authentication (ADMIN_NO_SRP_AUTH)" box.<br>
-![step3.g](apiimages/20.png)
+![step3.g](apiimages/20.png){:height="50%" width="50%"}<br>
+
 h) Copy the "App Client Id" from the page.  You will need this for a later step.<br>
+
 i) Click the "Save app client changes" button.<br>
-![step3.i](apiimages/21.png)
+![step3.i](apiimages/21.png){:height="50%" width="50%"}<br>
 
 4. Add Your User
 
 a) Continuing from Step 3, click the "Users and Group" item on the left hand navigation.<br>
-![step4.a](apiimages/22.png)
+![step4.a](apiimages/22.png){:height="50%" width="50%"}<br>
+
 b) Click the "Create User" button.<br>
-![step4.b](apiimages/23.png)
+![step4.b](apiimages/23.png){:height="50%" width="50%"}<br>
+
 c) Enter your first name in lower case letters for the "Username".  This must match the owner_id from step 2.<br>
 d) Uncheck "Send an invitation to this new user?"<br>
 e) Enter your "Temporary Password," "Phone Number," and "Email".<br>
-![step4.e](apiimages/24.png)
+![step4.e](apiimages/24.png){:height="50%" width="50%"}<br>
+
 f) Click "Create User".<br>
-![step4.f](apiimages/25.png)
+![step4.f](apiimages/25.png){:height="50%" width="50%"}<br>
 
 5. Note Your API Gateway URL
 
 a) From the console, select the API Gateway service.<br>
-![step5.a](apiimages/26.png)
+![step5.a](apiimages/26.png){:height="50%" width="50%"}<br>
+
 b) Select the "Vehicle Services API".<br>
-![step5.b](apiimages/27.png)
+![step5.b](apiimages/27.png){:height="50%" width="50%"}<br>
+
 c) Select "Stages" on the left hand navigation.<br>
-![step5.c](apiimages/28.png)
+![step5.c](apiimages/28.png){:height="50%" width="50%"}<br>
+
 d) Click "Prod" underneath the stages.<br>
-![step5.d](apiimages/29.png)
+![step5.d](apiimages/29.png){:height="50%" width="50%"}<br>
+
 e) Copy the "Invoke URL," including the /prod.  It should be a value similar to ```https://asdfasfas.execute-api.us-east-1.amazonaws.com/prod```.
-![step5.e](apiimages/30.png)
+![step5.e](apiimages/30.png){:height="50%" width="50%"}<br>
 
 At this point we are now ready to use the API that is provided by the Connected Vehicle Reference Architecture.<br>
 
