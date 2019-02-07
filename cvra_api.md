@@ -31,7 +31,7 @@ This API, as it is built, is meant to secure the data in the CVRA tables.  As su
 
 When you are done with these steps, you should have a records in Cognito, and DynamoDB that tie a user to vehicle, similar to this.
 
-(apiimages/1.png)
+(https://github.com/timjbruce/reinvent_cvra_workshop/apiimages/1.png)
 (apiimages/2.png)
 (apiimages/3.png)
 
